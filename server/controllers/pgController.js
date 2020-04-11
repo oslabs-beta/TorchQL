@@ -24,14 +24,14 @@ pgController.getPGTables = (req, res, next) => {
 // middleware function for making query root types in SDL
 pgController.makeQueries = (req, res, next) => {
   let queries = createQuery(res.locals.tables);
-  console.log('queries: ', queries);
+  console.log(queries);
   return next();
 };
 
 // middleware function for making mutation root types in SDL
 pgController.makeMutations = (req, res, next) => {
   let mutations = createMutation(res.locals.tables);
-  console.log('mutations: ', mutations);
+  console.log(mutations);
   return next();
 }
 
