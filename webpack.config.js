@@ -11,6 +11,9 @@ module.exports = {
     // },
   },
   entry: path.resolve(__dirname, 'client/index.js'),
+  target: 'electron-renderer',
+  devtool: 'source-map',
+  
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js',
