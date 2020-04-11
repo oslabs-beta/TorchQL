@@ -1,5 +1,5 @@
 const express = require('express');
-const dbRouter = require('./routes/database');
+const dbRouter = require('./routes/pgRoute');
 const app = express();
 const PORT = 3000;
 
