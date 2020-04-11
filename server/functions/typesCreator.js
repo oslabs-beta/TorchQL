@@ -2,7 +2,7 @@ const { singular } = require("pluralize");
 const { capitalize, typeSet } = require('./helperFunctions');
 
 // returns query types in SDL as string
-function createQuery(arr) {
+const createQuery = (arr) => {
   let typeStr = '';
   arr.forEach(({ tableName }) => {
     const nameSingular = singular(tableName);
@@ -13,7 +13,7 @@ function createQuery(arr) {
 }
 
 // returns mutation types in SDL as string
-function createMutation(arr) {
+const createMutation = (arr) => {
 	let typeStr = '';
 	for({ tableName, primaryKey, foreignKeys, columns } of arr) {
 		let fkCache = {};
@@ -55,7 +55,7 @@ function createMutation(arr) {
 }
 
 // returns custom objects types in SDL as string
-function createTypes(arr) {
+const createTypes = (arr) => {
 	let typeStr = '';
   for({ tableName, primaryKey, foreignKeys, columns } of arr) {
     const fkCache = {};
@@ -81,7 +81,7 @@ function createTypes(arr) {
 }
 
 // returns queries, mutations, and object types formatted for sending back to front-end
-function formatTypeDefs(str1, str2, str3) {
+const formatTypeDefs = (str1, str2, str3) => {
   return `
   const typeDefs = \`
     type Query { ${str1}

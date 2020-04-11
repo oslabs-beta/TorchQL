@@ -1,10 +1,10 @@
 
 
-function capitalize(str) {
+const capitalize = (str) => {
     return `${str[0].toUpperCase()}${str.slice(1)}`;
   }
   
-function typeSet(str) {
+const typeSet = (str) => {
 	switch (str) {
 		case "character varying":
 			return "String";
@@ -30,7 +30,7 @@ function typeSet(str) {
 }
   
 // supposed to check for one-to-many relationship between foreign key and primary key on two tables, doesn't work yet
-function refsMany({ table, tableKey, ref, refKey }) {
+const refsMany = ({ table, tableKey, ref, refKey }) => {
 //   const queryStr = `SELECT * FROM people INNER JOIN planets ON planets._id = people.homeworld_id`;
 //   console.log('querystr: ', queryStr);
 //   db.query(queryStr, (err, data) => {

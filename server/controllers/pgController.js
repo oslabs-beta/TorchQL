@@ -44,7 +44,8 @@ pgController.makeTypes = (req, res, next) => {
 
 pgController.returnTypeDefs = (req, res, next) => {
   const { queries, mutations, types } = res.locals;
-  console.log(formatTypeDefs(queries, mutations, types));
+  const allTypeDefs = formatTypeDefs(queries, mutations, types);
+  console.log(allTypeDefs);
   return next();
 }
 
@@ -98,7 +99,7 @@ pgController.makeQueryResolvers = (req, res, next) => {
     }`;
   };
 
-  res.locals.queries = generateQueryResolvers();
+  res.locals.queryResolvers = generateQueryResolvers();
   return next();
 };
 
@@ -216,7 +217,7 @@ pgController.makeMutationResolvers = (req, res, next) => {
       }`;
   };
 
-  res.locals.mutations = generateMutationResolvers();
+  res.locals.mutationResolvers = generateMutationResolvers();
   return next();
 };
 
