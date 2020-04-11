@@ -5,10 +5,9 @@ module.exports = {
   mode: process.env.NODE_ENV,
   devServer: {
     historyApiFallback: true,
-    // include proxy settings once we've incorporated a back end
-    // proxy: {
-    //   '/': 'http://localhost:3000',
-    // },
+    proxy: {
+      '/': 'http://localhost:3000',
+    },
   },
   entry: path.resolve(__dirname, 'client/index.js'),
   output: {
