@@ -1,8 +1,7 @@
 const router = require('express').Router();
 const pgController = require('./../controllers/pgController');
 
-router.get(
-  '/pg',
+router.get('/pg',
   pgController.getPGTables,
   pgController.makeQueries,
   pgController.makeTypes,

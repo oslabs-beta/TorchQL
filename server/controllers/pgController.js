@@ -14,7 +14,7 @@ pgController.getPGTables = (req, res, next) => {
     })
     .catch((err) =>
       next({
-        log: '',
+        log: 'There was a problem making database query',
         status: 500,
         message: { err },
       })
