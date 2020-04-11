@@ -49,13 +49,53 @@ function refsMany({ table, tableKey, ref, refKey }) {
 
 // returns query types in SDL as string
 function createQuery(arr) {
-  let typeStr = '';
+  let typeStr = 'type Query {';
   arr.forEach(({ tableName }) => {
     const nameSingular = singular(tableName);
-    typeStr += `\n${tableName}:[${capitalize(nameSingular)}!]!`
+    typeStr += `\nall${capitalize(tableName)}:[${capitalize(nameSingular)}!]!`
       + `\n${nameSingular}ByID(${nameSingular}id:ID):${capitalize(nameSingular)}!`;
-  });
+	});
+	typeStr += '\n}'
   return typeStr;
+}
+
+// returns mutation types in SDL as string
+function createMutation(arr) {
+	let typeStr = '\n\ntype Mutation {';
+	for({ tableName, primaryKey, foreignKeys, columns } of arr) {
+		let fkCache = {};
+		for (key of foreignKeys){
+			fkCache[key.name] = key;
+		}
+		let tableNameSingular = singular(tableName);
+		typeStr += `\n\ncreate${capitalize(tableNameSingular)}(`;
+		for (column of columns) {
+			if (!fkCache[column.columnName] && column.columnName !== tableName) {
+				if (typeStr[typeStr.length -1] !== '(') typeStr += ', ';
+				typeStr += `${column.columnName}: ${typeSet(column.dataType)}`;
+				if (column.isNullable !== "YES") {
+					typeStr += '!';
+				}
+			}
+		};
+		typeStr += `): ${capitalize(tableNameSingular)}!`;
+		typeStr += `\n\nupdate${capitalize(tableNameSingular)}(`;
+		for (column of columns) {
+			if (!fkCache[column.columnName] && column.columnName !== tableName) {
+				if (typeStr[typeStr.length -1] !== '(') typeStr += ', ';
+				typeStr += `${column.columnName}: ${typeSet(column.dataType)}`;
+				if (column.isNullable !== "YES") {
+					typeStr += '!';
+				}
+			}
+		};
+		typeStr += `): ${capitalize(tableNameSingular)}!`;
+		typeStr += `\n\ndelete${capitalize(tableNameSingular)}(`;
+		typeStr += `${primaryKey}: ID!`;
+		typeStr += `): ${capitalize(tableNameSingular)}!`;
+	};
+  typeStr += '\n}'
+	return typeStr;
 }
 
 // returns custom objects types in SDL as string
@@ -64,7 +104,7 @@ function createTypes(arr) {
   for({ tableName, primaryKey, foreignKeys, columns } of arr) {
     const fkCache = {};
     for (let key of foreignKeys) fkCache[key.name] = key;
-    typeStr += `\ntype ${capitalize(singular(tableName))} {\n  ${primaryKey}:Int!`;
+    typeStr += `\ntype ${capitalize(singular(tableName))} {\n  ${primaryKey}:ID!`;
     // adds all columns with types to SDL string
     for (column of columns) {
     // adds foreign keys with object type to SDL string
@@ -86,6 +126,7 @@ function createTypes(arr) {
 
 
 module.exports = {
-    createQuery,
-    createTypes
+		createQuery,
+		createMutation,
+		createTypes
 };

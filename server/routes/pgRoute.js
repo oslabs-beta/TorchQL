@@ -4,6 +4,7 @@ const pgController = require('./../controllers/pgController');
 router.get('/pg',
   pgController.getPGTables,
   pgController.makeQueries,
+  pgController.makeMutations,
   pgController.makeTypes,
   pgController.makeQueryResolvers,
   pgController.makeMutationResolvers,
