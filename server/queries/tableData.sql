@@ -1,4 +1,4 @@
-SELECT pk.table_name, pk.primary_key, fk.foreign_keys, td.columns
+SELECT pk.table_name AS "tableName", pk.primary_key AS "primaryKey", fk.foreign_keys AS "foreignKeys", td.columns
 
 FROM (                                            --  Primary key data (pk)
 ---------------------------------------------------------------------------
@@ -14,8 +14,8 @@ INNER JOIN (                                                   -- Foreign key da
   SELECT conrelid::regclass AS table_name, json_agg(
     json_build_object(
       'name',            substring(pg_get_constraintdef(oid), '\((.*?)\)'),
-      'reference_table', substring(pg_get_constraintdef(oid), 'REFERENCES (.*?)\('),
-      'reference_key',   substring(pg_get_constraintdef(oid), 'REFERENCES.*?\((.*?)\)')
+      'referenceTable', substring(pg_get_constraintdef(oid), 'REFERENCES (.*?)\('),
+      'referenceKey',   substring(pg_get_constraintdef(oid), 'REFERENCES.*?\((.*?)\)')
     )
   ) AS foreign_keys
   FROM pg_constraint
@@ -29,11 +29,11 @@ INNER JOIN (                                   -- Table data (td)
 -----------------------------------------------------------------
   SELECT tab.table_name, json_agg(
     json_build_object(
-      'column_name',              col.column_name,
-      'data_type',                col.data_type,
-      'column_default',           col.column_default,
-      'character_maximum_length', col.character_maximum_length,
-      'is_nullable',              col.is_nullable
+      'columnName',              col.column_name,
+      'dataType',                col.data_type,
+      'columnDefault',           col.column_default,
+      'charMaxLength', col.character_maximum_length,
+      'isNullable',              col.is_nullable
     )
   ) AS columns
 

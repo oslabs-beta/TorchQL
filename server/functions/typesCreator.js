@@ -50,11 +50,10 @@ function refsMany({ table, tableKey, ref, refKey }) {
 // returns query types in SDL as string
 function createQuery(arr) {
   let typeStr = '';
-  arr.forEach(({ table_name }) => {
-    const nameSingular = singular(table_name);
-    typeStr += `
-      ${table_name}:[${capitalize(nameSingular)}!]!
-      ${nameSingular}ByID(${nameSingular}id:ID):${capitalize(nameSingular)}!`;
+  arr.forEach(({ tableName }) => {
+    const nameSingular = singular(tableName);
+    typeStr += `\n${tableName}:[${capitalize(nameSingular)}!]!`
+      + `\n${nameSingular}ByID(${nameSingular}id:ID):${capitalize(nameSingular)}!`;
   });
   return typeStr;
 }
@@ -62,22 +61,22 @@ function createQuery(arr) {
 // returns custom objects types in SDL as string
 function createTypes(arr) {
   let typeStr = '';
-  for({ table_name, primary_key, foreign_keys, columns } of arr) {
+  for({ tableName, primaryKey, foreignKeys, columns } of arr) {
     const fkCache = {};
-    for (let key of foreign_keys) fkCache[key.name] = key;
-    typeStr += `\ntype ${capitalize(singular(table_name))} {\n${primary_key}:Int!`;
+    for (let key of foreignKeys) fkCache[key.name] = key;
+    typeStr += `\ntype ${capitalize(singular(tableName))} {\n  ${primaryKey}:Int!`;
     // adds all columns with types to SDL string
     for (column of columns) {
     // adds foreign keys with object type to SDL string
-      if (fkCache[column.column_name]) {
-        const { name, reference_table, reference_key } = fkCache[column.column_name];
+      if (fkCache[column.columnName]) {
+        const { name, referenceTable, referenceKey } = fkCache[column.columnName];
         // supposed to check for one-to-many relationship before displaying type as array
-        if (refsMany(fkCache[column.column_name])) typeStr += `\n${name}:[${capitalize(reference_table)}]`;
-        else typeStr += `\n${name}:${capitalize(singular(reference_table))}`;
+        if (refsMany(fkCache[column.columnName])) typeStr += `\n  ${name}:[${capitalize(referenceTable)}]`;
+        else typeStr += `\n  ${name}:${capitalize(singular(referenceTable))}`;
       // adds remaining columns with types to SDL string
-      } else if (column.column_name !== primary_key) {
-        typeStr += `\n${column.column_name}:${typeSet(column.data_type)}`;
-        if (column.is_nullable === 'YES') typeStr += '!';
+      } else if (column.columnName !== primaryKey) {
+        typeStr += `\n  ${column.columnName}:${typeSet(column.dataType)}`;
+        if (column.isNullable === 'YES') typeStr += '!';
       }
     }
     typeStr += '\n}';
