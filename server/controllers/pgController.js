@@ -2,7 +2,7 @@ const fs = require('fs');
 const { Pool } = require('pg');
 const pgQuery = fs.readFileSync('server/queries/tableData.sql', 'utf8');
 const pgController = {};
-const { createQuery, createTypes } = require('../functions/typesCreator');
+const { createQuery, createMutation, createTypes } = require('../functions/typesCreator');
 
 // middleware function for recovering info from pg tables
 pgController.getPGTables = (req, res, next) => {
@@ -24,9 +24,16 @@ pgController.getPGTables = (req, res, next) => {
 // middleware function for making query root types in SDL
 pgController.makeQueries = (req, res, next) => {
   let queries = createQuery(res.locals.tables);
-  console.log('queries: ', queries);
+  console.log(queries);
   return next();
 };
+
+// middleware function for making mutation root types in SDL
+pgController.makeMutations = (req, res, next) => {
+  let mutations = createMutation(res.locals.tables);
+  console.log(mutations);
+  return next();
+}
 
 // middleware function for making custom object types in SDL
 pgController.makeTypes = (req, res, next) => {
