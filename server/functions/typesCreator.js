@@ -60,6 +60,41 @@ function createQuery(arr) {
   return typeStr;
 }
 
+// returns mutation types in SDL as string
+function createMutation(arr) {
+	let typeStr = '';
+	arr.forEach(obj => {
+		let name = obj.table_name;
+		console.log('name: ', name);
+		let primaryKey = obj.primary_key;
+		console.log('primaryKey: ', primaryKey);
+		// let foreignKeys = obj.foreign_keys.map(x => x.name);
+		// console('foreignKeys: ', foreignKeys);
+		let nameSingular = pluralize.singular(name);
+		typeStr += `
+		  create${capitalize(nameSingular)}(`;
+		obj.columns.forEach((columnObj, index) => {
+			if (columnObj.column_name !== primaryKey)  {
+				if (index !== 0) {
+					typeStr += `, `;
+				}
+				typeStr += `${columnObj.column_name}: ${typeSet(columnObj.data_type)}`;
+				if (columnObj.is_nullable === "YES") {
+					typeStr += '!';
+				}
+			}
+	
+		});
+			// typeStr += `
+			// 	update${capitalize(nameSingular)}(${columnObj.column_name}: ${typeSet(columnObj.data_type)})`;
+			// typeStr += `
+			// 	delete${capitalize(nameSingular)}`;
+
+		typeStr += `): ${capitalize(nameSingular)}!`;
+	});
+	return typeStr;
+}
+
 // returns custom objects types in SDL as string
 function createTypes(arr) {
   let typeStr = '';
@@ -105,6 +140,7 @@ function createTypes(arr) {
 
 
 module.exports = {
-    createQuery,
-    createTypes
+		createQuery,
+		createMutation,
+		createTypes
 };
