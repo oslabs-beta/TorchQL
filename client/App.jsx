@@ -9,14 +9,16 @@ class App extends Component {
       schema: [],
     };
     this.handleInput = this.handleInput.bind(this);
+    this.handleURI = this.handleURI.bind(this);
   }
 
   handleInput(event) {
     event.preventDefault();
+    const query = {DB_URI: this.state.URI}
     fetch('/db/pg', {
-      method: 'GET',
+      method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(this.state.URI),
+      body: JSON.stringify(query),
     })
       .then((data) => data.json())
       .then((data) => {
@@ -25,6 +27,7 @@ class App extends Component {
     // .catch error??
   }
   handleURI(input) {
+    console.log(input)
     this.setState({ URI: input });
   }
 

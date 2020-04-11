@@ -7,7 +7,7 @@ class Input extends Component {
         <button onClick={(e) => this.props.handleInput(e)}>Submit</button>
         <input
           value={this.props.URI}
-          onChange={(e) => this.props.handleURI(e)}
+          onChange={(e) => this.props.handleURI(e.target.value)}
         />
       </div>
     );
