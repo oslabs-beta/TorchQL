@@ -1,4 +1,4 @@
-const pluralize = require("pluralize");
+const { singular } = require("pluralize");
 
 function capitalize(str) {
   return `${str[0].toUpperCase()}${str.slice(1)}`;
@@ -30,7 +30,7 @@ function typeSet(str) {
 }
 
 // supposed to check for one-to-many relationship between foreign key and primary key on two tables, doesn't work yet
-function refsMany(table, tableKey, ref, refKey) {
+function refsMany({ table, tableKey, ref, refKey }) {
 //   const queryStr = `SELECT * FROM people INNER JOIN planets ON planets._id = people.homeworld_id`;
 //   console.log('querystr: ', queryStr);
 //   db.query(queryStr, (err, data) => {
@@ -49,12 +49,11 @@ function refsMany(table, tableKey, ref, refKey) {
 
 // returns query types in SDL as string
 function createQuery(arr) {
-  const tableNames = arr.map(obj => obj.table_name);
   let typeStr = '';
-  tableNames.forEach(name => {
-    let nameSingular = pluralize.singular(name);
+  arr.forEach(({ table_name }) => {
+    const nameSingular = singular(table_name);
     typeStr += `
-      ${name}:[${capitalize(nameSingular)}!]!
+      ${table_name}:[${capitalize(nameSingular)}!]!
       ${nameSingular}ByID(${nameSingular}id:ID):${capitalize(nameSingular)}!`;
   });
   return typeStr;
@@ -98,43 +97,26 @@ function createMutation(arr) {
 // returns custom objects types in SDL as string
 function createTypes(arr) {
   let typeStr = '';
-  arr.forEach(obj => {
-    let foreignKeys = obj.foreign_keys;
-    let primaryKey = obj.primary_key;
-    let name = obj.table_name;
-    let nameSingular = pluralize.singular(name);
-    typeStr += `
-      type ${capitalize(nameSingular)} {`;
-    typeStr += `
-          ${primaryKey}:Int!`;
+  for({ table_name, primary_key, foreign_keys, columns } of arr) {
+    const fkCache = {};
+    for (let key of foreign_keys) fkCache[key.name] = key;
+    typeStr += `\ntype ${capitalize(singular(table_name))} {\n${primary_key}:Int!`;
     // adds all columns with types to SDL string
-    obj.columns.forEach(columnObj => {
+    for (column of columns) {
     // adds foreign keys with object type to SDL string
-      if (foreignKeys.map(x => x.name).includes(columnObj.column_name)) {
-        let [ foreignKeyObj ] = foreignKeys.filter(x => x.name === columnObj.column_name);
-        let foreignTable = foreignKeyObj.reference_table;
-        let foreignTableSingular = pluralize.singular(foreignTable);
-        console.log('foreignKeyObj', foreignKeyObj);
+      if (fkCache[column.column_name]) {
+        const { name, reference_table, reference_key } = fkCache[column.column_name];
         // supposed to check for one-to-many relationship before displaying type as array
-        if (refsMany(name, foreignKeyObj.name, foreignKeyObj.reference_table, foreignKeyObj.reference_key)) {
-          typeStr += `
-        ${foreignKeyObj.name}:[${capitalize(foreignTable)}]`;
-        } else {
-            typeStr += `
-          ${foreignKeyObj.name}:${capitalize(foreignTableSingular)}`;
-          }
+        if (refsMany(fkCache[column.column_name])) typeStr += `\n${name}:[${capitalize(reference_table)}]`;
+        else typeStr += `\n${name}:${capitalize(singular(reference_table))}`;
       // adds remaining columns with types to SDL string
-      } else if (columnObj.column_name !== primaryKey) {
-                typeStr += `
-          ${columnObj.column_name}:${typeSet(columnObj.data_type)}`;
-                if (columnObj.is_nullable === "YES") {
-                  typeStr += '!';
-                }
-             }
-    });
-    typeStr += `
-      }`;
-  })
+      } else if (column.column_name !== primary_key) {
+        typeStr += `\n${column.column_name}:${typeSet(column.data_type)}`;
+        if (column.is_nullable === 'YES') typeStr += '!';
+      }
+    }
+    typeStr += '\n}';
+  }
   return typeStr;
 }
 
