@@ -6,6 +6,7 @@ router.get('/pg',
   pgController.makeQueries,
   pgController.makeMutations,
   pgController.makeTypes,
+  pgController.returnTypeDefs,
   pgController.makeQueryResolvers,
   pgController.makeMutationResolvers,
   (req, res) => {

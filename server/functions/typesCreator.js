@@ -49,28 +49,28 @@ function refsMany({ table, tableKey, ref, refKey }) {
 
 // returns query types in SDL as string
 function createQuery(arr) {
-  let typeStr = 'type Query {';
+  let typeStr = '';
   arr.forEach(({ tableName }) => {
     const nameSingular = singular(tableName);
-    typeStr += `\nall${capitalize(tableName)}:[${capitalize(nameSingular)}!]!`
+    typeStr += `\n${tableName}:[${capitalize(nameSingular)}!]!`
       + `\n${nameSingular}ByID(${nameSingular}id:ID):${capitalize(nameSingular)}!`;
 	});
-	typeStr += '\n}'
   return typeStr;
 }
 
 // returns mutation types in SDL as string
 function createMutation(arr) {
-	let typeStr = '\n\ntype Mutation {';
+	let typeStr = '';
 	for({ tableName, primaryKey, foreignKeys, columns } of arr) {
 		let fkCache = {};
 		for (key of foreignKeys){
 			fkCache[key.name] = key;
 		}
 		let tableNameSingular = singular(tableName);
+		// adds create mutation types in SDL as string
 		typeStr += `\n\ncreate${capitalize(tableNameSingular)}(`;
 		for (column of columns) {
-			if (!fkCache[column.columnName] && column.columnName !== tableName) {
+			if (!fkCache[column.columnName] && column.columnName !== primaryKey) {
 				if (typeStr[typeStr.length -1] !== '(') typeStr += ', ';
 				typeStr += `${column.columnName}: ${typeSet(column.dataType)}`;
 				if (column.isNullable !== "YES") {
@@ -79,10 +79,12 @@ function createMutation(arr) {
 			}
 		};
 		typeStr += `): ${capitalize(tableNameSingular)}!`;
+		// adds update mutation types in SDL as string
 		typeStr += `\n\nupdate${capitalize(tableNameSingular)}(`;
+		typeStr += `${primaryKey}: ID!`
 		for (column of columns) {
-			if (!fkCache[column.columnName] && column.columnName !== tableName) {
-				if (typeStr[typeStr.length -1] !== '(') typeStr += ', ';
+			if (!fkCache[column.columnName] && column.columnName !== primaryKey) {
+				typeStr += ', ';
 				typeStr += `${column.columnName}: ${typeSet(column.dataType)}`;
 				if (column.isNullable !== "YES") {
 					typeStr += '!';
@@ -90,11 +92,11 @@ function createMutation(arr) {
 			}
 		};
 		typeStr += `): ${capitalize(tableNameSingular)}!`;
+		// adds delete mutation types in SDL as string
 		typeStr += `\n\ndelete${capitalize(tableNameSingular)}(`;
 		typeStr += `${primaryKey}: ID!`;
 		typeStr += `): ${capitalize(tableNameSingular)}!`;
 	};
-  typeStr += '\n}'
 	return typeStr;
 }
 
@@ -124,9 +126,26 @@ function createTypes(arr) {
   return typeStr;
 }
 
+// returns queries, mutations, and object types formatted for sending back to front-end
+function formatTypeDefs(str1, str2, str3) {
+  return `
+  const typeDefs = \`
+    type Query { ${str1}
+    }
+
+    type Mutation { ${str2}
+    }
+
+      ${str3}\`
+  
+
+  module.exports = typeDefs;
+  `;
+}
 
 module.exports = {
 		createQuery,
 		createMutation,
-		createTypes
+		createTypes,
+		formatTypeDefs
 };
