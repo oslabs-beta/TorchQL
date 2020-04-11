@@ -30,8 +30,9 @@ pgController.makeQueries = (req, res, next) => {
 
 // middleware function for making custom object types in SDL
 pgController.makeTypes = (req, res, next) => {
-  let types = createTypes(res.locals.tables);
-  console.log('types: ', types);
+  const types = createTypes(res.locals.tables);
+  res.locals.types = types;
+  console.log(types);
   return next();
 };
 
@@ -39,8 +40,8 @@ pgController.makeQueryResolvers = (req, res, next) => {
   const data = res.locals.tables;
   const tableNamesAndKeys = data.map((table) => {
     const arr = [];
-    arr.push(table.table_name);
-    arr.push(table.primary_key);
+    arr.push(table.tableName);
+    arr.push(table.primaryKey);
     return arr;
   });
   const lowercaseString = (string) => {
@@ -94,19 +95,19 @@ pgController.makeMutationResolvers = (req, res, next) => {
   const data = res.locals.tables;
   const tableNamesAndKeys = data.map((table) => {
     const arr = [];
-    arr.push(table.table_name);
-    arr.push(table.primary_key);
+    arr.push(table.tableName);
+    arr.push(table.primaryKey);
     return arr;
   });
   const tablesAndColumns = data.map((table) => {
     const obj = {};
-    const tableName = table.table_name;
+    const tableName = table.tableName;
     obj[tableName] = [];
     for (let i = 0; i < table.columns.length; i++) {
       const column = table.columns[i];
       //   const primaryKey = tableNamesAndKeys[i][1];
-      //   if (column.column_name !== primaryKey) {
-      obj[tableName].push(column.column_name);
+      //   if (column.columnName !== primaryKey) {
+      obj[tableName].push(column.columnName);
       //   }
     }
     return obj;
