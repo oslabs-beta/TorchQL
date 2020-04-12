@@ -10,7 +10,6 @@ router.get('/pg',
   pgController.makeQueryResolvers,
   pgController.makeMutationResolvers,
   (req, res) => {
-    console.log('query resolvers: ', res.locals.queryResolvers);
     console.log('mutation resolvers: ', res.locals.mutationResolvers);
     res.status(200).json(res.locals.tables);
   }

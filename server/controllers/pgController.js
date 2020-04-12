@@ -3,6 +3,7 @@ const { Pool } = require('pg');
 const pgQuery = fs.readFileSync('server/queries/tableData.sql', 'utf8');
 const pgController = {};
 const { createQuery, createMutation, createTypes, formatTypeDefs } = require('../functions/typesCreator');
+const { generateGetAllQuery, generateGetOneQuery, generateQueryResolvers } = require('../functions/resolversCreator');
 
 // middleware function for recovering info from pg tables
 pgController.getPGTables = (req, res, next) => {
@@ -44,56 +45,12 @@ pgController.makeTypes = (req, res, next) => {
 
 pgController.returnTypeDefs = (req, res, next) => {
   const { queries, mutations, types } = res.locals;
-  const allTypeDefs = formatTypeDefs(queries, mutations, types);
-  console.log(allTypeDefs);
+  res.locals.allTypeDefs = formatTypeDefs(queries, mutations, types);
+  console.log(res.locals.allTypeDefs);
   return next();
 }
 
 pgController.makeQueryResolvers = (req, res, next) => {
-  const lowercaseString = (string) => {
-    return string[0].toLowerCase() + string.slice(1);
-  };
-
-  const generateGetAllQuery = (arr) => {
-    const queriesAll = [];
-    for ({ tableName } of arr) {
-      let resolveStr = `${lowercaseString(tableName)}: () => {
-          try{
-              const query = 'SELECT * FROM ${tableName}';
-              return db.query(query).then((res) => res.rows)
-          } catch (err) {
-              throw new Error(err);
-          }
-      }
-      `;
-    queriesAll.push(resolveStr);
-    }
-    return queriesAll;
-  };
-
-  const generateGetOneQuery = (arr) => {
-    const queriesById = [];
-    for ({ tableName, primaryKey } of arr) {
-    let resolveStr = `${lowercaseString(tableName)}ById: (parent, args) => {
-        try{
-            const query = 'SELECT * FROM ${tableName} WHERE ${primaryKey} = $1';
-            const values = [args.${primaryKey}]
-            return db.query(query).then((res) => res.rows)
-        } catch (err) {
-            throw new Error(err);
-        }
-    }
-    `;
-    queriesById.push(resolveStr);
-    }
-    return queriesById;
-  };
-
-  const generateQueryResolvers = (arr1, arr2) => {
-    return `const resolvers = {\nQuery: {
-        ${arr1.join('\n')}\n${arr2.join('\n')}
-    }`;
-  };
   const queryAllResolvers = generateGetAllQuery(res.locals.tables);
   const queryOneResolvers = generateGetOneQuery(res.locals.tables);
   res.locals.queryResolvers = generateQueryResolvers(queryAllResolvers, queryOneResolvers);
