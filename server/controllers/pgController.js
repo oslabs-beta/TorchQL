@@ -43,6 +43,7 @@ pgController.makeTypes = (req, res, next) => {
   return next();
 };
 
+// middleware function for returning formatted type definitions in SDL as string
 pgController.returnTypeDefs = (req, res, next) => {
   const { queries, mutations, types } = res.locals;
   res.locals.allTypeDefs = formatTypeDefs(queries, mutations, types);
@@ -50,6 +51,7 @@ pgController.returnTypeDefs = (req, res, next) => {
   return next();
 }
 
+// middleware function for making query resolvers in SDL as string
 pgController.makeQueryResolvers = (req, res, next) => {
   const queryAllResolvers = generateGetAllQuery(res.locals.tables);
   const queryOneResolvers = generateGetOneQuery(res.locals.tables);
@@ -57,6 +59,14 @@ pgController.makeQueryResolvers = (req, res, next) => {
   console.log(res.locals.queryResolvers);
   return next();
 };
+
+// middleware function for returning formatted resolvers in SDL as string
+pgController.returnResolvers = (req, res, next) => {
+  const { queryResolvers, mutationResolvers } = res.locals;
+  res.locals.resolvers = formatResolvers(queryResolvers, mutationResolvers);
+  console.log(res.locals.resolvers);
+  return next();
+}
 
 // TODO: Fix the commented-out conditional in tablesAndColumns - for some reason these values are undefined when run. They're defined when logged to the console, however.
 pgController.makeMutationResolvers = (req, res, next) => {

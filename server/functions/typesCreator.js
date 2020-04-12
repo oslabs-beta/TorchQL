@@ -1,9 +1,10 @@
 const { singular } = require("pluralize");
 const { capitalize, typeSet } = require('./helperFunctions');
 
-// returns query types in SDL as string
+// returns query root types for each table in SDL format as array of strings
 const createQuery = (arr) => {
 	const allQueries = [];
+	// iterates through each data object corresponding to single table in PostgreSQL database
 	for ({ tableName } of arr) {
     const nameSingular = singular(tableName);
     let typeStr = `${tableName}:[${capitalize(nameSingular)}!]!`
@@ -13,16 +14,18 @@ const createQuery = (arr) => {
   return allQueries;
 }
 
-// returns mutation types in SDL as string
+// returns create, update, and deletion mutation root types for each table in SDL format as array of strings
 const createMutation = (arr) => {
 	const allMutations = [];
+	// iterates through each data object corresponding to single table in PostgreSQL database
 	for ({ tableName, primaryKey, foreignKeys, columns } of arr) {
+		// stores foreign keys and associated properties as an object
 		let fkCache = {};
 		for (key of foreignKeys){
 			fkCache[key.name] = key;
 		}
 		let tableNameSingular = singular(tableName);
-		// adds create mutation types in SDL as string
+		// adds create mutation types to string
 		let typeStr = `create${capitalize(tableNameSingular)}(`;
 		for (column of columns) {
 			if (!fkCache[column.columnName] && column.columnName !== primaryKey) {
@@ -34,7 +37,7 @@ const createMutation = (arr) => {
 			}
 		};
 		typeStr += `): ${capitalize(tableNameSingular)}!`;
-		// adds update mutation types in SDL as string
+		// adds update mutation types to array of string
 		typeStr += `\n    update${capitalize(tableNameSingular)}(`;
 		typeStr += `${primaryKey}: ID!`
 		for (column of columns) {
@@ -47,7 +50,7 @@ const createMutation = (arr) => {
 			}
 		};
 		typeStr += `): ${capitalize(tableNameSingular)}!`;
-		// adds delete mutation types in SDL as string
+		// adds delete mutation types to array of string
 		typeStr += `\n    delete${capitalize(tableNameSingular)}(`;
 		typeStr += `${primaryKey}: ID!`;
 		typeStr += `): ${capitalize(tableNameSingular)}!`;
@@ -56,22 +59,24 @@ const createMutation = (arr) => {
 	return allMutations;
 }
 
-// returns custom objects types in SDL as string
+// returns object types for each table in SDL format as array of strings
 const createTypes = (arr) => {
 	const allTypes = [];
+	// iterates through each data object corresponding to single table in PostgreSQL database
   for({ tableName, primaryKey, foreignKeys, columns } of arr) {
+	// stores foreign keys and associated properties as an object
     const fkCache = {};
     for (let key of foreignKeys) fkCache[key.name] = key;
     let typeStr = `\ntype ${capitalize(singular(tableName))} {\n  ${primaryKey}:ID!`;
-    // adds all columns with types to SDL string
+    // adds all columns with types to string
     for (column of columns) {
-    // adds foreign keys with object type to SDL string
+    // adds foreign keys with object type to string
       if (fkCache[column.columnName]) {
         const { name, referenceTable, referenceKey } = fkCache[column.columnName];
-        // supposed to check for one-to-many relationship before displaying type as array
+        // supposed to check here for one-to-many relationship before displaying type as an array
         // if (refsMany(fkCache[column.columnName])) typeStr += `\n  ${name}:[${capitalize(referenceTable)}]`;
         typeStr += `\n  ${name}:${capitalize(singular(referenceTable))}`;
-      // adds remaining columns with types to SDL string
+      // adds remaining columns with types to string
       } else if (column.columnName !== primaryKey) {
         typeStr += `\n  ${column.columnName}:${typeSet(column.dataType)}`;
         if (column.isNullable === 'YES') typeStr += '!';
@@ -83,7 +88,7 @@ const createTypes = (arr) => {
   return allTypes;
 }
 
-// returns queries, mutations, and object types formatted for sending back to front-end
+// formats and returns queries, mutations, and object types in SDL as single string for rendering on front-end
 const formatTypeDefs = (arr1, arr2, arr3) => {
 	return `const typeDefs = \`\n  type Query {\n    ${arr1.join('\n    ')}}\n
   type Mutation {\n    ${arr2.join('\n    ')}\n  }
