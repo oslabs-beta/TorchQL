@@ -50,56 +50,56 @@ pgController.returnTypeDefs = (req, res, next) => {
 }
 
 pgController.makeQueryResolvers = (req, res, next) => {
-  const data = res.locals.tables;
-  const tableNamesAndKeys = data.map((table) => {
-    const arr = [];
-    arr.push(table.tableName);
-    arr.push(table.primaryKey);
-    return arr;
-  });
   const lowercaseString = (string) => {
     return string[0].toLowerCase() + string.slice(1);
   };
 
-  const generateGetAllQuery = (tableName) => {
-    return `${lowercaseString(tableName)}: () => {
+  const generateGetAllQuery = (arr) => {
+    const queriesAll = [];
+    for ({ tableName } of arr) {
+      let resolveStr = `${lowercaseString(tableName)}: () => {
+          try{
+              const query = 'SELECT * FROM ${tableName}';
+              return db.query(query).then((res) => res.rows)
+          } catch (err) {
+              throw new Error(err);
+          }
+      }
+      `;
+    queriesAll.push(resolveStr);
+    }
+    return queriesAll;
+  };
+
+  const generateGetOneQuery = (arr) => {
+    const queriesById = [];
+    for ({ tableName, primaryKey } of arr) {
+    let resolveStr = `${lowercaseString(tableName)}ById: (parent, args) => {
         try{
-            const query = 'SELECT * FROM ${tableName}';
+            const query = 'SELECT * FROM ${tableName} WHERE ${primaryKey} = $1';
+            const values = [args.${primaryKey}]
             return db.query(query).then((res) => res.rows)
         } catch (err) {
             throw new Error(err);
         }
     }
     `;
-  };
-
-  const generateGetOneQuery = (tableName, id) => {
-    return `${lowercaseString(tableName)}ById: (parent, args) => {
-        try{
-            const query = 'SELECT * FROM ${tableName} WHERE ${id} = $1';
-            const values = [args.${id}]
-            return db.query(query).then((res) => res.rows)
-        } catch (err) {
-            throw new Error(err);
-        }
+    queriesById.push(resolveStr);
     }
-    `;
+    return queriesById;
   };
 
-  const generateQueryResolvers = () => {
-    let queriesAll = [];
-    let queriesById = [];
-    tableNamesAndKeys.forEach((sub) => {
-      queriesAll.push(generateGetAllQuery(sub[0]));
-      queriesById.push(generateGetOneQuery(sub[0], sub[1]));
-    });
+  const generateQueryResolvers = (arr1, arr2) => {
     return `Query: {
-        ${queriesAll},
-        ${queriesById}
+        ${arr1.join('\n')}\n${arr2.join('\n')}
     }`;
   };
-
-  res.locals.queryResolvers = generateQueryResolvers();
+  const queryAllResolvers = generateGetAllQuery(res.locals.tables);
+  const queryOneResolvers = generateGetOneQuery(res.locals.tables);
+  console.log('queryAllResolvers: ', queryAllResolvers);
+  console.log('queryOneResolvers: ', queryOneResolvers);
+  res.locals.queryResolvers = generateQueryResolvers(queryAllResolvers, queryOneResolvers);
+  console.log('res.locals.queryResolvers: ', res.locals.queryResolvers);
   return next();
 };
 
