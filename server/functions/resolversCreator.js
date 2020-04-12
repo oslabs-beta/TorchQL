@@ -57,7 +57,7 @@ const generateMutationResolvers = (arr1, arr2) => {
 
 // formats and returns resolvers in SDL as single string for rendering on front-end
 const formatResolvers = (str1, str2) => {
-	let resolveStr = `const resolvers = {\n\xa0\xa0Query: {`;
+	let resolveStr = `const resolvers = {\n  Query: {`;
 	resolveStr += str1;
 	resolveStr += str2;
 	return resolveStr;
@@ -66,5 +66,6 @@ const formatResolvers = (str1, str2) => {
 module.exports = {
   generateGetAllQuery,
   generateGetOneQuery,
-  generateQueryResolvers
+	generateQueryResolvers,
+	formatResolvers
 };
