@@ -6,8 +6,8 @@ const createQuery = (arr) => {
 	const allQueries = [];
 	for ({ tableName } of arr) {
     const nameSingular = singular(tableName);
-    let typeStr = `\n${tableName}:[${capitalize(nameSingular)}!]!`
-			+ `\n${nameSingular}ByID(${nameSingular}id:ID):${capitalize(nameSingular)}!`;
+    let typeStr = `${tableName}:[${capitalize(nameSingular)}!]!`
+			+ `\n    ${nameSingular}ByID(${nameSingular}id:ID):${capitalize(nameSingular)}!`;
 		allQueries.push(typeStr);
 	};
   return allQueries;
@@ -35,7 +35,7 @@ const createMutation = (arr) => {
 		};
 		typeStr += `): ${capitalize(tableNameSingular)}!`;
 		// adds update mutation types in SDL as string
-		typeStr += `\n\nupdate${capitalize(tableNameSingular)}(`;
+		typeStr += `\n    update${capitalize(tableNameSingular)}(`;
 		typeStr += `${primaryKey}: ID!`
 		for (column of columns) {
 			if (!fkCache[column.columnName] && column.columnName !== primaryKey) {
@@ -48,7 +48,7 @@ const createMutation = (arr) => {
 		};
 		typeStr += `): ${capitalize(tableNameSingular)}!`;
 		// adds delete mutation types in SDL as string
-		typeStr += `\n\ndelete${capitalize(tableNameSingular)}(`;
+		typeStr += `\n    delete${capitalize(tableNameSingular)}(`;
 		typeStr += `${primaryKey}: ID!`;
 		typeStr += `): ${capitalize(tableNameSingular)}!`;
 		allMutations.push(typeStr);
@@ -85,18 +85,10 @@ const createTypes = (arr) => {
 
 // returns queries, mutations, and object types formatted for sending back to front-end
 const formatTypeDefs = (arr1, arr2, arr3) => {
-  return `
-  const typeDefs = \`
-    type Query { ${arr1.join('')}
-    }
+	return `const typeDefs = \`\n  type Query {\n    ${arr1.join('\n    ')}}
+  type Mutation {\n    ${arr2.join('\n    ')}\n  }
 
-    type Mutation { ${arr2.join('')}
-    }
-
-      ${arr3.join('')}\`
-  
-
-  module.exports = typeDefs;
+		${arr3.join('\n')} \n\n\`;\n\nmodule.exports = typeDefs;
   `;
 }
 

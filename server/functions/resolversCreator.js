@@ -37,7 +37,7 @@ const generateGetAllQuery = (arr) => {
   };
 
   const generateQueryResolvers = (arr1, arr2) => {
-    return `const resolvers = {\n\xa0\xa0Query: {\n\xa0\xa0\xa0\xa0${arr1.join('\n\xa0\xa0\xa0\xa0')}\n\xa0\xa0\xa0\xa0${arr2.join('\n\xa0\xa0\xa0\xa0')}
+    return `const resolvers = {\n\xa0\xa0Query: {\n    ${arr1.join('\n    ')}\n    ${arr2.join('\n    ')}
     }`;
   };
 
