@@ -90,16 +90,14 @@ pgController.makeQueryResolvers = (req, res, next) => {
   };
 
   const generateQueryResolvers = (arr1, arr2) => {
-    return `Query: {
+    return `const resolvers = {\nQuery: {
         ${arr1.join('\n')}\n${arr2.join('\n')}
     }`;
   };
   const queryAllResolvers = generateGetAllQuery(res.locals.tables);
   const queryOneResolvers = generateGetOneQuery(res.locals.tables);
-  console.log('queryAllResolvers: ', queryAllResolvers);
-  console.log('queryOneResolvers: ', queryOneResolvers);
   res.locals.queryResolvers = generateQueryResolvers(queryAllResolvers, queryOneResolvers);
-  console.log('res.locals.queryResolvers: ', res.locals.queryResolvers);
+  console.log(res.locals.queryResolvers);
   return next();
 };
 

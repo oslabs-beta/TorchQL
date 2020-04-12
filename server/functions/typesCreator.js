@@ -3,26 +3,27 @@ const { capitalize, typeSet } = require('./helperFunctions');
 
 // returns query types in SDL as string
 const createQuery = (arr) => {
-  let typeStr = '';
-  arr.forEach(({ tableName }) => {
+	const allQueries = [];
+	for ({ tableName } of arr) {
     const nameSingular = singular(tableName);
-    typeStr += `\n${tableName}:[${capitalize(nameSingular)}!]!`
-      + `\n${nameSingular}ByID(${nameSingular}id:ID):${capitalize(nameSingular)}!`;
-	});
-  return typeStr;
+    let typeStr = `\n${tableName}:[${capitalize(nameSingular)}!]!`
+			+ `\n${nameSingular}ByID(${nameSingular}id:ID):${capitalize(nameSingular)}!`;
+		allQueries.push(typeStr);
+	};
+  return allQueries;
 }
 
 // returns mutation types in SDL as string
 const createMutation = (arr) => {
-	let typeStr = '';
-	for({ tableName, primaryKey, foreignKeys, columns } of arr) {
+	const allMutations = [];
+	for ({ tableName, primaryKey, foreignKeys, columns } of arr) {
 		let fkCache = {};
 		for (key of foreignKeys){
 			fkCache[key.name] = key;
 		}
 		let tableNameSingular = singular(tableName);
 		// adds create mutation types in SDL as string
-		typeStr += `\n\ncreate${capitalize(tableNameSingular)}(`;
+		let typeStr = `create${capitalize(tableNameSingular)}(`;
 		for (column of columns) {
 			if (!fkCache[column.columnName] && column.columnName !== primaryKey) {
 				if (typeStr[typeStr.length -1] !== '(') typeStr += ', ';
@@ -50,17 +51,18 @@ const createMutation = (arr) => {
 		typeStr += `\n\ndelete${capitalize(tableNameSingular)}(`;
 		typeStr += `${primaryKey}: ID!`;
 		typeStr += `): ${capitalize(tableNameSingular)}!`;
+		allMutations.push(typeStr);
 	};
-	return typeStr;
+	return allMutations;
 }
 
 // returns custom objects types in SDL as string
 const createTypes = (arr) => {
-	let typeStr = '';
+	const allTypes = [];
   for({ tableName, primaryKey, foreignKeys, columns } of arr) {
     const fkCache = {};
     for (let key of foreignKeys) fkCache[key.name] = key;
-    typeStr += `\ntype ${capitalize(singular(tableName))} {\n  ${primaryKey}:ID!`;
+    let typeStr = `\ntype ${capitalize(singular(tableName))} {\n  ${primaryKey}:ID!`;
     // adds all columns with types to SDL string
     for (column of columns) {
     // adds foreign keys with object type to SDL string
@@ -75,22 +77,23 @@ const createTypes = (arr) => {
         if (column.isNullable === 'YES') typeStr += '!';
       }
     }
-    typeStr += '\n}';
+		typeStr += '\n}';
+		allTypes.push(typeStr);
   }
-  return typeStr;
+  return allTypes;
 }
 
 // returns queries, mutations, and object types formatted for sending back to front-end
-const formatTypeDefs = (str1, str2, str3) => {
+const formatTypeDefs = (arr1, arr2, arr3) => {
   return `
   const typeDefs = \`
-    type Query { ${str1}
+    type Query { ${arr1.join('')}
     }
 
-    type Mutation { ${str2}
+    type Mutation { ${arr2.join('')}
     }
 
-      ${str3}\`
+      ${arr3.join('')}\`
   
 
   module.exports = typeDefs;
