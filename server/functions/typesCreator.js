@@ -85,7 +85,7 @@ const createTypes = (arr) => {
 
 // returns queries, mutations, and object types formatted for sending back to front-end
 const formatTypeDefs = (arr1, arr2, arr3) => {
-	return `const typeDefs = \`\n  type Query {\n    ${arr1.join('\n    ')}}
+	return `const typeDefs = \`\n  type Query {\n    ${arr1.join('\n    ')}}\n
   type Mutation {\n    ${arr2.join('\n    ')}\n  }
 
 		${arr3.join('\n')} \n\n\`;\n\nmodule.exports = typeDefs;

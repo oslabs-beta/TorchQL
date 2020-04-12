@@ -37,8 +37,12 @@ const generateGetAllQuery = (arr) => {
   };
 
   const generateQueryResolvers = (arr1, arr2) => {
-    return `const resolvers = {\n\xa0\xa0Query: {\n    ${arr1.join('\n    ')}\n    ${arr2.join('\n    ')}
+    let resolveStr = '`const resolvers = {\n\xa0\xa0Query: {';
+    for (i = 0; i < arr1.length; i++) {
+      resolveStr += `\n    ${arr1[i]}\n    ${arr2[i]}\n
     }`;
+    }
+    return resolveStr;
   };
 
 module.exports = {
