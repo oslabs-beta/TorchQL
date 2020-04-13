@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import CodeDisplay from './Components/CodeDisplay.jsx';
+import MainDisplay from './Components/MainDisplay.jsx';
 
 class App extends Component {
   constructor(props) {

@@ -1,18 +1,21 @@
 import React, { Component } from 'react';
-import Input from '../Components/Input.jsx'
+import { UnControlled as CodeMirror } from 'react-codemirror2';
+import '../../node_modules/codemirror/mode/javascript/javascript';
+import '../../node_modules/codemirror/lib/codemirror.css'
+import '../../node_modules/codemirror/theme/dracula.css';
 
 class CodeDisplay extends Component {
   render() {
-      return (
-          <div>
-              <div className='schema'>
-                  {this.props.schema}
-              </div>
-              <Input URI={this.props.URI} handleInput={this.props.handleInput} handleURI={this.props.handleURI}/>
-          </div>
+      return(
+        <CodeMirror value='<h1> codemirror test</h1>' options={{
+            mode: 'xml',
+            theme: 'material',
+            lineNumbers: true
+        }} onChange={(editor, data, value) => {}}/>
       )
   }
-    
 }
 
+
 export default CodeDisplay;
+
