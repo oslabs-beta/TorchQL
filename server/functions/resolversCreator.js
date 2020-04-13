@@ -82,19 +82,15 @@ const createMutResolvers = (obj, valueObj) => {
 	const mutResolvers = [];
 	const { tableName } = obj;
 		// stores foreign keys and associated properties as an object
-		let resolveStr = `\ncreate${capitalize(singular(tableName))}: () => {
-			try{
-					const query = 'INSERT INTO ${tableName}(`;
-		resolveStr += `${Object.values(valueObj)}`;
-		resolveStr += `)
-						VALUES(${Object.keys(valueObj)})';
-						const values = [${Object.values(valueObj).map(x => `args.${x}`)}]
-						return db.query(query, values)
-				} catch (err) {
-						throw new Error(err);
-				}
-		}
-		`;
+		let resolveStr = `\ncreate${capitalize(singular(tableName))}: () => {\n      const query = 'INSERT INTO ${tableName}(`;
+	  resolveStr += `${Object.values(valueObj)}`;
+	  resolveStr += `)\n      VALUES(${Object.keys(valueObj)})';\n      const values = [${Object.values(valueObj).map(x => `args.${x}`)}]\n
+		try { return db.query(query, values)
+			} catch (err) {
+					throw new Error(err);
+			}
+	}
+	`;
 		mutResolvers.push(resolveStr);
 	return mutResolvers;
 }
@@ -109,16 +105,15 @@ const updateMutResolvers = (obj, valueObj, valueIndex) => {
 	for (let key in valueObj) {
 		displaySet += `${valueObj[key]}=$${key} `;
 	}
-	let resolveStr = `\nupdate${capitalize(singular(tableName))}: (parent, args => {
-		try{
-				const query = 'UPDATE ${tableName} 
-				SET ${displaySet}
-				WHERE ${primaryKey} = $${valueIndex}';
-				const values = [args.${primaryKey}]
-				return db.query(query).then((res) => res.rows)
-		} catch (err) {
-				throw new Error(err);
-		}
+	let resolveStr = `\nupdate${capitalize(singular(tableName))}: (parent, args => {\n    try {\n
+		const query = 'UPDATE ${tableName} 
+		SET ${displaySet}
+		WHERE ${primaryKey} = $${valueIndex}';
+		const values = [${Object.values(valueObj).map(x => `args.${x}`)}, args.${primaryKey}]
+		return db.query(query).then((res) => res.rows)
+} catch (err) {
+		throw new Error(err);
+}
 }
 `;
  mutResolvers.push(resolveStr);
@@ -129,14 +124,13 @@ const updateMutResolvers = (obj, valueObj, valueIndex) => {
 const deleteMutResolvers = (obj) => {
 	let mutResolvers = [];
 	const { tableName, primaryKey } = obj;
-	resolveStr = `\ndelete${capitalize(singular(tableName))}: (parent, args) => {
-		try{
-				const query = 'DELETE FROM ${tableName} 
-				WHERE ${primaryKey} = $1';
-				const values = [args.${primaryKey}]
-				return db.query(query).then((res) => res.rows)
+	resolveStr = `\ndelete${capitalize(singular(tableName))}: (parent, args) => {\n    try {\n
+      const query = 'DELETE FROM ${tableName}\n
+	    WHERE ${primaryKey} = $1';
+		  const values = [args.${primaryKey}]
+			return db.query(query).then((res) => res.rows)
 		} catch (err) {
-				throw new Error(err);
+			throw new Error(err);
 		}
 	}
 	`;
