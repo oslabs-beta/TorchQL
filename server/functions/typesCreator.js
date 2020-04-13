@@ -1,76 +1,34 @@
 const { singular } = require("pluralize");
+const { capitalize, typeSet } = require('./helperFunctions');
 
-function capitalize(str) {
-  return `${str[0].toUpperCase()}${str.slice(1)}`;
-}
-
-function typeSet(str) {
-  switch (str) {
-    case "character varying":
-      return "String";
-      break;
-    case "character":
-      return "String";
-      break;
-    case "integer":
-      return "Int";
-      break;
-    case "text":
-      return "String";
-      break;
-    case "date":
-      return "String";
-      break;
-    case "boolean":
-      return "Boolean";
-      break;
-    default: 
-      return "Int";
-  }
-}
-
-// supposed to check for one-to-many relationship between foreign key and primary key on two tables, doesn't work yet
-function refsMany({ table, tableKey, ref, refKey }) {
-//   const queryStr = `SELECT * FROM people INNER JOIN planets ON planets._id = people.homeworld_id`;
-//   console.log('querystr: ', queryStr);
-//   db.query(queryStr, (err, data) => {
-//     if (err) {
-//       return err;
-//     } else {
-//         console.log('data.rows :', data.rows);
-//         console.log('data.rows.length :', data.rows.length);
-//         if (data.rows.length > 1) { 
-//           return true
-//         } else return false;
-//       }
-//   });
-  return false;
-}
-
-// returns query types in SDL as string
-function createQuery(arr) {
-  let typeStr = 'type Query {';
-  arr.forEach(({ tableName }) => {
+// returns query root types for each table in SDL format as array of strings
+const createQuery = (arr) => {
+	const allQueries = [];
+	// iterates through each data object corresponding to single table in PostgreSQL database
+	for ({ tableName } of arr) {
     const nameSingular = singular(tableName);
-    typeStr += `\nall${capitalize(tableName)}:[${capitalize(nameSingular)}!]!`
-      + `\n${nameSingular}ByID(${nameSingular}id:ID):${capitalize(nameSingular)}!`;
-	});
-	typeStr += '\n}'
-  return typeStr;
+    let typeStr = `${tableName}:[${capitalize(nameSingular)}!]!`
+			+ `\n    ${nameSingular}ByID(${nameSingular}id:ID):${capitalize(nameSingular)}!`;
+		allQueries.push(typeStr);
+	};
+  return allQueries;
 }
 
-// returns mutation types in SDL as string
-function createMutation(arr) {
-	let typeStr = '\n\ntype Mutation {';
-	for({ tableName, primaryKey, foreignKeys, columns } of arr) {
+// returns create, update, and deletion mutation root types for each table in SDL format as array of strings
+const createMutation = (arr) => {
+	const allMutations = [];
+	// iterates through each data object corresponding to single table in PostgreSQL database
+	for ({ tableName, primaryKey, foreignKeys, columns } of arr) {
+		// stores foreign keys and associated properties as an object
 		let fkCache = {};
 		for (key of foreignKeys){
 			fkCache[key.name] = key;
 		}
 		let tableNameSingular = singular(tableName);
-		typeStr += `\n\ncreate${capitalize(tableNameSingular)}(`;
+		// adds create mutation types to string
+		let typeStr = `create${capitalize(tableNameSingular)}(`;
 		for (column of columns) {
-			if (!fkCache[column.columnName] && column.columnName !== tableName) {
+			if (!fkCache[column.columnName] && column.columnName !== primaryKey) {
 				if (typeStr[typeStr.length -1] !== '(') typeStr += ', ';
 				typeStr += `${column.columnName}: ${typeSet(column.dataType)}`;
 				if (column.isNullable !== "YES") {
@@ -79,10 +37,12 @@ function createMutation(arr) {
 			}
 		};
 		typeStr += `): ${capitalize(tableNameSingular)}!`;
-		typeStr += `\n\nupdate${capitalize(tableNameSingular)}(`;
+		// adds update mutation types to array of string
+		typeStr += `\n    update${capitalize(tableNameSingular)}(`;
+		typeStr += `${primaryKey}: ID!`
 		for (column of columns) {
-			if (!fkCache[column.columnName] && column.columnName !== tableName) {
-				if (typeStr[typeStr.length -1] !== '(') typeStr += ', ';
+			if (!fkCache[column.columnName] && column.columnName !== primaryKey) {
+				typeStr += ', ';
 				typeStr += `${column.columnName}: ${typeSet(column.dataType)}`;
 				if (column.isNullable !== "YES") {
 					typeStr += '!';
@@ -90,43 +50,56 @@ function createMutation(arr) {
 			}
 		};
 		typeStr += `): ${capitalize(tableNameSingular)}!`;
-		typeStr += `\n\ndelete${capitalize(tableNameSingular)}(`;
+		// adds delete mutation types to array of string
+		typeStr += `\n    delete${capitalize(tableNameSingular)}(`;
 		typeStr += `${primaryKey}: ID!`;
 		typeStr += `): ${capitalize(tableNameSingular)}!`;
+		allMutations.push(typeStr);
 	};
-  typeStr += '\n}'
-	return typeStr;
+	return allMutations;
 }
 
-// returns custom objects types in SDL as string
-function createTypes(arr) {
-  let typeStr = '';
+// returns object types for each table in SDL format as array of strings
+const createTypes = (arr) => {
+	const allTypes = [];
+	// iterates through each data object corresponding to single table in PostgreSQL database
   for({ tableName, primaryKey, foreignKeys, columns } of arr) {
+	// stores foreign keys and associated properties as an object
     const fkCache = {};
     for (let key of foreignKeys) fkCache[key.name] = key;
-    typeStr += `\ntype ${capitalize(singular(tableName))} {\n  ${primaryKey}:ID!`;
-    // adds all columns with types to SDL string
+    let typeStr = `\ntype ${capitalize(singular(tableName))} {\n  ${primaryKey}:ID!`;
+    // adds all columns with types to string
     for (column of columns) {
-    // adds foreign keys with object type to SDL string
+    // adds foreign keys with object type to string
       if (fkCache[column.columnName]) {
         const { name, referenceTable, referenceKey } = fkCache[column.columnName];
-        // supposed to check for one-to-many relationship before displaying type as array
-        if (refsMany(fkCache[column.columnName])) typeStr += `\n  ${name}:[${capitalize(referenceTable)}]`;
-        else typeStr += `\n  ${name}:${capitalize(singular(referenceTable))}`;
-      // adds remaining columns with types to SDL string
+        // supposed to check here for one-to-many relationship before displaying type as an array
+        // if (refsMany(fkCache[column.columnName])) typeStr += `\n  ${name}:[${capitalize(referenceTable)}]`;
+        typeStr += `\n  ${name}:${capitalize(singular(referenceTable))}`;
+      // adds remaining columns with types to string
       } else if (column.columnName !== primaryKey) {
         typeStr += `\n  ${column.columnName}:${typeSet(column.dataType)}`;
         if (column.isNullable === 'YES') typeStr += '!';
       }
     }
-    typeStr += '\n}';
+		typeStr += '\n}';
+		allTypes.push(typeStr);
   }
-  return typeStr;
+  return allTypes;
 }
 
+// formats and returns queries, mutations, and object types in SDL as single string for rendering on front-end
+const formatTypeDefs = (arr1, arr2, arr3) => {
+	return `const typeDefs = \`\n  type Query {\n    ${arr1.join('\n    ')}}\n
+  type Mutation {\n    ${arr2.join('\n    ')}\n  }
+
+		${arr3.join('\n')} \n\n\`;\n\nmodule.exports = typeDefs;
+  `;
+}
 
 module.exports = {
 		createQuery,
 		createMutation,
-		createTypes
+		createTypes,
+		formatTypeDefs
 };
