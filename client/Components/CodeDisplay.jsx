@@ -1,18 +1,26 @@
 import React, { Component } from 'react';
-import Input from '../Components/Input.jsx'
+import { UnControlled as CodeMirror } from 'react-codemirror2';
+import '../../node_modules/codemirror/mode/javascript/javascript';
+import '../../node_modules/codemirror/lib/codemirror.css';
+import '../../node_modules/codemirror/theme/darcula.css';
 
 class CodeDisplay extends Component {
   render() {
-      return (
-          <div>
-              <div className='schema'>
-                  {this.props.schema}
-              </div>
-              <Input URI={this.props.URI} handleInput={this.props.handleInput} handleURI={this.props.handleURI}/>
-          </div>
-      )
+    return (
+      <div>
+        <CodeMirror
+          value="<h1> codemirror test</h1>"
+          options={{
+            mode: 'javascript',
+            theme: 'darcula',
+            lineNumbers: true,
+          }}
+          onChange={(editor, data, value) => {}}
+        />
+        <button onClick={(e) => this.props.handleClick(e)}>Back</button>
+      </div>
+    );
   }
-    
 }
 
 export default CodeDisplay;
