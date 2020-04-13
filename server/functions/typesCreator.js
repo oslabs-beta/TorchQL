@@ -24,23 +24,21 @@ const createMutation = (data) => {
     const table = tables[i];
     const { primaryKey, foreignKeys, columns } = data[table];
 		// stores foreign keys and associated properties as an object
-    if (foreignKeys !== null) {
-  		const fkCache = {};
-      const fKeys = Object.keys(foreignKeys);
-  		for (key of fKeys) fkCache[key] = foreignKeys[key];
-  		const tableNameSingular = singular(table);
-  		// adds create mutation types to string
-  		let typeStr = `create${capitalize(tableNameSingular)}(`;
-      const columnNames = Object.keys(columns);
-  		for (let j = 0; j < columnNames.length; j++) {
-        const { dataType, isNullable } = columns[columnNames[j]];
-  			if (!fkCache[columnNames[j]] && columnNames[j] !== primaryKey) {
-  				if (typeStr[typeStr.length -1] !== '(') typeStr += ', ';
-  				typeStr += `${columnNames[j]}: ${typeSet(dataType)}`;
-  				if (isNullable !== "YES") typeStr += '!';
-  			}
-  		}
-    }
+		const fkCache = {};
+    const fKeys = (foreignKeys === null) ? [] : Object.keys(foreignKeys);
+		for (key of fKeys) fkCache[key] = foreignKeys[key];
+		const tableNameSingular = singular(table);
+		// adds create mutation types to string
+		let typeStr = `create${capitalize(tableNameSingular)}(`;
+    const columnNames = Object.keys(columns);
+		for (let j = 0; j < columnNames.length; j++) {
+      const { dataType, isNullable } = columns[columnNames[j]];
+			if (!fkCache[columnNames[j]] && columnNames[j] !== primaryKey) {
+				if (typeStr[typeStr.length -1] !== '(') typeStr += ', ';
+				typeStr += `${columnNames[j]}: ${typeSet(dataType)}`;
+				if (isNullable !== 'YES') typeStr += '!';
+			}
+		};
 		// adds update mutation types to array of string
 		typeStr += `): ${capitalize(tableNameSingular)}!` +
 			`\n    update${capitalize(tableNameSingular)}(` +

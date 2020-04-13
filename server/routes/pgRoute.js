@@ -5,7 +5,7 @@ router.get(
   '/pg',
   pgController.getPGTables,
   pgController.makeQueries,
-  // pgController.makeMutations,
+  pgController.makeMutations,
   // pgController.makeTypes,
   // pgController.returnTypeDefs,
   // pgController.makeQueryResolvers,
