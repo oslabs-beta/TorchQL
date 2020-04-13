@@ -59,7 +59,7 @@ pgController.makeQueryResolvers = (req, res, next) => {
   return next();
 };
 
-// TODO: Fix the commented-out conditional in tablesAndColumns - for some reason these values are undefined when run. They're defined when logged to the console, however.
+// middleware function for making mutation resolvers in SDL as string
 pgController.makeMutationResolvers = (req, res, next) => {
   const mutationResolvers = generateMutationResolvers(res.locals.tables);
   res.locals.mutationResolvers = mutationResolvers;

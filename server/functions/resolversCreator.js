@@ -56,10 +56,12 @@ const generateMutationResolvers = (arr) => {
 	const allMutResolvers = [];
 	for ( obj of arr) {
 		const { primaryKey, foreignKeys, columns } = obj;
+		// fkCache contains foreign keys and their name, reference table, and reference key
 		let fkCache = {};
 		for (key of foreignKeys){
 			fkCache[key.name] = key;
 		}
+		// valueObj contains indexed collection of columns that are not primary keys or foreign keys
 		let valueObj = {};
 		let valueIndex = 1;
 		for (column of columns) {
@@ -84,7 +86,7 @@ const createMutResolvers = (obj, valueObj) => {
 		// stores foreign keys and associated properties as an object
 		let resolveStr = `\ncreate${capitalize(singular(tableName))}: () => {\n      const query = 'INSERT INTO ${tableName}(`;
 	  resolveStr += `${Object.values(valueObj)}`;
-	  resolveStr += `)\n      VALUES(${Object.keys(valueObj)})';\n      const values = [${Object.values(valueObj).map(x => `args.${x}`)}]\n
+	  resolveStr += `)\n      VALUES(${Object.keys(valueObj).map(x => `$${x}`)})';\n      const values = [${Object.values(valueObj).map(x => `args.${x}`)}]\n
 		try { return db.query(query, values)
 			} catch (err) {
 					throw new Error(err);
