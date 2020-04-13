@@ -53,14 +53,9 @@ const generateQueryResolvers = (arr1, arr2) => {
 
 // formats and returns mutation resolvers arranged by table in SDL as single string 
 const generateMutationResolvers = (arr) => {
-	return assembleMutResolvers(createMutResolvers(arr), updateMutResolvers(arr), deleteMutResolvers(arr));
-};
-
-// returns create mutation resolvers for each table as array
-const createMutResolvers = (arr) => {
-	const mutResolvers = [];
-	for ({ tableName, primaryKey, foreignKeys, columns } of arr) {
-    // stores foreign keys and associated properties as an object
+	const allMutResolvers = [];
+	for ( obj of arr) {
+		const { primaryKey, foreignKeys, columns } = obj;
 		let fkCache = {};
 		for (key of foreignKeys){
 			fkCache[key.name] = key;
@@ -73,8 +68,20 @@ const createMutResolvers = (arr) => {
 				valueIndex++;
 			}
 		}
+		// skip tables with all columns with only primary and foreign keys
 		if (valueIndex === 1) continue;
-		console.log('valueObj', valueObj)
+		allMutResolvers.push(createMutResolvers(obj, valueObj));
+		allMutResolvers.push(updateMutResolvers(obj, valueObj, valueIndex));
+		allMutResolvers.push(deleteMutResolvers(obj));
+	}
+	return assembleMutResolvers(allMutResolvers);
+};
+
+// returns create mutation resolvers for each table as array
+const createMutResolvers = (obj, valueObj) => {
+	const mutResolvers = [];
+	const { tableName } = obj;
+		// stores foreign keys and associated properties as an object
 		let resolveStr = `\ncreate${capitalize(singular(tableName))}: () => {
 			try{
 					const query = 'INSERT INTO ${tableName}(`;
@@ -89,28 +96,15 @@ const createMutResolvers = (arr) => {
 		}
 		`;
 		mutResolvers.push(resolveStr);
-	}
 	return mutResolvers;
 }
 
 // returns update mutation resolvers for each table as array
-const updateMutResolvers = (arr) => {
+const updateMutResolvers = (obj, valueObj, valueIndex) => {
 	const mutResolvers = [];
-	for ({ tableName, primaryKey, foreignKeys, columns } of arr) {
+	const { tableName, primaryKey } = obj;
 		// stores foreign keys and associated properties as an object
-		let fkCache = {};
-		for (key of foreignKeys){
-			fkCache[key.name] = key;
-		}
-		let valueObj = {};
-		let valueIndex = 1;
-		for (column of columns) {
-			if (!fkCache[column.columnName] && column.columnName !== primaryKey) {
-				valueObj[valueIndex] = column.columnName;
-				valueIndex++;
-			}
-		}
-		if (valueIndex === 1) continue;
+		// if (valueIndex === 1) continue;
 	let displaySet = '';
 	for (let key in valueObj) {
 		displaySet += `${valueObj[key]}=$${key} `;
@@ -128,14 +122,13 @@ const updateMutResolvers = (arr) => {
 }
 `;
  mutResolvers.push(resolveStr);
-	}
 	return mutResolvers;
 }
 
 // returns delete mutation resolvers for each table as array
-const deleteMutResolvers = (arr) => {
+const deleteMutResolvers = (obj) => {
 	let mutResolvers = [];
-	for ({ tableName, primaryKey, foreignKeys, columns } of arr) {
+	const { tableName, primaryKey } = obj;
 	resolveStr = `\ndelete${capitalize(singular(tableName))}: (parent, args) => {
 		try{
 				const query = 'DELETE FROM ${tableName} 
@@ -148,16 +141,14 @@ const deleteMutResolvers = (arr) => {
 	}
 	`;
 	mutResolvers.push(resolveStr);
-	} 
   return mutResolvers;
-
 }
 
 // formats and returns mutation resolvers in SDL as single string
-const assembleMutResolvers = (arr1, arr2, arr3) => {
+const assembleMutResolvers = (arr) => {
 	let resolveStr = `\nMutation: {`;
-	for (i = 0; i < arr1.length; i++) {
-		resolveStr += `\n    ${arr1[i]}\n    ${arr2[i]}\n    ${arr3[i]}`;
+	for (i = 0; i < arr.length; i++) {
+		resolveStr += `\n    ${arr[i]}\n`;
 	}
 	resolveStr += '}';
 	return resolveStr;
