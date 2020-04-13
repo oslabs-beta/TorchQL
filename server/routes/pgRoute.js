@@ -9,7 +9,7 @@ router.get(
   pgController.makeTypes,
   pgController.returnTypeDefs,
   pgController.makeQueryResolvers,
-  // pgController.makeMutationResolvers,
+  pgController.makeMutationResolvers,
   // pgController.returnResolvers,
   (req, res) => {
     // console.log('typedefs: \n', res.locals.allTypeDefs);
