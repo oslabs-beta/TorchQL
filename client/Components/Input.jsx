@@ -5,7 +5,7 @@ class Input extends Component {
   render() {
     return (
       <div className="Form">
-        <h1 className="piQL">PiQL</h1>
+        <h1 className="piQL">PiQL 🥒</h1>
         <input
           className="Input"
           value={this.props.URI}
