@@ -20,40 +20,35 @@ const createMutation = (arr) => {
 	// iterates through each data object corresponding to single table in PostgreSQL database
 	for ({ tableName, primaryKey, foreignKeys, columns } of arr) {
 		// stores foreign keys and associated properties as an object
-		let fkCache = {};
+		const fkCache = {};
 		for (key of foreignKeys){
 			fkCache[key.name] = key;
 		}
-		let tableNameSingular = singular(tableName);
+		const tableNameSingular = singular(tableName);
 		// adds create mutation types to string
 		let typeStr = `create${capitalize(tableNameSingular)}(`;
 		for (column of columns) {
 			if (!fkCache[column.columnName] && column.columnName !== primaryKey) {
 				if (typeStr[typeStr.length -1] !== '(') typeStr += ', ';
 				typeStr += `${column.columnName}: ${typeSet(column.dataType)}`;
-				if (column.isNullable !== "YES") {
-					typeStr += '!';
-				}
+				if (column.isNullable !== "YES") typeStr += '!';
 			}
 		};
-		typeStr += `): ${capitalize(tableNameSingular)}!`;
 		// adds update mutation types to array of string
-		typeStr += `\n    update${capitalize(tableNameSingular)}(`;
-		typeStr += `${primaryKey}: ID!`
+		typeStr += `): ${capitalize(tableNameSingular)}!` +
+			`\n    update${capitalize(tableNameSingular)}(` +
+			`${primaryKey}: ID!`;
 		for (column of columns) {
 			if (!fkCache[column.columnName] && column.columnName !== primaryKey) {
-				typeStr += ', ';
-				typeStr += `${column.columnName}: ${typeSet(column.dataType)}`;
-				if (column.isNullable !== "YES") {
-					typeStr += '!';
-				}
+				typeStr += ', ' + `${column.columnName}: ${typeSet(column.dataType)}`;
+				if (column.isNullable !== "YES") typeStr += '!';
 			}
 		};
-		typeStr += `): ${capitalize(tableNameSingular)}!`;
 		// adds delete mutation types to array of string
-		typeStr += `\n    delete${capitalize(tableNameSingular)}(`;
-		typeStr += `${primaryKey}: ID!`;
-		typeStr += `): ${capitalize(tableNameSingular)}!`;
+		typeStr += `): ${capitalize(tableNameSingular)}!` +
+			`\n    delete${capitalize(tableNameSingular)}(` +
+			`${primaryKey}: ID!` +
+			`): ${capitalize(tableNameSingular)}!`;
 		allMutations.push(typeStr);
 	};
 	return allMutations;
