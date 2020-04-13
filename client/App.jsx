@@ -30,7 +30,7 @@ class App extends Component {
   render() {
     return (
       <div className="parent">
-        <CodeDisplay
+        <MainDisplay
           schema={this.state.schema}
           URI={this.state.URI}
           handleInput={this.handleInput}
