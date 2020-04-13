@@ -14,12 +14,8 @@ class App extends Component {
 
   handleInput(event) {
     event.preventDefault();
-    const query = {DB_URI: this.state.URI}
-    fetch('/db/pg', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(query),
-    })
+    const query = { DB_URI: this.state.URI };
+    fetch(`http://localhost:3000/db/pg?uri=${this.state.URI}`)
       .then((data) => data.json())
       .then((data) => {
         this.setState({ schema: data });
@@ -27,7 +23,7 @@ class App extends Component {
     // .catch error??
   }
   handleURI(input) {
-    console.log(input)
+    console.log(input);
     this.setState({ URI: input });
   }
 

@@ -3,8 +3,6 @@ const dbRouter = require('./routes/pgRoute');
 const app = express();
 const PORT = 3000;
 
-
-
 /* Express logic/handler */
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -15,7 +13,7 @@ app.use((err, req, res, next) => {
   const defaultErr = {
     log: 'An error occured in unknown middleware',
     status: 500,
-    message: { err: 'An error ocurred' }
+    message: { err: 'An error ocurred' },
   };
   const errObj = { ...defaultErr, ...err };
   console.log(errObj.log);
@@ -24,4 +22,4 @@ app.use((err, req, res, next) => {
 
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
 
-// module.exports = app;
+module.exports = app;
