@@ -17,9 +17,7 @@ class CodeDisplay extends Component {
           }}
           onChange={(editor, data, value) => {}}
         />
-        <button onClick={(e) => this.props.handleClick(e)}>
-            Back
-        </button>
+        <button onClick={(e) => this.props.handleClick(e)}>Back</button>
       </div>
     );
   }

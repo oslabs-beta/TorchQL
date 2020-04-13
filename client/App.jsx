@@ -28,11 +28,11 @@ class App extends Component {
     console.log(input);
     this.setState({ URI: input });
   }
-
+  // for CodeDisplay.jsx/Back button
   handleClick(event) {
     event.preventDefault();
-    console.log('handleclick working')
-    this.setState({ displayCode: false});
+    console.log('handleclick working');
+    this.setState({ displayCode: false });
   }
 
   render() {
