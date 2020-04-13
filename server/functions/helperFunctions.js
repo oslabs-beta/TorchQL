@@ -28,6 +28,15 @@ const typeSet = (str) => {
 			return "Int";
 	}
 }
+
+const createValuesArray = (array) => {
+	let output = [];
+	for (i = 1; i <= array.length; i++) {
+		if (i < array.length) output.push(`$${i}, `);
+		else output.push(`$${i}`);
+	}
+	return output.join(' ');
+};
   
 // supposed to check for one-to-many relationship between foreign key and primary key on two tables, doesn't work yet
 const refsMany = ({ table, tableKey, ref, refKey }) => {
@@ -49,5 +58,6 @@ const refsMany = ({ table, tableKey, ref, refKey }) => {
 
 module.exports = {
 	capitalize,
-	typeSet
+	typeSet,
+	createValuesArray
 };
