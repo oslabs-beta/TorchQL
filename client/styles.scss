@@ -104,3 +104,27 @@ $pink-shadow: #ffe3e2;
       display: inline-block;
   }
   
+  .Form {
+      // display: flex;
+      // box-sizing: border-box;
+      // // align-self: flex-end;
+      // align-items: flex-end;
+      // justify-content: center;
+      box-shadow: 0 0 0 2px $pink-border, 0 0.625em 0 0 $pink-shadow;
+      font-family: 'Rubik', sans-serif;
+      font-size: 1rem;
+      line-height: 1.5;
+      margin: 0;
+      min-height: 50vh;
+      background: $bg;
+      color: $text;
+      text-transform: uppercase;
+      padding: 1.25em 2em;
+      background: $light-pink;
+      border: 2px solid $pink-border;
+      border-width: 1px;
+      border-radius: 0.75em;
+      display: inline-block;
+  }
+  
+  
