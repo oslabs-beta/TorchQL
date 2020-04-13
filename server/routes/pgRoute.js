@@ -10,10 +10,10 @@ router.get(
   pgController.returnTypeDefs,
   pgController.makeQueryResolvers,
   pgController.makeMutationResolvers,
-  // pgController.returnResolvers,
+  pgController.returnResolvers,
   (req, res) => {
-    // console.log('typedefs: \n', res.locals.allTypeDefs);
-    // console.log('resolvers: \n', res.locals.resolvers);
+    console.log('typedefs: \n', res.locals.allTypeDefs);
+    console.log('resolvers: \n', res.locals.resolvers);
     res.status(200).json(res.locals.tables);
   }
 );
