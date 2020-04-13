@@ -2,10 +2,11 @@ const { singular } = require("pluralize");
 const { capitalize, createValuesArray } = require('./helperFunctions');
 
 // returns get all query resolvers for each table in SDL format as array of strings
-const generateGetAllQuery = (arr) => {
+const generateGetAllQuery = (data) => {
 	const queriesAll = [];
 	// iterates through each data object corresponding to single table in PostgreSQL database
-	for ({ tableName } of arr) {
+	const tables = Object.keys(data);
+	for (tableName of tables) {
 		let resolveStr = 
 		`${tableName}: () => {
 		try{
@@ -22,10 +23,12 @@ const generateGetAllQuery = (arr) => {
 };
 
 // returns get one query resolvers for each table in SDL format as array of strings
-const generateGetOneQuery = (arr) => {
+const generateGetOneQuery = (data) => {
 	const queriesById = [];
 	// iterates through each data object corresponding to single table in PostgreSQL database
-	for ({ tableName, primaryKey } of arr) {
+	const tables = Object.keys(data);
+	for (tableName of tables) {
+		const { primaryKey } = data[tableName];
 	let resolveStr = `${singular(tableName)}ById: (parent, args) => {
 		try{
 			const query = 'SELECT * FROM ${tableName} WHERE ${primaryKey} = $1';

@@ -7,8 +7,8 @@ router.get(
   pgController.makeQueries,
   pgController.makeMutations,
   pgController.makeTypes,
-  // pgController.returnTypeDefs,
-  // pgController.makeQueryResolvers,
+  pgController.returnTypeDefs,
+  pgController.makeQueryResolvers,
   // pgController.makeMutationResolvers,
   // pgController.returnResolvers,
   (req, res) => {
