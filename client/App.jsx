@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import CodeDisplay from './Components/CodeDisplay.jsx';
+import MainDisplay from './Components/MainDisplay.jsx';
 
 class App extends Component {
   constructor(props) {
@@ -30,7 +30,7 @@ class App extends Component {
   render() {
     return (
       <div className="parent">
-        <CodeDisplay
+        <MainDisplay
           schema={this.state.schema}
           URI={this.state.URI}
           handleInput={this.handleInput}
