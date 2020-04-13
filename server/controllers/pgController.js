@@ -7,7 +7,8 @@ const { generateGetAllQuery, generateGetOneQuery, generateQueryResolvers, genera
 
 // middleware function for recovering info from pg tables
 pgController.getPGTables = (req, res, next) => {
-  const db = new Pool({ connectionString: req.body.DB_URI });
+  console.log(req.query);
+  const db = new Pool({ connectionString: req.query.uri });
   db.query(pgQuery)
     .then((data) => {
       res.locals.tables = data.rows;
@@ -34,7 +35,7 @@ pgController.makeMutations = (req, res, next) => {
   let mutations = createMutation(res.locals.tables);
   res.locals.mutations = mutations;
   return next();
-}
+};
 
 // middleware function for making custom object types in SDL
 pgController.makeTypes = (req, res, next) => {
