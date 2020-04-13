@@ -1,37 +1,74 @@
-const { app, BrowserWindow } = require('electron');
+const electron = require('electron')
+const {app, BrowserWindow, Menu} = electron
 const path = require('path');
+const url = require('url');
 
-const createWindow = () => {
-  // Create browser window
-  const win = new BrowserWindow({
-    width: 800,
-    height: 600,
-    webPreferences: {
-      nodeIntegration: true,
-    },
-  });
+/* Electron logic */
 
-  // load index.html of our app
-  win.loadFile(path.resolve(__dirname, './dist/index.html'));
+let mainWindow
 
-  // open devtools
-  win.webContents.openDevTools();
-};
+// Checks/Listen for the app to be ready to use
+app.on('ready', () => {
+  // Creates a new window
+  mainWindow = new BrowserWindow({})
+
+  // Loads the html into the Electron App
+  mainWindow.loadURL(url.format({
+    pathname: path.join(__dirname, './dist/index.html'),
+    protocol:'file',
+    slashes: true
+  }))
+
+  // Quit App when closed
+  mainWindow.on('closed', () => {
+    app.quit()
+  })
+
+  // Build Menu
+  const mainMenu = Menu.buildFromTemplate(mainMenuTemplate)
+
+  // Insert Menu
+  Menu.setApplicationMenu(mainMenu)
+})
 
 // Once Electron has finished initialization:
-app.whenReady().then(createWindow);
+app.whenReady().then(mainWindow);
 
-// Quit when all windows are closed
-app.on('window-all-closed', () => {
-  // However, Mac programs are usually quit explicitly with Cmd-Q, so don't enable this for Macs
-  if (process.platform !== 'darwin') {
-    app.quit();
-  }
-});
 
-app.on('activate', () => {
-  // Recreate window in app when dock icon is clicked and no windows are open (for Macs)
-  if (BrowserWindow.getAllWindows().length === 0) {
-    createWindow();
+// Create Menu Template
+const mainMenuTemplate = [
+  {
+      label: 'File',
+      submenu:[
+          {
+              label: 'Placeholder'
+          },
+          {
+              label: 'Quit',
+              accelerator: process.platform == 'darwin' ? 'Command+Q' : 'Ctrl+Q',
+              click(){
+                  app.quit() // closes the program/gooey
+              }
+          }
+      ]
   }
-});
+] 
+
+if (process.env.NODE_ENV !== 'production'){
+  mainMenuTemplate.push({
+      label: 'Developer Tools',
+      submenu: [
+          {
+              label: 'Toggle DevTools',
+              accelerator: process.platform == 'darwin' ? 'Command+I' : 'Ctrl+I',
+              click(item, focusedWindow){
+                  focusedWindow.toggleDevTools()
+              }
+          },
+          {
+              role: 'reload'
+          }
+      ]
+  })
+}
+
