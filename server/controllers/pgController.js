@@ -7,11 +7,10 @@ const { generateGetAllQuery, generateGetOneQuery, generateQueryResolvers, genera
 
 // middleware function for recovering info from pg tables
 pgController.getPGTables = (req, res, next) => {
-  console.log(req.query);
   const db = new Pool({ connectionString: req.query.uri });
   db.query(pgQuery)
     .then((data) => {
-      res.locals.tables = data.rows;
+      res.locals.tables = data.rows[0].tables;
       return next();
     })
     .catch((err) =>
