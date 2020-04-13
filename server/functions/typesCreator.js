@@ -61,26 +61,32 @@ const createMutation = (data) => {
 }
 
 // returns object types for each table in SDL format as array of strings
-const createTypes = (arr) => {
+const createTypes = (data) => {
 	const allTypes = [];
+  const tables = Object.keys(data);
 	// iterates through each data object corresponding to single table in PostgreSQL database
-  for({ tableName, primaryKey, foreignKeys, columns } of arr) {
-	// stores foreign keys and associated properties as an object
+  for(let i = 0; i < tables.length; i++) {
+    const tableName = tables[i];
+    const { primaryKey, foreignKeys, columns } = data[tableName];
+  	// stores foreign keys and associated properties as an object
     const fkCache = {};
-    for (let key of foreignKeys) fkCache[key.name] = key;
+    const fKeys = (foreignKeys === null) ? [] : Object.keys(foreignKeys);
+    for (let key of fKeys) fkCache[key] = foreignKeys[key];
     let typeStr = `\ntype ${capitalize(singular(tableName))} {\n  ${primaryKey}:ID!`;
     // adds all columns with types to string
-    for (column of columns) {
-    // adds foreign keys with object type to string
-      if (fkCache[column.columnName]) {
-        const { name, referenceTable, referenceKey } = fkCache[column.columnName];
+    const columnNames = Object.keys(columns);
+    for (columnName of columnNames) {
+      const { dataType, isNullable } = columns[columnName];
+      // adds foreign keys with object type to string
+      if (fkCache[columnName]) {
+        const { name, referenceTable, referenceKey } = fkCache[columnName];
         // supposed to check here for one-to-many relationship before displaying type as an array
-        // if (refsMany(fkCache[column.columnName])) typeStr += `\n  ${name}:[${capitalize(referenceTable)}]`;
+        // if (refsMany(fkCache[columnName])) typeStr += `\n  ${name}:[${capitalize(referenceTable)}]`;
         typeStr += `\n  ${name}:${capitalize(singular(referenceTable))}`;
       // adds remaining columns with types to string
-      } else if (column.columnName !== primaryKey) {
-        typeStr += `\n  ${column.columnName}:${typeSet(column.dataType)}`;
-        if (column.isNullable === 'YES') typeStr += '!';
+      } else if (columnName !== primaryKey) {
+        typeStr += `\n  ${columnName}:${typeSet(dataType)}`;
+        if (isNullable === 'YES') typeStr += '!';
       }
     }
 		typeStr += '\n}';
