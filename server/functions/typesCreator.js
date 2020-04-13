@@ -36,8 +36,7 @@ const createMutation = (arr) => {
 		};
 		// adds update mutation types to array of string
 		typeStr += `): ${capitalize(tableNameSingular)}!` +
-			`\n    update${capitalize(tableNameSingular)}(` +
-			`${primaryKey}: ID!`;
+			`\n    update${capitalize(tableNameSingular)}(${primaryKey}: ID!`;
 		for (column of columns) {
 			if (!fkCache[column.columnName] && column.columnName !== primaryKey) {
 				typeStr += ', ' + `${column.columnName}: ${typeSet(column.dataType)}`;
@@ -46,9 +45,7 @@ const createMutation = (arr) => {
 		};
 		// adds delete mutation types to array of string
 		typeStr += `): ${capitalize(tableNameSingular)}!` +
-			`\n    delete${capitalize(tableNameSingular)}(` +
-			`${primaryKey}: ID!` +
-			`): ${capitalize(tableNameSingular)}!`;
+			`\n    delete${capitalize(tableNameSingular)}(${primaryKey}: ID!): ${capitalize(tableNameSingular)}!`;
 		allMutations.push(typeStr);
 	};
 	return allMutations;
