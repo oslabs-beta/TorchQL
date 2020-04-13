@@ -4,10 +4,12 @@
   "description": "A tool to help developers migrate to GraphQL APIs",
   "main": "electron.js",
   "dependencies": {
+    "codemirror": "^5.52.2",
     "express": "^4.17.1",
     "pg": "^8.0.2",
     "pluralize": "^8.0.0",
     "react": "^16.13.1",
+    "react-codemirror2": "^7.1.0",
     "react-dom": "^16.13.1"
   },
   "devDependencies": {
