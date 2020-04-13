@@ -1,30 +1,40 @@
 import React, { Component } from 'react';
 import MainDisplay from './Components/MainDisplay.jsx';
 
+import './styles.scss';
+
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       URI: '',
       schema: [],
+      displayCode: false,
     };
     this.handleInput = this.handleInput.bind(this);
     this.handleURI = this.handleURI.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   handleInput(event) {
     event.preventDefault();
     const query = { DB_URI: this.state.URI };
-    fetch(`http://localhost:3000/db/pg?uri=${this.state.URI}`)
+    fetch(`/db/pg?uri=${this.state.URI}`)
       .then((data) => data.json())
       .then((data) => {
-        this.setState({ schema: data });
+        this.setState({ schema: data, displayCode: true });
       });
     // .catch error??
   }
   handleURI(input) {
     console.log(input);
     this.setState({ URI: input });
+  }
+  // for CodeDisplay.jsx/Back button
+  handleClick(event) {
+    event.preventDefault();
+    console.log('handleclick working');
+    this.setState({ displayCode: false });
   }
 
   render() {
@@ -35,6 +45,8 @@ class App extends Component {
           URI={this.state.URI}
           handleInput={this.handleInput}
           handleURI={this.handleURI}
+          displayCode={this.state.displayCode}
+          handleClick={this.handleClick}
         />
       </div>
     );
