@@ -2,46 +2,54 @@ const { singular } = require("pluralize");
 const { capitalize, typeSet } = require('./helperFunctions');
 
 // returns query root types for each table in SDL format as array of strings
-const createQuery = (arr) => {
+const createQuery = (data) => {
 	const allQueries = [];
+  const tables = Object.keys(data);
 	// iterates through each data object corresponding to single table in PostgreSQL database
-	for ({ tableName } of arr) {
+	for (tableName of tables) {
     const nameSingular = singular(tableName);
     let typeStr = `${tableName}:[${capitalize(nameSingular)}!]!`
-			+ `\n    ${nameSingular}ByID(${nameSingular}id:ID):${capitalize(nameSingular)}!`;
+			+ `\n  ${nameSingular}ByID(${nameSingular}id:ID):${capitalize(nameSingular)}!`;
 		allQueries.push(typeStr);
 	};
   return allQueries;
 }
 
 // returns create, update, and deletion mutation root types for each table in SDL format as array of strings
-const createMutation = (arr) => {
+const createMutation = (data) => {
 	const allMutations = [];
+  const tables = Object.keys(data);
 	// iterates through each data object corresponding to single table in PostgreSQL database
-	for ({ tableName, primaryKey, foreignKeys, columns } of arr) {
+	for (let i = 0; i < tables.length; i++) {
+    const table = tables[i];
+    const { primaryKey, foreignKeys, columns } = data[table];
 		// stores foreign keys and associated properties as an object
-		const fkCache = {};
-		for (key of foreignKeys){
-			fkCache[key.name] = key;
-		}
-		const tableNameSingular = singular(tableName);
-		// adds create mutation types to string
-		let typeStr = `create${capitalize(tableNameSingular)}(`;
-		for (column of columns) {
-			if (!fkCache[column.columnName] && column.columnName !== primaryKey) {
-				if (typeStr[typeStr.length -1] !== '(') typeStr += ', ';
-				typeStr += `${column.columnName}: ${typeSet(column.dataType)}`;
-				if (column.isNullable !== "YES") typeStr += '!';
-			}
-		};
+    if (foreignKeys !== null) {
+  		const fkCache = {};
+      const fKeys = Object.keys(foreignKeys);
+  		for (key of fKeys) fkCache[key] = foreignKeys[key];
+  		const tableNameSingular = singular(table);
+  		// adds create mutation types to string
+  		let typeStr = `create${capitalize(tableNameSingular)}(`;
+      const columnNames = Object.keys(columns);
+  		for (let j = 0; j < columnNames.length; j++) {
+        const { dataType, isNullable } = columns[columnNames[j]];
+  			if (!fkCache[columnNames[j]] && columnNames[j] !== primaryKey) {
+  				if (typeStr[typeStr.length -1] !== '(') typeStr += ', ';
+  				typeStr += `${columnNames[j]}: ${typeSet(dataType)}`;
+  				if (isNullable !== "YES") typeStr += '!';
+  			}
+  		}
+    }
 		// adds update mutation types to array of string
 		typeStr += `): ${capitalize(tableNameSingular)}!` +
 			`\n    update${capitalize(tableNameSingular)}(` +
 			`${primaryKey}: ID!`;
-		for (column of columns) {
-			if (!fkCache[column.columnName] && column.columnName !== primaryKey) {
-				typeStr += ', ' + `${column.columnName}: ${typeSet(column.dataType)}`;
-				if (column.isNullable !== "YES") typeStr += '!';
+		for (let j = 0; j < columnNames.length; j++) {
+      const { dataType, isNullable } = columns[columnNames[j]];
+			if (!fkCache[columnNames[j]] && columnNames[j] !== primaryKey) {
+				typeStr += ', ' + `${columnNames[j]}: ${typeSet(dataType)}`;
+				if (isNullable !== 'YES') typeStr += '!';
 			}
 		};
 		// adds delete mutation types to array of string
