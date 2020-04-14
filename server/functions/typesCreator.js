@@ -9,7 +9,7 @@ const createQuery = (data) => {
 	for (tableName of tables) {
     const nameSingular = singular(tableName);
     let typeStr = `${tableName}:[${capitalize(nameSingular)}!]!`
-			+ `\n  ${nameSingular}ByID(${nameSingular}id:ID):${capitalize(nameSingular)}!`;
+			+ `\n    ${nameSingular}ByID(${nameSingular}id:ID):${capitalize(nameSingular)}!`;
 		allQueries.push(typeStr);
 	};
   return allQueries;
@@ -97,8 +97,7 @@ const formatTypeDefs = (arr1, arr2, arr3) => {
 	return `const typeDefs = \`\n  type Query {\n    ${arr1.join('\n    ')}}\n
   type Mutation {\n    ${arr2.join('\n    ')}\n  }
 
-		${arr3.join('\n')} \n\n\`;\n\nmodule.exports = typeDefs;
-  `;
+		${arr3.join('\n')} \n\n\`;\n\n`;
 }
 
 module.exports = {

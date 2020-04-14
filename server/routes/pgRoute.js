@@ -11,9 +11,9 @@ router.get(
   pgController.makeQueryResolvers,
   pgController.makeMutationResolvers,
   pgController.returnResolvers,
+  pgController.assembleSchema,
   (req, res) => {
-    console.log('typedefs: \n', res.locals.allTypeDefs);
-    console.log('resolvers: \n', res.locals.resolvers);
+    console.log(res.locals.schema);
     res.status(200).json(res.locals.tables);
   }
 );
