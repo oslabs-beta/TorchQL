@@ -75,10 +75,10 @@ const createTypes = (data) => {
       const { dataType, isNullable } = columns[columnName];
       // adds foreign keys with object type to string
       if (fkCache[columnName]) {
-        const { name, referenceTable, referenceKey } = fkCache[columnName];
+        const { referenceTable } = fkCache[columnName];
         // supposed to check here for one-to-many relationship before displaying type as an array
         // if (refsMany(fkCache[columnName])) typeStr += `\n  ${name}:[${capitalize(referenceTable)}]`;
-        typeStr += `\n  ${name}:${capitalize(singular(referenceTable))}`;
+        typeStr += `\n  ${columnName}:${capitalize(singular(referenceTable))}`;
       // adds remaining columns with types to string
       } else if (columnName !== primaryKey) {
         typeStr += `\n  ${columnName}:${typeSet(dataType)}`;
