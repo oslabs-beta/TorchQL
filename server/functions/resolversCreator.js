@@ -57,7 +57,7 @@ const generateMutationResolvers = (data) => {
 		}
 		// skip tables with all columns with only primary and foreign keys
 		if (valueIndex === 1) continue;
-		allMutResolvers.push(createMutResolvers(tableName, data[tableName], valueObj));
+		allMutResolvers.push(createMutResolvers(tableName, valueObj));
 		allMutResolvers.push(updateMutResolvers(tableName, data[tableName], valueObj, valueIndex));
 		allMutResolvers.push(deleteMutResolvers(tableName, data[tableName]));
 	}
@@ -65,7 +65,7 @@ const generateMutationResolvers = (data) => {
 };
 
 // returns create mutation resolvers for each table as array
-const createMutResolvers = (tableName, obj, valueObj) => {
+const createMutResolvers = (tableName, valueObj) => {
 	const mutResolvers = [];
 	// stores foreign keys and associated properties as an object
 	let resolveStr = `create${capitalize(singular(tableName))}: () => {\n    const query = 'INSERT INTO ${tableName}(`;
