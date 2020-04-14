@@ -84,9 +84,9 @@ const createTypes = (data) => {
         typeStr += `\n  ${columnName}:${typeSet(dataType)}`;
         if (isNullable === 'YES') typeStr += '!';
       }
-    }
-		typeStr += '\n}';
-		allTypes.push(typeStr);
+	}
+	typeStr += '\n}';
+	allTypes.push(typeStr);
   }
   return allTypes;
 }
