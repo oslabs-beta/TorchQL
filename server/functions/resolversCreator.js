@@ -1,5 +1,6 @@
 const { singular } = require("pluralize");
-const { capitalize, createValuesArray } = require('./helperFunctions');
+const { capitalize } = require('./helperFunctions');
+const { storeForeignKeys } = require('./helperFunctions');
 
 // returns get all query resolvers for each table in SDL format as array of strings
 const generateGetAllQuery = (data) => {
@@ -44,9 +45,8 @@ const generateMutationResolvers = (data) => {
 	for (let i = 0; i < tables.length; i++) {
 		const tableName = tables[i]
 		const { primaryKey, foreignKeys, columns } = data[tableName];
-		let fkCache = {};
-		const fKeys = (foreignKeys === null) ? [] : Object.keys(foreignKeys);
-		for (key of fKeys) fkCache[key] = foreignKeys[key];
+		// stores foreign keys and associated properties as an object
+		const fkCache = storeForeignKeys(foreignKeys);
 		let valueObj = {};
 		let valueIndex = 1;
 		const columnNames = Object.keys(columns);
@@ -67,7 +67,6 @@ const generateMutationResolvers = (data) => {
 // returns create mutation resolvers for each table as array
 const createMutResolvers = (tableName, valueObj) => {
 	const mutResolvers = [];
-	// stores foreign keys and associated properties as an object
 	let resolveStr = `create${capitalize(singular(tableName))}: () => {\n    const query = 'INSERT INTO ${tableName}(`;
   resolveStr += `${Object.values(valueObj)}`;
 	resolveStr += `) VALUES(${Object.keys(valueObj).map(x => `$${x}`)})';\n    const values = [${Object.values(valueObj).map(x => `args.${x}`)}]\n    try {\n      return db.query(query, values);\n    } catch (err) {\n      throw new Error(err);\n    }\n  }`;
@@ -79,8 +78,6 @@ const createMutResolvers = (tableName, valueObj) => {
 const updateMutResolvers = (tableName, obj, valueObj, valueIndex) => {
 	const mutResolvers = [];
 	const { primaryKey } = obj;
-		// stores foreign keys and associated properties as an object
-		// if (valueIndex === 1) continue;
 	let displaySet = '';
 	for (let key in valueObj) {
 		displaySet += `${valueObj[key]}=$${key} `;

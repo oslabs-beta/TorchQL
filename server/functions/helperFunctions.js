@@ -29,6 +29,13 @@ const typeSet = (str) => {
 	}
 }
 
+const storeForeignKeys = (obj) => {
+  const cache = {};
+  const fKeys = (obj === null) ? [] : Object.keys(obj);
+	for (key of fKeys) cache[key] = obj[key];
+	return cache;
+}
+
 const createValuesArray = (array) => {
 	let output = [];
 	for (i = 1; i <= array.length; i++) {
@@ -59,5 +66,5 @@ const refsMany = ({ table, tableKey, ref, refKey }) => {
 module.exports = {
 	capitalize,
 	typeSet,
-	createValuesArray
+	storeForeignKeys,
 };
