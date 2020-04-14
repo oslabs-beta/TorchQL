@@ -18,14 +18,17 @@ class App extends Component {
 
   handleInput(event) {
     event.preventDefault();
-    const query = { DB_URI: this.state.URI };
-    fetch(`/db/pg?uri=${this.state.URI}`)
-      .then((data) => data.json())
-      .then((data) => {
-        this.setState({ schema: data, displayCode: true });
-        console.log('this.state.schema: ', this.state.schema)
-      });
-    // .catch error??
+    if (this.state.URI !== '') {
+      fetch(`/db/pg?uri=${this.state.URI}`)
+        .then((data) => data.json())
+        .then((data) => {
+          this.setState({ schema: data, displayCode: true });
+          console.log('this.state.schema: ', this.state.schema);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
   }
   handleURI(input) {
     console.log(input);
