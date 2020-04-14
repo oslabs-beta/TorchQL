@@ -23,6 +23,7 @@ class App extends Component {
       .then((data) => data.json())
       .then((data) => {
         this.setState({ schema: data, displayCode: true });
+        console.log('this.state.schema: ', this.state.schema)
       });
     // .catch error??
   }

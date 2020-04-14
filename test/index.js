@@ -13,12 +13,6 @@ const electronBinary = path.resolve(
   'electron'
 );
 
-// TEST OUTLINE FOR MVP (FRONT END ):
-// make sure window is displayed on launch
-// no data should be sent when input field is empty
-// request should be made when input field contains uri
-// should receive text data when valid uri is inputted
-
 describe('Application launch', function () {
   // Give the app a few seconds to launch
   this.timeout(10000);
@@ -48,6 +42,19 @@ describe('Application launch', function () {
     const title = await app.client.getTitle();
     assert.equal(title, 'Plush');
   });
+});
+
+describe('Basic functionality', function () {
+  // Give the app a few seconds to launch
+  this.timeout(10000);
+
+  const app = new Application({
+    path: electronBinary,
+    args: [baseDirectory],
+  });
+
+  before(() => app.start());
+  after(() => app.stop());
 
   it('Displays codemirror component when URI is submitted', async () => {
     await app.client.click('#submit-uri');
