@@ -6,26 +6,26 @@ function capitalize(str) {
   
 function typeSet(str) {
 	switch (str) {
-		case "character varying":
-			return "String";
+		case 'character varying':
+			return 'String';
 			break;
-		case "character":
-			return "String";
+		case 'character':
+			return 'String';
 			break;
-		case "integer":
-			return "Int";
+		case 'integer':
+			return 'Int';
 			break;
-		case "text":
-			return "String";
+		case 'text':
+			return 'String';
 			break;
-		case "date":
-			return "String";
+		case 'date':
+			return 'String';
 			break;
-		case "boolean":
-			return "Boolean";
+		case 'boolean':
+			return 'Boolean';
 			break;
 		default: 
-			return "Int";
+			return 'Int';
 	}
 }
 
