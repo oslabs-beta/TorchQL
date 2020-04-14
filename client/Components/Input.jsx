@@ -4,10 +4,10 @@ import React, { Component } from 'react';
 class Input extends Component {
   render() {
     return (
-      <div className="Form">
+      <div className="form">
         <h1 className="piQL">PiQL 🥒</h1>
         <input
-          className="Input"
+          className="input"
           value={this.props.URI}
           onChange={(e) => this.props.handleURI(e.target.value)}
         />

@@ -82,11 +82,11 @@ button {
   }
 }
 
-.Input {
+.input {
     display: flex;
     box-sizing: border-box;
     // align-self: flex-end;
-    align-items: flex-end;
+    align-items: center;
     justify-content: center;
     box-shadow: 0 0 0 2px $pink-border, 0 0.625em 0 0 $pink-shadow;
     font-family: 'Rubik', sans-serif;
@@ -104,7 +104,7 @@ button {
     display: inline-block;
 }
 
-.Form {
+.form {
     // display: flex;
     // box-sizing: border-box;
     // // align-self: flex-end;
@@ -124,7 +124,7 @@ button {
     border: 2px solid $pink-border;
     border-width: 1px;
     border-radius: 0.75em;
-    display: inline-block;
+    // display: inline-block;
 }
 
 .piQL {
