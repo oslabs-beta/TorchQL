@@ -1,5 +1,6 @@
 const { singular } = require("pluralize");
 const { capitalize, typeSet } = require('./helperFunctions');
+const { storeForeignKeys } = require('./helperFunctions');
 
 // returns query root types for each table in SDL format as array of strings
 const createQuery = (data) => {
@@ -24,9 +25,7 @@ const createMutation = (data) => {
     const table = tables[i];
     const { primaryKey, foreignKeys, columns } = data[table];
 		// stores foreign keys and associated properties as an object
-		const fkCache = {};
-    const fKeys = (foreignKeys === null) ? [] : Object.keys(foreignKeys);
-		for (key of fKeys) fkCache[key] = foreignKeys[key];
+		const fkCache = storeForeignKeys(foreignKeys);
 		const tableNameSingular = singular(table);
 		// adds create mutation types to string
 		let typeStr = `create${capitalize(tableNameSingular)}(`;
@@ -34,7 +33,7 @@ const createMutation = (data) => {
 		for (let j = 0; j < columnNames.length; j++) {
       const { dataType, isNullable } = columns[columnNames[j]];
 			if (!fkCache[columnNames[j]] && columnNames[j] !== primaryKey) {
-				if (typeStr[typeStr.length -1] !== '(') typeStr += ', ';
+				if (typeStr[typeStr.length - 1] !== '(') typeStr += ', ';
 				typeStr += `${columnNames[j]}: ${typeSet(dataType)}`;
 				if (isNullable !== 'YES') typeStr += '!';
 			}
