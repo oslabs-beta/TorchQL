@@ -49,6 +49,15 @@ app.on('activate', () => {
   }
 });
 
+// Create a new window
+const addNewWindow = () => {
+  aboutWindow = new BrowserWindow({
+    width: 300,
+    height: 300,
+    title: 'About'
+  });
+};
+
 // Create Menu Template
 const mainMenuTemplate = [
   {
