@@ -1,6 +1,7 @@
 const { singular } = require("pluralize");
 const { capitalize } = require('./helperFunctions');
 const { storeForeignKeys } = require('./helperFunctions');
+const { storeIndexedColumns } = require('./helperFunctions');
 
 // returns get all query resolvers for each table in SDL format as array of strings
 const generateGetAllQuery = (data) => {
@@ -48,18 +49,19 @@ const generateMutationResolvers = (data) => {
 		// stores foreign keys and associated properties as an object
 		const fkCache = storeForeignKeys(foreignKeys);
 		// stores columns that are not primary or foreign keys as values in indexed object 
-		let valueObj = {};
-		let valueIndex = 1;
-		const columnNames = Object.keys(columns);
-		for (columnName of columnNames) {
-			if (!fkCache[columnName] && columnName !== primaryKey) {
-				valueObj[valueIndex++] = columnName;
-			}
-		}
+		const valueObj = storeIndexedColumns(columns, primaryKey, fkCache);
+		// let valueObj = {};
+		// let valueIndex = 1;
+		// const columnNames = Object.keys(columns);
+		// for (columnName of columnNames) {
+		// 	if (!fkCache[columnName] && columnName !== primaryKey) {
+		// 		valueObj[valueIndex++] = columnName;
+		// 	}
+		// }
 		// skip tables with columns with only primary and foreign keys
 		if (Object.entries(valueObj).length === 0) continue;
 		allMutResolvers.push(createMutResolvers(tableName, valueObj));
-		allMutResolvers.push(updateMutResolvers(tableName, data[tableName], valueObj, valueIndex));
+		allMutResolvers.push(updateMutResolvers(tableName, data[tableName], valueObj));
 		allMutResolvers.push(deleteMutResolvers(tableName, data[tableName]));
 	}
 	return assembleMutResolvers(allMutResolvers);

@@ -36,13 +36,16 @@ const storeForeignKeys = (obj) => {
 	return cache;
 }
 
-const createValuesArray = (array) => {
-	let output = [];
-	for (i = 1; i <= array.length; i++) {
-		if (i < array.length) output.push(`$${i}, `);
-		else output.push(`$${i}`);
+const storeIndexedColumns = (obj, key, cache) => {
+	let newObj = {};
+	let index = 1;
+	const columnNames = Object.keys(obj);
+	for (columnName of columnNames) {
+		if (!cache[columnName] && columnName !== key) {
+			newObj[index++] = columnName;
+		}
 	}
-	return output.join(' ');
+	return newObj;
 };
   
 // supposed to check for one-to-many relationship between foreign key and primary key on two tables, doesn't work yet
@@ -67,4 +70,5 @@ module.exports = {
 	capitalize,
 	typeSet,
 	storeForeignKeys,
+	storeIndexedColumns,
 };
