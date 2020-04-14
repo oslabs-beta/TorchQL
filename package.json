@@ -20,7 +20,6 @@
     "@types/mocha": "^7.0.2",
     "babel-loader": "^8.1.0",
     "chai": "^4.2.0",
-    "chai-as-promised": "^7.1.1",
     "css-loader": "^3.5.1",
     "electron": "^8.2.1",
     "electron-chromedriver": "^8.0.0",
@@ -42,7 +41,7 @@
     "build": "NODE_ENV=production webpack",
     "start:dev": "NODE_ENV=development webpack-dev-server --open & nodemon server/server.js ",
     "electron": "npm run build && electron electron.js",
-    "test": "mocha"
+    "test": "NODE_ENV=test mocha"
   },
   "repository": {
     "type": "git",
