@@ -5,9 +5,10 @@ const url = require('url');
 
 /* Electron logic */
 
-const createWindow = () => {
-  // Checks/Listen for the app to be ready to use
+//Checks if it is a mac user or not
+const isMac = process.platform === 'darwin';
 
+const createWindow = () => {
   // Creates a new window
   const mainWindow = new BrowserWindow({
     width: 800,
@@ -37,7 +38,7 @@ app.whenReady().then(createWindow);
 // Quit when all windows are closed
 app.on('window-all-closed', () => {
   // don't apply this to Macs
-  if (process.platform !== 'darwin') {
+  if (!isMac) {
     app.quit();
   }
 });
@@ -48,23 +49,61 @@ app.on('activate', () => {
   }
 });
 
+// Create a new window
+const aboutNewWindow = () => {
+  aboutWindow = new BrowserWindow({
+    width: 300,
+    height: 300,
+    title: 'About'
+  });
+
+  aboutWindow.loadURL(url.format({
+    pathname: path.join(__dirname, './client/Components/About.html'),
+    protocol: 'file',
+    slashes: true
+  }));
+
+  // Garbage Collection Handler
+  aboutWindow.on('close', () => {
+    aboutWindow = null;
+  });
+  
+};
+
 // Create Menu Template
 const mainMenuTemplate = [
   {
-    label: 'File',
-    submenu: [
+    label: '',
+    submenu:[
       {
-        label: 'Placeholder',
+        label: 'About',
+        click(){
+          aboutNewWindow()
+        }
       },
       {
         label: 'Quit',
-        accelerator: process.platform == 'darwin' ? 'Command+Q' : 'Ctrl+Q',
-        click() {
-          app.quit(); // closes the program/gui
-        },
-      },
-    ],
+        accelerator: isMac ? 'Command+Q' : 'Ctrl+Q',
+        click(){
+          app.quit(); // Closes the program/gooey
+        }
+      }
+    ]
   },
+  {
+      label: 'File',
+      submenu:[
+          {
+            label: 'Placeholder'
+          },
+          {
+            label: 'Placeholder'
+          },
+          {
+            label: 'Placeholder'
+          },
+      ]
+  }
 ];
 
 if (process.env.NODE_ENV !== 'production' && process.NODE_ENV !== 'test') {
@@ -73,7 +112,7 @@ if (process.env.NODE_ENV !== 'production' && process.NODE_ENV !== 'test') {
     submenu: [
       {
         label: 'Toggle DevTools',
-        accelerator: process.platform == 'darwin' ? 'Command+I' : 'Ctrl+I',
+        accelerator: isMac ? 'Command+I' : 'Ctrl+I',
         click(item, focusedWindow) {
           focusedWindow.toggleDevTools();
         },
@@ -83,4 +122,4 @@ if (process.env.NODE_ENV !== 'production' && process.NODE_ENV !== 'test') {
       },
     ],
   });
-}
+};
