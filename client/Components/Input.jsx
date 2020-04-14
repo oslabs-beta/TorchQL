@@ -11,7 +11,11 @@ class Input extends Component {
           value={this.props.URI}
           onChange={(e) => this.props.handleURI(e.target.value)}
         />
-        <button className="MainBtn" onClick={(e) => this.props.handleInput(e)}>
+        <button
+          id="submit-uri"
+          className="MainBtn"
+          onClick={(e) => this.props.handleInput(e)}
+        >
           Submit
         </button>
       </div>
