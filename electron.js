@@ -62,6 +62,12 @@ const aboutNewWindow = () => {
     protocol: 'file',
     slashes: true
   }));
+
+  // Garbage Collection Handler
+  aboutWindow.on('close', () => {
+    aboutWindow = null;
+  });
+  
 };
 
 // Create Menu Template
