@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import MainDisplay from './Components/MainDisplay.jsx';
 
+import './styles.scss';
+
 class App extends Component {
   constructor(props) {
     super(props);
