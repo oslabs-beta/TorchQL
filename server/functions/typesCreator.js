@@ -33,7 +33,7 @@ const createMutation = (data) => {
 		for (let j = 0; j < columnNames.length; j++) {
       const { dataType, isNullable } = columns[columnNames[j]];
 			if (!fkCache[columnNames[j]] && columnNames[j] !== primaryKey) {
-				if (typeStr[typeStr.length -1] !== '(') typeStr += ', ';
+				if (typeStr[typeStr.length - 1] !== '(') typeStr += ', ';
 				typeStr += `${columnNames[j]}: ${typeSet(dataType)}`;
 				if (isNullable !== 'YES') typeStr += '!';
 			}
