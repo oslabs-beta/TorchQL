@@ -19,7 +19,7 @@ class CodeDisplay extends Component {
           }}
           onChange={(editor, data, value) => {}}
         />
-        <button className="MainBtn" onClick={(e) => this.props.handleClick(e)}>
+        <button className="main-btn" onClick={(e) => this.props.handleClick(e)}>
           Back
         </button>
       </div>
