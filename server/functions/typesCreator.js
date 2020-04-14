@@ -3,7 +3,7 @@ const { capitalize, typeSet } = require('./helperFunctions');
 const { storeForeignKeys } = require('./helperFunctions');
 
 // returns query root types for each table in SDL format as array of strings
-const createQuery = (data) => {
+function createQuery(data) {
 	const allQueries = [];
   const tables = Object.keys(data);
 	// iterates through each data object corresponding to single table in PostgreSQL database
@@ -17,7 +17,7 @@ const createQuery = (data) => {
 }
 
 // returns create, update, and deletion mutation root types for each table in SDL format as array of strings
-const createMutation = (data) => {
+function createMutation(data) {
 	const allMutations = [];
   const tables = Object.keys(data);
 	// iterates through each data object corresponding to single table in PostgreSQL database
@@ -57,7 +57,7 @@ const createMutation = (data) => {
 }
 
 // returns object types for each table in SDL format as array of strings
-const createTypes = (data) => {
+function createTypes(data) {
 	const allTypes = [];
   const tables = Object.keys(data);
 	// iterates through each data object corresponding to single table in PostgreSQL database
@@ -92,7 +92,7 @@ const createTypes = (data) => {
 }
 
 // formats and returns queries, mutations, and object types in SDL as single string for rendering on front-end
-const formatTypeDefs = (arr1, arr2, arr3) => {
+function formatTypeDefs(arr1, arr2, arr3) {
 	return `const typeDefs = \`\n  type Query {\n    ${arr1.join('\n    ')}}\n
   type Mutation {\n    ${arr2.join('\n    ')}\n  }
 

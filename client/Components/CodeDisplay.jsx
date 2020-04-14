@@ -9,11 +9,13 @@ class CodeDisplay extends Component {
     return (
       <div id="codemirror-div">
         <CodeMirror
-          value="<h1> codemirror test</h1>"
+          className="codemirror"
+          value={this.props.schema}
           options={{
             mode: 'javascript',
             theme: 'dracula',
             lineNumbers: true,
+            lineWrapping: true,
           }}
           onChange={(editor, data, value) => {}}
         />
