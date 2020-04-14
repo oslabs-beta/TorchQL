@@ -7,7 +7,7 @@ import '../../node_modules/codemirror/theme/dracula.css';
 class CodeDisplay extends Component {
   render() {
     return (
-      <div>
+      <div id="codemirror-div">
         <CodeMirror
           value="<h1> codemirror test</h1>"
           options={{
@@ -17,7 +17,9 @@ class CodeDisplay extends Component {
           }}
           onChange={(editor, data, value) => {}}
         />
-        <button className='MainBtn' onClick={(e) => this.props.handleClick(e)}>Back</button>
+        <button className="MainBtn" onClick={(e) => this.props.handleClick(e)}>
+          Back
+        </button>
       </div>
     );
   }
