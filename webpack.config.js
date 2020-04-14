@@ -38,7 +38,7 @@ module.exports = {
         ],
       },
       {
-        test: /\.css$/,
+        test: /css$/,
         use: ['style-loader', 'css-loader', 'sass-loader'],
       },
       {
@@ -53,7 +53,7 @@ module.exports = {
       },
     ],
   },
-  // Not using this now, since we need to require the 'renderer' file from dist/index.html when running the electron app
+  // Comment out when running build or electron, since we need to require the 'renderer' file from dist/index.html when running the electron app
   // (The renderer file isn't needed in the client index.html file when running webpack-dev-server!)
   plugins: [
     new HtmlWebPackPlugin({
