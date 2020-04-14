@@ -7,7 +7,7 @@ class MainDisplay extends Component {
     return (
       <div>
         {this.props.displayCode ? (
-          <div>
+          <div className="container">
             <CodeDisplay
               schema={this.props.schema}
               handleClick={this.props.handleClick}
@@ -20,7 +20,7 @@ class MainDisplay extends Component {
             />
           </div>
         ) : (
-          <div>
+          <div className="container">
             <Input
               URI={this.props.URI}
               handleInput={this.props.handleInput}
