@@ -100,8 +100,8 @@ function formatTypeDefs(arr1, arr2, arr3) {
 }
 
 module.exports = {
-		createQuery,
-		createMutation,
-		createTypes,
-		formatTypeDefs
+	createQuery,
+	createMutation,
+	createTypes,
+	formatTypeDefs
 };

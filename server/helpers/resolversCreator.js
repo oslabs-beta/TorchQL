@@ -30,10 +30,7 @@ function generateGetOneQuery(data) {
 // formats and returns query resolvers arranged by table in SDL as single string 
 function generateQueryResolvers(arr1, arr2) {
 	let resolveStr = '';
-	for (i = 0; i < arr1.length; i++) {
-		resolveStr += `\n    ${arr1[i]}\n    ${arr2[i]}`;
-	}
-	resolveStr += '}';
+	for (i = 0; i < arr1.length; i++) resolveStr += `\n${arr1[i]}\n${arr2[i]}`;
 	return resolveStr;
 }
 
@@ -86,22 +83,22 @@ function deleteMutResolvers(tableName, data) {
 }
 
 // formats and returns mutation resolvers in SDL as single string
-function assembleMutResolvers(arr) {
+function assembleMutResolvers(mutations) {
 	let resolveStr = '';
-	for (i = 0; i < arr.length; i++) {
-		resolveStr += `  ${arr[i]}\n`;
-	}
-	resolveStr += '}';
+	for (i = 0; i < mutations.length; i++) resolveStr += `${mutations[i]}\n`;
 	return resolveStr;
 }
 
 // formats and returns all resolvers in SDL as single string for rendering on front-end
 function formatResolvers(queryResolvers, mutationResolvers) {
-	let resolveStr = `const resolvers = {\n  Query: {`;
-	resolveStr += str1;
-	resolveStr += `\n\nMutation: {\n`;
-	resolveStr += str2;
-	return resolveStr;
+	return 'const resolvers = {\n'
+		+ '  Query: {'
+		+ `    ${queryResolvers}\n`
+		+ '  }\n\n'
+		+ '  Mutation: {\n'
+		+ `    ${mutationResolvers}`
+		+ '  }\n'
+		+ '}\n'
 }
 
 module.exports = {
