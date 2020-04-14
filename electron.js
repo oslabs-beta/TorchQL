@@ -38,6 +38,9 @@ app.whenReady().then(mainWindow);
 // Create Menu Template
 const mainMenuTemplate = [
   {
+    label: ''
+  },
+  {
       label: 'File',
       submenu:[
           {
