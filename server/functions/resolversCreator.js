@@ -62,7 +62,7 @@ const generateMutationResolvers = (data) => {
 // returns create mutation resolvers for each table as array
 const createMutResolvers = (tableName, data) => {
 	const mutResolvers = [];
-	let resolveStr = `create${capitalize(singular(tableName))}: () => {\n    const query = 'INSERT INTO ${tableName}(`;
+	let resolveStr = `create${capitalize(singular(tableName))}: (parent, args) => {\n    const query = 'INSERT INTO ${tableName}(`;
   resolveStr += `${Object.values(data).join(', ')}`;
 	resolveStr += `) VALUES(${Object.keys(data).map(x => `$${x}`).join(', ')})';\n    const values = [${Object.values(data).map(x => `args.${x}`).join(', ')}]\n    try {\n      return db.query(query, values);\n    } catch (err) {\n      throw new Error(err);\n    }\n  }`;
 		mutResolvers.push(resolveStr);
@@ -77,7 +77,7 @@ const updateMutResolvers = (tableName, data, obj) => {
 	for (let key in obj) {
 		displaySet += `${obj[key]}=$${key} `;
 	}
-	let resolveStr = `update${capitalize(singular(tableName))}: (parent, args => {\n    try {\n      const query = 'UPDATE ${tableName} SET ${displaySet}WHERE ${primaryKey} = $${Object.entries(obj).length + 1}';\n      const values = [${Object.values(obj).map(x => `args.${x}`).join(', ')}, args.${primaryKey}]\n      return db.query(query).then((res) => res.rows)\n    } catch (err) {\n      throw new Error(err);\n    }\n  }`;
+	let resolveStr = `update${capitalize(singular(tableName))}: (parent, args) => {\n    try {\n      const query = 'UPDATE ${tableName} SET ${displaySet}WHERE ${primaryKey} = $${Object.entries(obj).length + 1}';\n      const values = [${Object.values(obj).map(x => `args.${x}`).join(', ')}, args.${primaryKey}]\n      return db.query(query).then((res) => res.rows)\n    } catch (err) {\n      throw new Error(err);\n    }\n  }`;
   mutResolvers.push(resolveStr);
 	return mutResolvers;
 }
