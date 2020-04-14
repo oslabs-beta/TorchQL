@@ -47,6 +47,7 @@ const generateMutationResolvers = (data) => {
 		const { primaryKey, foreignKeys, columns } = data[tableName];
 		// stores foreign keys and associated properties as an object
 		const fkCache = storeForeignKeys(foreignKeys);
+		// stores columns that are not primary or foreign keys as values in indexed object 
 		let valueObj = {};
 		let valueIndex = 1;
 		const columnNames = Object.keys(columns);
@@ -55,8 +56,8 @@ const generateMutationResolvers = (data) => {
 				valueObj[valueIndex++] = columnName;
 			}
 		}
-		// skip tables with all columns with only primary and foreign keys
-		if (valueIndex === 1) continue;
+		// skip tables with columns with only primary and foreign keys
+		if (Object.entries(valueObj).length === 0) continue;
 		allMutResolvers.push(createMutResolvers(tableName, valueObj));
 		allMutResolvers.push(updateMutResolvers(tableName, data[tableName], valueObj, valueIndex));
 		allMutResolvers.push(deleteMutResolvers(tableName, data[tableName]));
@@ -75,14 +76,14 @@ const createMutResolvers = (tableName, valueObj) => {
 }
 
 // returns update mutation resolvers for each table as array
-const updateMutResolvers = (tableName, obj, valueObj, valueIndex) => {
+const updateMutResolvers = (tableName, obj, valueObj) => {
 	const mutResolvers = [];
 	const { primaryKey } = obj;
 	let displaySet = '';
 	for (let key in valueObj) {
 		displaySet += `${valueObj[key]}=$${key} `;
 	}
-	let resolveStr = `update${capitalize(singular(tableName))}: (parent, args => {\n    try {\n      const query = 'UPDATE ${tableName} SET ${displaySet} WHERE ${primaryKey} = $${valueIndex}';\n      const values = [${Object.values(valueObj).map(x => `args.${x}`)}, args.${primaryKey}]\n      return db.query(query).then((res) => res.rows)\n    } catch (err) {\n      throw new Error(err);\n    }\n  }`;
+	let resolveStr = `update${capitalize(singular(tableName))}: (parent, args => {\n    try {\n      const query = 'UPDATE ${tableName} SET ${displaySet} WHERE ${primaryKey} = $${Object.entries(valueObj).length + 1}';\n      const values = [${Object.values(valueObj).map(x => `args.${x}`)}, args.${primaryKey}]\n      return db.query(query).then((res) => res.rows)\n    } catch (err) {\n      throw new Error(err);\n    }\n  }`;
   mutResolvers.push(resolveStr);
 	return mutResolvers;
 }
