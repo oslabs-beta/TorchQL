@@ -50,12 +50,18 @@ app.on('activate', () => {
 });
 
 // Create a new window
-const addNewWindow = () => {
+const aboutNewWindow = () => {
   aboutWindow = new BrowserWindow({
     width: 300,
     height: 300,
     title: 'About'
   });
+
+  aboutWindow.loadURL(url.format({
+    pathname: path.join(__dirname, 'aboutWindow.html'),
+    protocol: 'file',
+    slashes: true
+  }));
 };
 
 // Create Menu Template
