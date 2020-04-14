@@ -5,6 +5,9 @@ const url = require('url');
 
 /* Electron logic */
 
+//Checks if it is a mac user or not
+const isMac = process.platform === 'darwin';
+
 const createWindow = () => {
   // Creates a new window
   const mainWindow = new BrowserWindow({
@@ -35,7 +38,7 @@ app.whenReady().then(createWindow);
 // Quit when all windows are closed
 app.on('window-all-closed', () => {
   // don't apply this to Macs
-  if (process.platform !== 'darwin') {
+  if (!isMac) {
     app.quit();
   }
 });
@@ -47,7 +50,6 @@ app.on('activate', () => {
 });
 
 // Create Menu Template
-const isMac = process.platform === 'darwin';
 const mainMenuTemplate = [
   {
     label: '',
