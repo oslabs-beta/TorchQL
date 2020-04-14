@@ -1,10 +1,10 @@
 
 
-const capitalize = (str) => {
-    return `${str[0].toUpperCase()}${str.slice(1)}`;
-  }
+function capitalize(str) {
+  return `${str[0].toUpperCase()}${str.slice(1)}`;
+}
   
-const typeSet = (str) => {
+function typeSet(str) {
 	switch (str) {
 		case "character varying":
 			return "String";
@@ -29,17 +29,17 @@ const typeSet = (str) => {
 	}
 }
 
-const createValuesArray = (array) => {
+function createValuesArray(array) {
 	let output = [];
 	for (i = 1; i <= array.length; i++) {
 		if (i < array.length) output.push(`$${i}, `);
 		else output.push(`$${i}`);
 	}
 	return output.join(' ');
-};
+}
   
 // supposed to check for one-to-many relationship between foreign key and primary key on two tables, doesn't work yet
-const refsMany = ({ table, tableKey, ref, refKey }) => {
+function refsMany({ table, tableKey, ref, refKey }) {
 //   const queryStr = `SELECT * FROM people INNER JOIN planets ON planets._id = people.homeworld_id`;
 //   console.log('querystr: ', queryStr);
 //   db.query(queryStr, (err, data) => {
