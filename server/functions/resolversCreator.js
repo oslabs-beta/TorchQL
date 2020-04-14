@@ -1,5 +1,7 @@
 const { singular } = require("pluralize");
-const { capitalize, createValuesArray } = require('./helperFunctions');
+const { capitalize } = require('./helperFunctions');
+const { storeForeignKeys } = require('./helperFunctions');
+const { storeIndexedColumns } = require('./helperFunctions');
 
 // returns get all query resolvers for each table in SDL format as array of strings
 const generateGetAllQuery = (data) => {
@@ -44,56 +46,46 @@ const generateMutationResolvers = (data) => {
 	for (let i = 0; i < tables.length; i++) {
 		const tableName = tables[i]
 		const { primaryKey, foreignKeys, columns } = data[tableName];
-		let fkCache = {};
-		const fKeys = (foreignKeys === null) ? [] : Object.keys(foreignKeys);
-		for (key of fKeys) fkCache[key] = foreignKeys[key];
-		let valueObj = {};
-		let valueIndex = 1;
-		const columnNames = Object.keys(columns);
-		for (columnName of columnNames) {
-			if (!fkCache[columnName] && columnName !== primaryKey) {
-				valueObj[valueIndex++] = columnName;
-			}
-		}
-		// skip tables with all columns with only primary and foreign keys
-		if (valueIndex === 1) continue;
-		allMutResolvers.push(createMutResolvers(tableName, data[tableName], valueObj));
-		allMutResolvers.push(updateMutResolvers(tableName, data[tableName], valueObj, valueIndex));
+		// stores foreign keys and associated properties as an object
+		const fkCache = storeForeignKeys(foreignKeys);
+		// stores columns that are not primary or foreign keys as values in indexed object 
+		const valueObj = storeIndexedColumns(columns, primaryKey, fkCache);
+		// skip tables with columns with only primary and foreign keys
+		if (Object.entries(valueObj).length === 0) continue;
+		allMutResolvers.push(createMutResolvers(tableName, valueObj));
+		allMutResolvers.push(updateMutResolvers(tableName, data[tableName], valueObj));
 		allMutResolvers.push(deleteMutResolvers(tableName, data[tableName]));
 	}
 	return assembleMutResolvers(allMutResolvers);
 };
 
 // returns create mutation resolvers for each table as array
-const createMutResolvers = (tableName, obj, valueObj) => {
+const createMutResolvers = (tableName, data) => {
 	const mutResolvers = [];
-	// stores foreign keys and associated properties as an object
 	let resolveStr = `create${capitalize(singular(tableName))}: () => {\n    const query = 'INSERT INTO ${tableName}(`;
-  resolveStr += `${Object.values(valueObj)}`;
-	resolveStr += `) VALUES(${Object.keys(valueObj).map(x => `$${x}`)})';\n    const values = [${Object.values(valueObj).map(x => `args.${x}`)}]\n    try {\n      return db.query(query, values);\n    } catch (err) {\n      throw new Error(err);\n    }\n  }`;
+  resolveStr += `${Object.values(data).join(', ')}`;
+	resolveStr += `) VALUES(${Object.keys(data).map(x => `$${x}`).join(', ')})';\n    const values = [${Object.values(data).map(x => `args.${x}`).join(', ')}]\n    try {\n      return db.query(query, values);\n    } catch (err) {\n      throw new Error(err);\n    }\n  }`;
 		mutResolvers.push(resolveStr);
 	return mutResolvers;
 }
 
 // returns update mutation resolvers for each table as array
-const updateMutResolvers = (tableName, obj, valueObj, valueIndex) => {
+const updateMutResolvers = (tableName, data, obj) => {
 	const mutResolvers = [];
-	const { primaryKey } = obj;
-		// stores foreign keys and associated properties as an object
-		// if (valueIndex === 1) continue;
+	const { primaryKey } = data;
 	let displaySet = '';
-	for (let key in valueObj) {
-		displaySet += `${valueObj[key]}=$${key} `;
+	for (let key in obj) {
+		displaySet += `${obj[key]}=$${key} `;
 	}
-	let resolveStr = `update${capitalize(singular(tableName))}: (parent, args => {\n    try {\n      const query = 'UPDATE ${tableName} SET ${displaySet} WHERE ${primaryKey} = $${valueIndex}';\n      const values = [${Object.values(valueObj).map(x => `args.${x}`)}, args.${primaryKey}]\n      return db.query(query).then((res) => res.rows)\n    } catch (err) {\n      throw new Error(err);\n    }\n  }`;
+	let resolveStr = `update${capitalize(singular(tableName))}: (parent, args => {\n    try {\n      const query = 'UPDATE ${tableName} SET ${displaySet}WHERE ${primaryKey} = $${Object.entries(obj).length + 1}';\n      const values = [${Object.values(obj).map(x => `args.${x}`).join(', ')}, args.${primaryKey}]\n      return db.query(query).then((res) => res.rows)\n    } catch (err) {\n      throw new Error(err);\n    }\n  }`;
   mutResolvers.push(resolveStr);
 	return mutResolvers;
 }
 
 // returns delete mutation resolvers for each table as array
-const deleteMutResolvers = (tableName, obj) => {
+const deleteMutResolvers = (tableName, data) => {
 	let mutResolvers = [];
-	const { primaryKey } = obj;
+	const { primaryKey } = data;
 	resolveStr = `delete${capitalize(singular(tableName))}: (parent, args) => {\n    try {\n      const query = 'DELETE FROM ${tableName} WHERE ${primaryKey} = $1';\n      const values = [args.${primaryKey}]\n      return db.query(query).then((res) => res.rows)\n    } catch (err) {\n      throw new Error(err);\n    }\n  }`;
 	mutResolvers.push(resolveStr);
   return mutResolvers;
