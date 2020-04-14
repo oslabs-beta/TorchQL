@@ -1,4 +1,11 @@
-SELECT pk.table_name AS "tableName", pk.primary_key AS "primaryKey", fk.foreign_keys AS "foreignKeys", td.columns
+SELECT json_object_agg(
+  pk.table_name, json_build_object(
+    'primaryKey', pk.primary_key,
+    'foreignKeys', fk.foreign_keys,
+    'referencedBy', rd.referenced_by,
+    'columns', td.columns
+  )
+) AS tables
 
 FROM (                                            --  Primary key data (pk)
 ---------------------------------------------------------------------------
@@ -9,11 +16,10 @@ FROM (                                            --  Primary key data (pk)
 ---------------------------------------------------------------------------
 ) AS pk
 
-INNER JOIN (                                                   -- Foreign key data (fk)
+LEFT OUTER JOIN (                                                   -- Foreign key data (fk)
 ---------------------------------------------------------------------------------------
-  SELECT conrelid::regclass AS table_name, json_agg(
-    json_build_object(
-      'name',            substring(pg_get_constraintdef(oid), '\((.*?)\)'),
+  SELECT conrelid::regclass AS table_name, json_object_agg(
+    substring(pg_get_constraintdef(oid), '\((.*?)\)'), json_build_object(
       'referenceTable', substring(pg_get_constraintdef(oid), 'REFERENCES (.*?)\('),
       'referenceKey',   substring(pg_get_constraintdef(oid), 'REFERENCES.*?\((.*?)\)')
     )
@@ -25,15 +31,26 @@ INNER JOIN (                                                   -- Foreign key da
 ) AS fk
 ON pk.table_name = fk.table_name
 
-INNER JOIN (                                   -- Table data (td)
+LEFT OUTER JOIN (                                                            -- Reference data (rd)
+---------------------------------------------------------------------------------------------------
+  SELECT substring(pg_get_constraintdef(oid), 'REFERENCES (.*?)\(') AS table_name, json_object_agg(
+    conrelid::regclass, substring(pg_get_constraintdef(oid), '\((.*?)\)')
+  ) AS referenced_by
+  FROM pg_constraint
+  WHERE  contype = 'f' AND connamespace = 'public'::regnamespace
+  GROUP BY pg_get_constraintdef(oid)
+---------------------------------------------------------------------------------------------------
+) AS rd
+ON pk.table_name::regclass = rd.table_name::regclass
+
+LEFT OUTER JOIN (                                   -- Table data (td)
 -----------------------------------------------------------------
-  SELECT tab.table_name, json_agg(
-    json_build_object(
-      'columnName',              col.column_name,
-      'dataType',                col.data_type,
-      'columnDefault',           col.column_default,
+  SELECT tab.table_name, json_object_agg(
+    col.column_name, json_build_object(
+      'dataType',      col.data_type,
+      'columnDefault', col.column_default,
       'charMaxLength', col.character_maximum_length,
-      'isNullable',              col.is_nullable
+      'isNullable',    col.is_nullable
     )
   ) AS columns
 
