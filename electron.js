@@ -58,7 +58,7 @@ const aboutNewWindow = () => {
   });
 
   aboutWindow.loadURL(url.format({
-    pathname: path.join(__dirname, 'aboutWindow.html'),
+    pathname: path.join(__dirname, './client/Components/About.html'),
     protocol: 'file',
     slashes: true
   }));
@@ -69,6 +69,12 @@ const mainMenuTemplate = [
   {
     label: '',
     submenu:[
+      {
+        label: 'About',
+        click(){
+          aboutNewWindow()
+        }
+      },
       {
         label: 'Quit',
         accelerator: isMac ? 'Command+Q' : 'Ctrl+Q',
