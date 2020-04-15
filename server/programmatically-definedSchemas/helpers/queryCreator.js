@@ -14,14 +14,14 @@ function generateAllQuery(data) {
 // Returns one query
 
 function generateOneQuery(data) {
-    // const oneQuery = [];
-    // const table = Object.keys(data);
-    // for(let i = 0; i < table.length; i += 1){
-    //     const { primaryKey } = data[table[i]];
-    //     let oneQueryStr = Generate.column(table[i], primaryKey)
-    //     console.log(oneQueryStr)
-    // }
-    // console.log('This is one query:', oneQuery)
+    const oneQuery = [];
+    const table = Object.keys(data);
+    for(let i = 0; i < table.length; i += 1){
+        const { primaryKey } = data[table[i]];
+        let oneQueryStr = Generate.column(table[i], primaryKey)
+        console.log(oneQueryStr)
+    }
+    console.log('This is one query:', oneQuery)
 }; 
 
 
