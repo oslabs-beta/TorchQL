@@ -26,10 +26,10 @@ const createWindow = () => {
   );
 
   // Build Menu
-  const mainMenu = Menu.buildFromTemplate(mainMenuTemplate);
+  // const mainMenu = Menu.buildFromTemplate(mainMenuTemplate);
 
   // Insert Menu
-  Menu.setApplicationMenu(mainMenu);
+  // Menu.setApplicationMenu(mainMenu);
 };
 
 // Once Electron has finished initialization:

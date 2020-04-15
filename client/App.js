@@ -16,7 +16,7 @@ class App extends Component {
     this.handleInput = this.handleInput.bind(this);
     this.handleURI = this.handleURI.bind(this);
     this.handleClick = this.handleClick.bind(this);
-    this.handleDownloadFile = this.handleDownloadFile.bind(this);
+    // this.handleDownloadFile = this.handleDownloadFile.bind(this);
     this.addToSearchHistory = this.addToSearchHistory.bind(this);
   }
 
@@ -53,13 +53,13 @@ class App extends Component {
     event.preventDefault();
     this.setState({ displayCode: false });
   }
-  handleDownloadFile(event) {
-    event.preventDefault();
-    console.log('handleDownloadFile working');
-    const text = this.state.schema;
-    const blob = new Blob([text], {type: "text/plain;charset=utf-8"});
-    FileSaver.saveAs(blob, "GraphQLschema.txt");
-  }
+  // handleDownloadFile(event) {
+  //   event.preventDefault();
+  //   console.log('handleDownloadFile working');
+  //   const text = this.state.schema;
+  //   const blob = new Blob([text], {type: "text/plain;charset=utf-8"});
+  //   FileSaver.saveAs(blob, "GraphQLschema.txt");
+  // }
 
   render() {
     return (
