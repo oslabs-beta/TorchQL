@@ -25,7 +25,7 @@ function createMutation(data) {
     const { primaryKey, foreignKeys, columns } = data[table];
 		let typeStr = Generator.create(table, primaryKey, foreignKeys, columns)
 		  + Generator.update(table, primaryKey, foreignKeys, columns)
-		  + Generator.delete(table, primaryKey);
+		  + Generator.destroy(table, primaryKey);
 		allMutations.push(typeStr);
 	};
 	return allMutations;
@@ -69,13 +69,13 @@ function createTypes(data) {
 // formats and returns queries, mutations, and object types in SDL as single string for rendering on front-end
 function formatTypeDefs(queries, mutations, types) {
 	return 'const typeDefs = `\n'
-    // + '  type Query {\n'
-    // + `    ${queries.join('\n    ')}\n`
-    // + '  }\n\n'
+    + '  type Query {\n'
+    + `    ${queries.join('\n    ')}\n`
+    + '  }\n\n'
     + '  type Mutation {\n'
     + `    ${mutations.join('\n    ')}\n`
-    + '  }\`'
-		// + `${types.join('\n')} \n\n\`;\n\n`;
+    + '  }\n'
+		+ `${types.join('\n')} \n\n\`;\n\n`;
 }
 
 module.exports = {

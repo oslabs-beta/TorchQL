@@ -96,7 +96,7 @@ function formatResolvers(queryResolvers, mutationResolvers) {
 		+ `    ${queryResolvers}\n`
 		+ '  }\n\n'
 		+ '  Mutation: {\n'
-		+ `    ${mutationResolvers}`
+		+ `${mutationResolvers}`
 		+ '  }\n'
 		+ '}\n'
 }
