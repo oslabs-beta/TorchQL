@@ -19,7 +19,7 @@ pgController.getPGTables = (req, res, next) => {
         log: 'There was a problem making database query',
         status: 500,
         message: { err },
-      })
+      }),
     );
 };
 
@@ -49,7 +49,7 @@ pgController.returnTypeDefs = (req, res, next) => {
   const { queries, mutations, types } = res.locals;
   res.locals.allTypeDefs = formatTypeDefs(queries, mutations, types);
   return next();
-}
+};
 
 // middleware function for making query resolvers in SDL as string
 pgController.makeQueryResolvers = (req, res, next) => {
@@ -71,13 +71,13 @@ pgController.returnResolvers = (req, res, next) => {
   const { queryResolvers, mutationResolvers } = res.locals;
   res.locals.resolvers = formatResolvers(queryResolvers, mutationResolvers);
   return next();
-}
+};
 
 pgController.assembleSchema = (req, res, next) => {
   const { allTypeDefs, resolvers } = res.locals;
   res.locals.schema = `${allTypeDefs}${resolvers}\n\nconst schema = makeExecutableSchema({\n  typeDefs,\n  resolvers,\n});\n\nmodule.exports = schema;`;
   return next();
-}
+};
 
 /* Programatic Middlware */
 pgController.makeProgQueryResolvers = (req, res, next) => {
