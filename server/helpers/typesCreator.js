@@ -1,14 +1,13 @@
 const { singular } = require("pluralize");
 const { capitalize, typeSet } = require('./helperFunctions');
-const { storeForeignKeys } = require('./helperFunctions');
+const { storeForeignKeys, getRelationship } = require('./helperFunctions');
 const Generator = require('./../generators/typeGenerator');
 
 // returns query root types for each table in SDL format as array of strings
 function createQuery(data) {
 	const allQueries = [];
   const tables = Object.keys(data);
-	// iterates through each data object corresponding to single table in PostgreSQL database
-	for (tableName of tables) {
+	for (let tableName of tables) {
     const nameSingular = singular(tableName);
     let typeStr = `${tableName}:[${capitalize(nameSingular)}!]!\n    ${nameSingular}ByID(${nameSingular}id:ID):${capitalize(nameSingular)}!`;
 		allQueries.push(typeStr);
@@ -38,21 +37,17 @@ function createTypes(data) {
 	// iterates through each data object corresponding to single table in PostgreSQL database
   for(let i = 0; i < tables.length; i++) {
     const tableName = tables[i];
-    const { primaryKey, foreignKeys, columns } = data[tableName];
-  	// stores foreign keys and associated properties as an object
-    const fkCache = {};
-    const fKeys = (foreignKeys === null) ? [] : Object.keys(foreignKeys);
-    for (let key of fKeys) fkCache[key] = foreignKeys[key];
+    const { primaryKey, foreignKeys, referencedBy, columns } = data[tableName];
     let typeStr = `\n  type ${capitalize(singular(tableName))} {\n    ${primaryKey}: ID!`;
     // adds all columns with types to string
     const columnNames = Object.keys(columns);
-    for (columnName of columnNames) {
+    for (let columnName of columnNames) {
       const { dataType, isNullable } = columns[columnName];
       // adds foreign keys with object type to string
-      if (fkCache[columnName]) {
-        const { referenceTable } = fkCache[columnName];
+      if (foreignKeys && foreignKeys[columnName]) {
+        const { referenceTable } = foreignKeys[columnName];
         // supposed to check here for one-to-many relationship before displaying type as an array
-        // if (refsMany(fkCache[columnName])) typeStr += `\n  ${name}:[${capitalize(referenceTable)}]`;
+        // if (refsMany(foreignKeys[columnName])) typeStr += `\n  ${columnName}:[${capitalize(referenceTable)}]`;
         typeStr += `\n    ${columnName}: ${capitalize(singular(referenceTable))}`;
       // adds remaining columns with types to string
       } else if (columnName !== primaryKey) {
@@ -60,6 +55,10 @@ function createTypes(data) {
         if (isNullable === 'YES') typeStr += '!';
       }
   	}
+    const refTableNames = (referencedBy === null) ? [] : Object.keys(referencedBy);
+    for (let refTableName of refTableNames) {
+      console.log(tableName, refTableName, getRelationship(data, tableName, refTableName));
+    }
   	typeStr += '\n  }';
   	allTypes.push(typeStr);
   }
