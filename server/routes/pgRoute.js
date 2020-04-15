@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const pgController = require('../SDL-definedSchemas/controllers/pgController');
+const pgController = require('../SDL-definedSchemas/controllers-SDL/pgController');
 
 router.get('/pg-sdl',
   pgController.getPGTables,
