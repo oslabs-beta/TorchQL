@@ -2,8 +2,8 @@ const fs = require('fs');
 const { Pool } = require('pg');
 const pgQuery = fs.readFileSync('server/queries/tableData.sql', 'utf8');
 const pgController = {};
-const { createQuery, createMutation, createTypes, formatTypeDefs } = require('../functions/typesCreator');
-const { generateGetAllQuery, generateGetOneQuery, generateQueryResolvers, generateMutationResolvers, formatResolvers } = require('../functions/resolversCreator');
+const { createQuery, createMutation, createTypes, formatTypeDefs } = require('./../helpers/typesCreator');
+const { generateGetAllQuery, generateGetOneQuery, generateQueryResolvers, generateMutationResolvers, formatResolvers } = require('./../helpers/resolversCreator');
 
 // middleware function for recovering info from pg tables
 pgController.getPGTables = (req, res, next) => {
