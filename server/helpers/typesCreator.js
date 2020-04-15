@@ -43,7 +43,7 @@ function createTypes(data) {
     const fkCache = {};
     const fKeys = (foreignKeys === null) ? [] : Object.keys(foreignKeys);
     for (let key of fKeys) fkCache[key] = foreignKeys[key];
-    let typeStr = `\ntype ${capitalize(singular(tableName))} {\n  ${primaryKey}:ID!`;
+    let typeStr = `\n  type ${capitalize(singular(tableName))} {\n    ${primaryKey}: ID!`;
     // adds all columns with types to string
     const columnNames = Object.keys(columns);
     for (columnName of columnNames) {
@@ -53,25 +53,29 @@ function createTypes(data) {
         const { referenceTable } = fkCache[columnName];
         // supposed to check here for one-to-many relationship before displaying type as an array
         // if (refsMany(fkCache[columnName])) typeStr += `\n  ${name}:[${capitalize(referenceTable)}]`;
-        typeStr += `\n  ${columnName}:${capitalize(singular(referenceTable))}`;
+        typeStr += `\n    ${columnName}: ${capitalize(singular(referenceTable))}`;
       // adds remaining columns with types to string
       } else if (columnName !== primaryKey) {
-        typeStr += `\n  ${columnName}:${typeSet(dataType)}`;
+        typeStr += `\n    ${columnName}: ${typeSet(dataType)}`;
         if (isNullable === 'YES') typeStr += '!';
       }
   	}
-  	typeStr += '\n}';
+  	typeStr += '\n  }';
   	allTypes.push(typeStr);
   }
   return allTypes;
 }
 
 // formats and returns queries, mutations, and object types in SDL as single string for rendering on front-end
-function formatTypeDefs(arr1, arr2, arr3) {
-	return `const typeDefs = \`\n  type Query {\n    ${arr1.join('\n    ')}}\n
-  type Mutation {\n    ${arr2.join('\n    ')}\n  }
-
-		${arr3.join('\n')} \n\n\`;\n\n`;
+function formatTypeDefs(queries, mutations, types) {
+	return 'const typeDefs = `\n'
+    // + '  type Query {\n'
+    // + `    ${queries.join('\n    ')}\n`
+    // + '  }\n\n'
+    + '  type Mutation {\n'
+    + `    ${mutations.join('\n    ')}\n`
+    + '  }\`'
+		// + `${types.join('\n')} \n\n\`;\n\n`;
 }
 
 module.exports = {

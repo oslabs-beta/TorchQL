@@ -74,7 +74,7 @@ pgController.returnResolvers = (req, res, next) => {
 
 pgController.assembleSchema = (req, res, next) => {
   const { allTypeDefs, resolvers } = res.locals;
-  res.locals.schema = `${allTypeDefs}${resolvers}\n\nconst schema = makeExecutableSchema({\n  typeDefs,\n  resolvers,\n});\n\nmodule.exports = schema;`;
+  res.locals.schema = `${allTypeDefs}`//\n\nconst schema = makeExecutableSchema({\n  typeDefs,\n  resolvers,\n});\n\nmodule.exports = schema;`;
   return next();
 }
 
