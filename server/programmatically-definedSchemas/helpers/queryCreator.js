@@ -2,13 +2,18 @@ const Generate = require('../generators/queryGenerator')
 
 // Returns all queries 
 function generateAllQuery(data) {
-    console.log('This is all query:', data)
+    const table = Object.keys(data)
+    let userStr
+    for(let i = 0; i < table.length; i+= 1){
+        userStr += Generate.allColumns(table[i]);
+    }
+    return userStr
 };
 
 // Returns one query
 
 function generateOneQuery(data) {
-    console.log('This is one query:', data)
+    console.log('This is one query:')
 }; 
 
 
