@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const pgController = require('./../controllers/pgController');
 
-router.get('/pg',
+router.get('/pg-sdl',
   pgController.getPGTables,
   pgController.makeQueries,
   pgController.makeMutations,
@@ -16,5 +16,12 @@ router.get('/pg',
     res.status(200).json(res.locals.schema);
   }
 );
+
+router.get('/pg-prog',
+  
+  (req, res) => {
+    console.log(res.locals.schema);
+    res.status(200).json(res.locals.schema);
+)
 
 module.exports = router;
