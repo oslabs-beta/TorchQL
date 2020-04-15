@@ -13,7 +13,7 @@ class Input extends Component {
         />
         <button
           id="submit-uri"
-          className="MainBtn"
+          className="btn-main"
           onClick={(e) => this.props.handleInput(e)}
         >
           Submit

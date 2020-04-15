@@ -11,6 +11,7 @@ class MainDisplay extends Component {
             <CodeDisplay
               schema={this.props.schema}
               handleClick={this.props.handleClick}
+              handleDownloadFile={this.props.handleDownloadFile}
             />
             <Input
               URI={this.props.URI}

@@ -19,8 +19,11 @@ class CodeDisplay extends Component {
           }}
           onChange={(editor, data, value) => {}}
         />
-        <button className="MainBtn" onClick={(e) => this.props.handleClick(e)}>
+        <button className="btn-main" onClick={(e) => this.props.handleClick(e)}>
           Back
+        </button>
+        <button className="btn-main" onClick={(e) => this.props.handleDownloadFile(e)}>
+          download
         </button>
       </div>
     );

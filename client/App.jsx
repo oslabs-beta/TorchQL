@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import MainDisplay from './Components/MainDisplay.jsx';
+import FileSaver from './Filesaver';
 
 import './styles.scss';
 
@@ -14,6 +15,7 @@ class App extends Component {
     this.handleInput = this.handleInput.bind(this);
     this.handleURI = this.handleURI.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.handleDownloadFile = this.handleDownloadFile.bind(this);
   }
 
   handleInput(event) {
@@ -37,6 +39,13 @@ class App extends Component {
     console.log('handleclick working');
     this.setState({ displayCode: false });
   }
+  handleDownloadFile(event) {
+    event.preventDefault();
+    console.log('handleDownloadFile working');
+    const text = this.state.schema;
+    const blob = new Blob([text], {type: "text/plain;charset=utf-8"});
+    FileSaver.saveAs(blob, "GraphQLschema.txt");
+  }
 
   render() {
     return (
@@ -48,6 +57,7 @@ class App extends Component {
           handleURI={this.handleURI}
           displayCode={this.state.displayCode}
           handleClick={this.handleClick}
+          handleDownloadFile={this.handleDownloadFile}
         />
       </div>
     );
