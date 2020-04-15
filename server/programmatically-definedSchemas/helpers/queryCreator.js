@@ -1,26 +1,36 @@
-const Generate = require('../generators/queryGenerator')
+const { storeForeignKeys } = require('../../SDL-definedSchemas/helpers/helperFunctions');
+const { storeIndexedColumns } = require('../../SDL-definedSchemas/helpers/helperFunctions');
+const Generate = require('../generators/queryGenerator');
 
 // Returns all queries 
 function generateAllQuery(data) {
-    const table = Object.keys(data)
-    let userStr
-    for(let i = 0; i < table.length; i+= 1){
-        userStr += Generate.allColumns(table[i]);
+    const allQuery = [];
+    const table = Object.keys(data);
+    for(let i = 0; i < table.length; i += 1){
+        let allQueryStr = Generate.allColumns(table[i]);
+        allQuery.push(allQueryStr)
     }
-    return userStr
+    return allQuery;
 };
 
 // Returns one query
 
 function generateOneQuery(data) {
-    console.log('This is one query:')
+    const oneQuery = [];
+    const table = Object.keys(data);
+    for(let i = 0; i < table.length; i += 1){
+        const { primaryKey } = data[table[i]];
+        let oneQueryStr = Generate.column(table[i], primaryKey)
+        console.log(oneQueryStr)
+    }
+    console.log('This is one query:', oneQuery)
 }; 
 
 
 // Return resolvers
 function generateResolvers(allQueryData, oneQueryData) {
-    console.log('This is allquery', allQueryData)
-    console.log('this is onequery', oneQueryData)
+    console.log('This is allquery' )
+    console.log('this is onequery')
 }
 
 // // returns get all query resolvers for each table in SDL format as array of strings

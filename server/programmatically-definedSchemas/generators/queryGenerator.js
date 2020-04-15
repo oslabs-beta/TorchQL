@@ -27,16 +27,16 @@ QueryGenerator.allColumns = table => {
 QueryGenerator.column = table => {
   const singlularName = singular(table);
   const capSingle = capitalize(singularName);
-    return `${singlularName}ByID: {`
+    return `${singlularName}ById: {`
     +`    type: ${capSingle}Type,\n`
     +`    args: {\n`
-    +`    id: { type: GraphQL${placeholder}},\n`
+    // +`    id: { type: GraphQL${placeholder}},\n`
     +`   },`
     +`   resolver(parent, args) {\n`
     +`      try {\n`
     +`            const query = \`SELECT * FROM ${table}\n`
-    +`            WHERE id = $1\`;\n`
-    +`            const values = [args.id];`
+    +`            WHERE ${primaryKey} = $1\`;\n`
+    +`            const values = [args.${primaryKey}];`
     +`            return db.query(query, values).then((res) => res.rows[0]);\n`
     +`          } catch (err) {\n`
     +`            throw new Error(err);\n`
