@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import Input from './Input.jsx';
-import CodeDisplay from './CodeDisplay.jsx';
+import Input from './Input';
+import CodeDisplay from './CodeDisplay';
 
 class MainDisplay extends Component {
   render() {
@@ -18,6 +18,7 @@ class MainDisplay extends Component {
               handleInput={this.props.handleInput}
               handleURI={this.props.handleURI}
               displayCode={this.props.displayCode}
+              searchHistory={this.props.searchHistory}
             />
           </div>
         ) : (
@@ -27,6 +28,7 @@ class MainDisplay extends Component {
               handleInput={this.props.handleInput}
               handleURI={this.props.handleURI}
               displayCode={this.props.displayCode}
+              searchHistory={this.props.searchHistory}
             />
           </div>
         )}

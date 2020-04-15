@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { UnControlled as CodeMirror } from 'react-codemirror2';
+import { UnControlled as CodeMirror } from '../../node_modules/react-codemirror2';
 import '../../node_modules/codemirror/mode/javascript/javascript';
 import '../../node_modules/codemirror/lib/codemirror.css';
 import '../../node_modules/codemirror/theme/dracula.css';
