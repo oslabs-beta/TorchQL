@@ -1,5 +1,5 @@
 const { singular } = require('pluralize');
-const { capitalize } = require('../helpers/helperFunctions');
+const { capitalize } = require('../../SDL-definedSchemas/helpers/helperFunctions');
 
 const QueryGenerator = {};
 
