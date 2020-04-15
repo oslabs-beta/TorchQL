@@ -12,7 +12,7 @@ QueryGenerator.allColumns = table => {
     +`    type: new GraphQLList(${capSingle}Type),\n`
     +`      resolve() { \n`
     +`        try { \n`
-    +`          const query = \`SELECT * FROM ${table}\``
+    +`          const query = \`SELECT * FROM ${table}\`\n`
     +`          return db.query(query).then((res) => res.rows);\n`
     +`        } catch (err){\n`
     +`          throw new Error(err);\n`
@@ -27,7 +27,13 @@ QueryGenerator.column = table => {
 
     // RootQuery output to get single table by id
     return `${table}: {`
+    +`    type: ${capSingle}Type),\n`
+    +`    args: {\n`
+    +`    id: { type: GraphQL${placeholder}},\n`
+    +`   },`
+    +`   resolver(parent, args) {\n`
+    +`      try {\n`
+    +`            const query = \`SELECT * FROM ${table}\`\n`
+    +`          `
+    +``
 }
-
-
-
