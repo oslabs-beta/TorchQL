@@ -26,14 +26,22 @@ QueryGenerator.column = table => {
     capSingle = capitalize(singularName);
 
     // RootQuery output to get single table by id
-    return `${singlularName}ByID`
-    +`    type: ${capSingle}Type),\n`
+    return `${singlularName}ByID: {`
+    +`    type: ${capSingle}Type,\n`
     +`    args: {\n`
     +`    id: { type: GraphQL${placeholder}},\n`
     +`   },`
     +`   resolver(parent, args) {\n`
     +`      try {\n`
-    +`            const query = \`SELECT * FROM ${table}\`\n`
-    +`            `
-    +``
-}
+    +`            const query = \`SELECT * FROM ${table}\n`
+    +`            WHERE id = $1\`;\n`
+    +`            const values = [args.id];`
+    +`            return db.query(query, values).then((res) => res.rows[0]);\n`
+    +`          } catch (err) {\n`
+    +`            throw new Error(err);\n`
+    +`          }\n`
+    +`      },\n`
+    +`   },\n`
+};
+
+module.exports = QueryGenerator;
