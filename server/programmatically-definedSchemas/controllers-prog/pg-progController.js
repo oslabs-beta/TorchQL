@@ -3,8 +3,8 @@ const { generateAllQuery, generateOneQuery, generateResolvers } = require('../he
 
 /* Programatic Middlware */
 pgController.makeProgQueryResolvers = (req, res, next) => {
-    const allQueryResolvers = generateAllQuery(res.locals.tables);
-    const oneQueryResolvers = generateOneQuery(res.locals.tables);
+    const getAllQuery = generateAllQuery(res.locals.tables);
+    const getOneQuery = generateOneQuery(res.locals.tables);
     return next();
   };
 
