@@ -81,13 +81,8 @@ pgController.assembleSchema = (req, res, next) => {
 
 /* Programatic Middlware */
 pgController.makeProgQueryResolvers = (req, res, next) => {
-    console.log('test0')
     const allQueryResolvers = generateAllQuery(res.locals.tables);
-    console.log('test1')
     const oneQueryResolvers = generateOneQuery(res.locals.tables);
-    console.log('test2')
-    res.locals.progQueryResolvers = generateResolvers(allQueryResolvers, oneQueryResolvers);
-    console.log('test3')
     return next();
   };
 
