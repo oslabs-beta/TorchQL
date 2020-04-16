@@ -1,63 +1,66 @@
 const { singular } = require('pluralize');
 const { capitalize } = require('../../helpers/helperFunctions');
-const { getDataType } = require('../helpers/helperFunctions');
+const { getDataType, getValsAndTypes } = require('../helpers/helperFunctions');
 
 const MutationGenerator = {};
 
-MutationGenerator.createColumn = (tableName, values) => {
+MutationGenerator.createColumn = (tableName, values, columns) => {
   const singleName = singular(tableName);
   const capSingle = capitalize(singleName);
 
-  // values: column and data type [[value, dataType, nullStatus]]
   const generateArgs = (values) => {
     // loop through args
     // get data type for each
     // return string
     let argsArray = [];
-    for (const value of values) {
-      const dataType = getDataType(value[1]);
-      if (value[2] === 'NO') {
-        argsArray.push(
-          `        ${value[0]}: { type: new GraphQLNonNull(${dataType}) },`
-        );
-      } else {
-        argsArray.push(`      ${value[0]}: { type: ${dataType} }`);
-      }
+    const valsAndTypes = Object.entries(getValsAndTypes(columns));
+    for (let i = 0; i < values.length; i++) {
+      const dataType = getDataType(valsAndTypes[i][1]);
+      // TODO: Account for non-nulls
+      // if (value[2] === 'NO') {
+      //   argsArray.push(
+      //     `        ${value[0]}: { type: new GraphQLNonNull(${dataType}) },`
+      //   );
+      // } else {
+      argsArray.push(`${values[i]}: { type: ${dataType} }`);
     }
-    return argsArray;
+
+    return '    ' + argsArray.join(', ');
   };
 
   // Array of column names
-  const valsArr = values.map((subArr) => subArr[0]);
+
+  const valsArr = Object.values(values);
+
   const numCount = (valsArr) => {
     let numArr = [];
     for (let i = 1; i <= valsArr.length; i++) {
       numArr.push('$' + i);
     }
+
     return numArr;
   };
-
   return (
-    `    add${capSingle}: {` +
-    `      type: ${capSingle}Type,` +
-    `      args: {` +
-    generateArgs(values) +
-    `      },` +
-    `      resolve(parent, args) {` +
-    `        try {` +
+    `    add${capSingle}: {\n` +
+    `      type: ${capSingle}Type,\n` +
+    `      args: {\n` +
+    generateArgs(valsArr) +
+    `      },\n` +
+    `      resolve(parent, args) {\n` +
+    `        try {\n` +
     `          const query = \`INSERT INTO ${tableName}(${valsArr.join(
       ', '
-    )})` +
-    `          VALUES(${numCount.join(', ')})\`` +
+    )})\n` +
+    `          VALUES(${numCount(valsArr).join(', ')})\`\n` +
     `          const values = [${valsArr
       .map((val) => 'args.' + val)
-      .join(', ')}]` +
-    `          return db.query(query, values).then((res) => res.rows[0]);` +
-    `        } catch (err) {` +
-    `          throw new Error(err);` +
-    `        }` +
-    `      },` +
-    `    },`
+      .join(', ')}]\n` +
+    `          return db.query(query, values).then((res) => res.rows[0]);\n` +
+    `        } catch (err) {\n` +
+    `          throw new Error(err);\n` +
+    `        }\n` +
+    `      },\n` +
+    `    },\n`
   );
 };
 
@@ -70,44 +73,45 @@ MutationGenerator.updateColumn = (tableName, values, primaryKey) => {
     // get data type for each
     // return string
     let argsArray = [];
+
     for (const value of values) {
-      const dataType = getDataType(value[1]);
-      argsArray.push(`      ${value[0]}: { type: ${dataType} }`);
+      const dataType = getDataType(value);
+      argsArray.push(`${value}: { type: ${dataType} }`);
     }
 
-    return argsArray;
+    return '    ' + argsArray.join(', ');
   };
 
   // Array of column names
-  const valsArr = values.map((subArr) => subArr[0]);
+  const valsArr = Object.values(values);
   const valsAndNums = (valsArr) => {
     let valNumArr = [];
     for (let i = 1; i <= valsArr.length; i++) {
       valNumArr.push(`${valsArr[i]}=$${i}`);
     }
+
     return valNumArr;
   };
-
   return (
-    `    update${capSingle}: {` +
+    `    update${capSingle}: { \n` +
     `      type: ${capSingle}Type,` +
     `      args: {` +
-    generateArgs(values) +
-    `      },` +
-    `      resolve(parent, args) {` +
-    `        try {` +
-    `          const query = \`UPDATE ${tableName}(${valsArr.join(', ')})` +
-    `          SET(${valsAndNums.join(', ')})\`` +
+    generateArgs(valsArr) +
+    `      }, \n` +
+    `      resolve(parent, args) { \n` +
+    `        try { \n` +
+    `          const query = \`UPDATE ${tableName}(${valsArr.join(', ')}) \n` +
+    `          SET(${valsAndNums(valsArr).join(', ')})\`\n` +
     `        WHERE ${primaryKey}=${valsArr.length}` +
     `          const values = [${valsArr
       .map((val) => 'args.' + val)
-      .join(', ')}, args.${primaryKey}]` +
-    `          return db.query(query, values).then((res) => res.rows[0]);` +
-    `        } catch (err) {` +
-    `          throw new Error(err);` +
-    `        }` +
-    `      },` +
-    `    },`
+      .join(', ')}, args.${primaryKey}]\n` +
+    `          return db.query(query, values).then((res) => res.rows[0]);\n` +
+    `        } catch (err) {\n` +
+    `          throw new Error(err);\n` +
+    `        }\n` +
+    `      },\n` +
+    `    },\n`
   );
 };
 
@@ -135,4 +139,4 @@ MutationGenerator.destroyColumn = (tableName, primaryKey, primaryKeyType) => {
   );
 };
 
-module.export = MutationGenerator;
+module.exports = MutationGenerator;
