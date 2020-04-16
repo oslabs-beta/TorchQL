@@ -8,7 +8,7 @@ const QueryGenerator = {};
 QueryGenerator.allColumns = table => {
   const singularName = singular(table);
   const capSingle = capitalize(singularName)
-    return `    ${table}: {\n`
+    return `${table}: {\n`
     +`    type: new GraphQLList(${capSingle}Type),\n`
     +`      resolve() { \n`
     +`        try { \n`
@@ -27,7 +27,7 @@ QueryGenerator.allColumns = table => {
 QueryGenerator.column = (table, primaryKey) => {
   const singularName = singular(table);
   const capSingle = capitalize(singularName);
-    return `${singularName}ById: {`
+    return `${singularName}ById: {\n`
     +`    type: ${capSingle}Type,\n`
     +`    args: {\n`
     +`    id: { type: GraphQL[placeholder] },\n` // <-- need to replace placer holder with string/num/id/list

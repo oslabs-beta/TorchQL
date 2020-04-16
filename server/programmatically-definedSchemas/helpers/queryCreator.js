@@ -24,7 +24,14 @@ function generateOneQuery(data) {
     return oneQuery;
 }; 
 
+function generateReturnQueries(allQuery, oneQuery) {
+    let queryStr = '';
+    for(let i = 0; i < allQuery.length; i += 1) queryStr += `\n ${allQuery[i]} \n ${oneQuery[i]}`
+    return queryStr;
+}
+
 module.exports = {
     generateAllQuery,
-    generateOneQuery
+    generateOneQuery,
+    generateReturnQueries
 }
