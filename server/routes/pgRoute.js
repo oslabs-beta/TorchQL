@@ -19,7 +19,7 @@ router.get('/pg-sdl',
 );
 
 router.get('/pg-prog',
-  pgProgController.getPGTables,
+  pgController.getPGTables,
   pgProgController.makeProgQueryResolvers,
   (req, res) => {
     console.log(res.locals.schema);
