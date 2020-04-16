@@ -1,5 +1,6 @@
 const router = require('express').Router();
-const pgController = require('./../controllers/pgController');
+const pgController = require('../SDL-definedSchemas/controllers-SDL/pgController');
+const pgProgController = require('../programmatically-definedSchemas/controllers-prog/pg-progController');
 
 router.get(
   '/pg-sdl',
@@ -20,14 +21,16 @@ router.get(
 
 router.get(
   '/pg-prog',
+  pgProgController.getPGTables,
+  pgProgController.makeProgQueryResolvers,
 
-  pgController.getPGTables,
+  // mutations
   pgController.generateMutations,
   pgController.assembleMutations,
   pgController.formatMutations,
   (req, res) => {
+    console.log(res.locals.mutations);
     res.status(200).json(res.locals.mutations);
   }
 );
-
 module.exports = router;

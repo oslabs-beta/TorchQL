@@ -34,7 +34,7 @@ pgController.getPGTables = (req, res, next) => {
         log: 'There was a problem making database query',
         status: 500,
         message: { err },
-      })
+      }),
     );
 };
 
