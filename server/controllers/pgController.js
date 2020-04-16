@@ -2,8 +2,24 @@ const fs = require('fs');
 const { Pool } = require('pg');
 const pgQuery = fs.readFileSync('server/queries/tableData.sql', 'utf8');
 const pgController = {};
-const { createQuery, createMutation, createTypes, formatTypeDefs } = require('./../helpers/typesCreator');
-const { generateGetAllQuery, generateGetOneQuery, generateQueryResolvers, generateMutationResolvers, formatResolvers } = require('./../helpers/resolversCreator');
+const {
+  createQuery,
+  createMutation,
+  createTypes,
+  formatTypeDefs,
+} = require('./../helpers/typesCreator');
+const {
+  generateGetAllQuery,
+  generateGetOneQuery,
+  generateQueryResolvers,
+  generateMutationResolvers,
+  formatResolvers,
+} = require('./../helpers/resolversCreator');
+const {
+  generateMutations,
+  assembleMutations,
+  formatMutations,
+} = require('../programmatically-definedSchemas/helpers/mutationCreator');
 
 // middleware function for recovering info from pg tables
 pgController.getPGTables = (req, res, next) => {
@@ -48,13 +64,16 @@ pgController.returnTypeDefs = (req, res, next) => {
   const { queries, mutations, types } = res.locals;
   res.locals.allTypeDefs = formatTypeDefs(queries, mutations, types);
   return next();
-}
+};
 
 // middleware function for making query resolvers in SDL as string
 pgController.makeQueryResolvers = (req, res, next) => {
   const queryAllResolvers = generateGetAllQuery(res.locals.tables);
   const queryOneResolvers = generateGetOneQuery(res.locals.tables);
-  res.locals.queryResolvers = generateQueryResolvers(queryAllResolvers, queryOneResolvers);
+  res.locals.queryResolvers = generateQueryResolvers(
+    queryAllResolvers,
+    queryOneResolvers
+  );
   return next();
 };
 
@@ -70,14 +89,40 @@ pgController.returnResolvers = (req, res, next) => {
   const { queryResolvers, mutationResolvers } = res.locals;
   res.locals.resolvers = formatResolvers(queryResolvers, mutationResolvers);
   return next();
-}
+};
 
 pgController.assembleSchema = (req, res, next) => {
   const { allTypeDefs, resolvers } = res.locals;
   res.locals.schema = `${allTypeDefs}${resolvers}\n\nconst schema = makeExecutableSchema({\n  typeDefs,\n  resolvers,\n});\n\nmodule.exports = schema;`;
   return next();
-}
+};
 
+/////// MUTATIONS - PROGRAMMATIC
 
+pgController.generateMutations = (req, res, next) => {
+  try {
+    const mutationsArr = generateMutations(res.locals.tables);
+    res.locals.mutations = mutationsArr;
+    return next();
+  } catch (err) {
+    return next({
+      log: 'There was a problem generating mutations',
+      status: 500,
+      message: { error: 'Problem generating mutations' },
+    });
+  }
+};
+
+pgController.assembleMutations = (req, res, next) => {
+  const mutations = assembleMutations(res.locals.mutations);
+  res.locals.mutations = mutations;
+  return next();
+};
+
+pgController.formatMutations = (req, res, next) => {
+  const formattedMutations = formatMutations(res.locals.mutations);
+  res.locals.mutations = formattedMutations;
+  return next();
+};
 
 module.exports = pgController;
