@@ -1,6 +1,5 @@
 const { singular } = require("pluralize");
-const { capitalize, typeSet } = require('./helperFunctions');
-const { storeForeignKeys, getRelationship } = require('./helperFunctions');
+const { capitalize, typeSet, getRelationships } = require('./helperFunctions');
 const Generator = require('./../generators/typeGenerator');
 
 // returns query root types for each table in SDL format as array of strings
@@ -55,10 +54,7 @@ function createTypes(data) {
         if (isNullable === 'YES') typeStr += '!';
       }
   	}
-    const refTableNames = (referencedBy === null) ? [] : Object.keys(referencedBy);
-    for (let refTableName of refTableNames) {
-      console.log(tableName, refTableName, getRelationship(data, tableName, refTableName));
-    }
+    getRelationships(data, tableName, referencedBy);
   	typeStr += '\n  }';
   	allTypes.push(typeStr);
   }

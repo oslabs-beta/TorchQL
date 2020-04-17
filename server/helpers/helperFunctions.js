@@ -48,11 +48,23 @@ function storeIndexedColumns(obj, key, cache) {
 	return newObj;
 }
   
-// supposed to check for one-to-many relationship between foreign key and primary key on two tables, doesn't work yet
-function getRelationship(data, tableName, foreignTableName) {
-	const foreignTableData = data[foreignTableName];
-  if (foreignTableData.referencedBy && foreignTableData.referencedBy[tableName]) return 'one-one';
-  else return 'one-many';
+// Get table relationships
+function getRelationships(data, tableName, referencedBy) {
+	const refTableNames = (referencedBy === null) ? [] : Object.keys(referencedBy);
+  for (let refTableName of refTableNames) {
+    let isOneToOne;
+    const foreignTableData = data[refTableName];
+    if (foreignTableData.referencedBy && foreignTableData.referencedBy[tableName]) isOneToOne =  true;
+    else isOneToOne = false;
+    if (isOneToOne) console.log(tableName, ' <---------------------> ', refTableName);
+    else console.log(tableName, ' ----------<========== ', refTableName);
+    const { foreignKeys: foreignTableFKeys } = data[refTableName];
+    for (let foreignTableFKey in foreignTableFKeys) {
+      if (tableName !== foreignTableFKeys[foreignTableFKey].referenceTable)
+      console.log(tableName, `--< ${refTableName} >--`, foreignTableFKeys[foreignTableFKey].referenceTable);
+    }
+  }
+  console.log('')
 }
 
 module.exports = {
@@ -60,5 +72,5 @@ module.exports = {
 	typeSet,
 	storeForeignKeys,
 	storeIndexedColumns,
-	getRelationship
+	getRelationships
 };
