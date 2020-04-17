@@ -30,8 +30,18 @@ function generateReturnQueries(allQuery, oneQuery) {
     return queryStr;
 }
 
+function formatQueries(query){
+    return(
+        `const RootQuery = new GraphQLObjectType({\n` +
+            `name: 'RootQueryType',\n` +
+            `fields: {` +
+                `${query}\n`
+    )
+}
+
 module.exports = {
     generateAllQuery,
     generateOneQuery,
-    generateReturnQueries
+    generateReturnQueries,
+    formatQueries
 }

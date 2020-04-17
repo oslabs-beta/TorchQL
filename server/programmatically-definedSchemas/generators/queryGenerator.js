@@ -17,7 +17,7 @@ QueryGenerator.allColumns = table => {
     +`        } catch (err){\n`
     +`          throw new Error(err);\n`
     +`        },\n`
-    +`      }\n`
+    +`      },\n`
     +`    },\n`  
 };
 
