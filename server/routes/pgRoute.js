@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const pgController = require('../SDL-definedSchemas/controllers-SDL/pgController');
-const pgProgController = require('../programmatically-definedSchemas/controllers-prog/pg-progController')
+const pgProgController = require('../programmatically-definedSchemas/controllers-prog/pg-progController');
+const mongoController = require('../SDL-definedSchemas/controllers-SDL/mongoController');
 
 router.get('/pg-sdl',
   pgController.getPGTables,
@@ -28,10 +29,10 @@ router.get('/pg-prog',
 );
 
 router.get('/mongo-sdl',
-  mongoController.getGetCollections,
+  mongoController.getCollections,
   (req, res) => {
-    console.log(res.locals.schema);
-    res.status(200).json(res.locals.schema);
+    console.log(res.locals.mongo);
+    res.status(200).json(res.locals.mongo);
   }
 );
 
