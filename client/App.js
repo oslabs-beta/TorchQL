@@ -31,7 +31,7 @@ class App extends Component {
   handleInput(event) {
     event.preventDefault();
     if (this.state.URI !== '') {
-      fetch(`/db/pg?uri=${this.state.URI}`)
+      fetch(`http://localhost:3000/db/pg-sdl?uri=${this.state.URI}`)
         .then((data) => data.json())
         .then((data) => {
           this.addToSearchHistory();
