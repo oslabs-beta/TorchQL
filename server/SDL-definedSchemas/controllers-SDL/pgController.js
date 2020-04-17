@@ -7,19 +7,14 @@ const {
   createMutation,
   createTypes,
   formatTypeDefs,
-} = require('./../helpers/typesCreator');
+} = require('../helpers/typesCreator');
 const {
   generateGetAllQuery,
   generateGetOneQuery,
   generateQueryResolvers,
   generateMutationResolvers,
   formatResolvers,
-} = require('./../helpers/resolversCreator');
-const {
-  generateMutations,
-  assembleMutations,
-  formatMutations,
-} = require('../programmatically-definedSchemas/helpers/mutationCreator');
+} = require('../helpers/resolversCreator');
 
 // middleware function for recovering info from pg tables
 pgController.getPGTables = (req, res, next) => {
@@ -34,7 +29,7 @@ pgController.getPGTables = (req, res, next) => {
         log: 'There was a problem making database query',
         status: 500,
         message: { err },
-      }),
+      })
     );
 };
 
