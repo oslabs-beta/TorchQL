@@ -2,8 +2,9 @@ const fs = require('fs');
 const { Pool } = require('pg');
 const pgQuery = fs.readFileSync('server/queries/tableData.sql', 'utf8');
 const pgController = {};
-const { createQuery, createMutation, createTypes, formatTypeDefs } = require('../functions/typesCreator');
-const { generateGetAllQuery, generateGetOneQuery, generateQueryResolvers, generateMutationResolvers, formatResolvers } = require('../functions/resolversCreator');
+const { createQuery, createMutation, createTypes, formatTypeDefs } = require('../../SDL-definedSchemas/helpers/typesCreator');
+const { generateGetAllQuery, generateGetOneQuery, generateQueryResolvers, generateMutationResolvers, formatResolvers } = require('../../SDL-definedSchemas/helpers/typesCreator');
+const { generateAllQuery, generateOneQuery, generateResolvers } = require('../helpers/queryCreator');
 
 // middleware function for recovering info from pg tables
 pgController.getPGTables = (req, res, next) => {
@@ -18,7 +19,7 @@ pgController.getPGTables = (req, res, next) => {
         log: 'There was a problem making database query',
         status: 500,
         message: { err },
-      })
+      }),
     );
 };
 
@@ -48,7 +49,7 @@ pgController.returnTypeDefs = (req, res, next) => {
   const { queries, mutations, types } = res.locals;
   res.locals.allTypeDefs = formatTypeDefs(queries, mutations, types);
   return next();
-}
+};
 
 // middleware function for making query resolvers in SDL as string
 pgController.makeQueryResolvers = (req, res, next) => {
@@ -70,14 +71,19 @@ pgController.returnResolvers = (req, res, next) => {
   const { queryResolvers, mutationResolvers } = res.locals;
   res.locals.resolvers = formatResolvers(queryResolvers, mutationResolvers);
   return next();
-}
+};
 
 pgController.assembleSchema = (req, res, next) => {
   const { allTypeDefs, resolvers } = res.locals;
   res.locals.schema = `${allTypeDefs}${resolvers}\n\nconst schema = makeExecutableSchema({\n  typeDefs,\n  resolvers,\n});\n\nmodule.exports = schema;`;
   return next();
-}
+};
 
-
+/* Programatic Middlware */
+pgController.makeProgQueryResolvers = (req, res, next) => {
+    const allQueryResolvers = generateAllQuery(res.locals.tables);
+    const oneQueryResolvers = generateOneQuery(res.locals.tables);
+    return next();
+  };
 
 module.exports = pgController;
