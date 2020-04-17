@@ -26,10 +26,10 @@ router.get('/pg-prog',
   pgProgController.generateMutations,
   pgProgController.assembleMutations,
   pgProgController.formatMutations,
+  pgProgController.combineQueryAndMutations,
   (req, res) => {
-    console.log(res.locals.returnQuery);
-    console.log(res.locals.mutations);
-    res.status(200).json(res.locals.mutations);
+    console.log(res.locals.combine)
+    res.status(200).json(res.locals.combine);
   }
 );
 module.exports = router;

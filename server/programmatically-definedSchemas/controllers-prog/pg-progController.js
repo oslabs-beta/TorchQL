@@ -54,5 +54,9 @@ pgController.formatMutations = (req, res, next) => {
   return next();
 };
 
-
+pgController.combineQueryAndMutations = (req, res, next) => {
+  const { returnQuery , mutations } = res.locals;
+  res.locals.combine = `${returnQuery}${mutations}`
+  return next();
+}
 module.exports = pgController;
