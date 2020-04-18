@@ -59,28 +59,3 @@ const App = () => {
 
 export default App;
 
-
- // class App extends Component {
-  //   constructor(props) {
-  //     super(props);
-  //     this.state = {
-  //       URI: '',
-  //       schema: [],
-  //       displayCode: false,
-  //       searchHistory: [],
-  //     };
-  //     this.handleInput = this.handleInput.bind(this);
-  //     this.handleURI = this.handleURI.bind(this);
-  //     this.handleClick = this.handleClick.bind(this);
-  //     this.addToSearchHistory = this.addToSearchHistory.bind(this);
-  //   }
-
-
- // handleURI(input) {
-  //   this.setState({ URI: input });
-  // }
-  // // for CodeDisplay.jsx/Back button
-  // handleClick(event) {
-  //   event.preventDefault();
-  //   this.setState({ displayCode: false });
-  // }
