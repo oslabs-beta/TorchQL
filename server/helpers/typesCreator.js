@@ -38,18 +38,20 @@ function createTypes(data) {
     const tableName = tables[i];
     const { primaryKey, foreignKeys, referencedBy, columns } = data[tableName];
     const columnNames = Object.keys(columns);
-    let typeStr = `\n  type ${toCamelCase(capitalize(singular(tableName)))} {\n    ${toCamelCase(primaryKey)}: ID!`;
-    // adds all columns with types to string
-    for (let columnName of columnNames) {
-      if (!(foreignKeys && foreignKeys[columnName]) && columnName !== primaryKey) {
-        const { dataType, isNullable } = columns[columnName];
-        typeStr += `\n    ${toCamelCase(columnName)}: ${typeSet(dataType)}`;
-        if (isNullable === 'YES') typeStr += '!';
-      }
-  	}
-    typeStr += getRelationships(data, tableName, referencedBy);
-  	typeStr += '\n  }';
-  	allTypes.push(typeStr);
+    if (foreignKeys === null || columnNames.length !== Object.keys(foreignKeys).length + 1) {
+      let typeStr = `\n  type ${toCamelCase(capitalize(singular(tableName)))} {\n    ${toCamelCase(primaryKey)}: ID!`;
+      // adds all columns with types to string
+      for (let columnName of columnNames) {
+        if (!(foreignKeys && foreignKeys[columnName]) && columnName !== primaryKey) {
+          const { dataType, isNullable } = columns[columnName];
+          typeStr += `\n    ${toCamelCase(columnName)}: ${typeSet(dataType)}`;
+          if (isNullable === 'YES') typeStr += '!';
+        }
+    	}
+      typeStr += getRelationships(data, tableName, referencedBy);
+    	typeStr += '\n  }';
+    	allTypes.push(typeStr);
+    }
   }
   return allTypes;
 }
