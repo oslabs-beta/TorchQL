@@ -41,20 +41,13 @@ function createTypes(data) {
     // adds all columns with types to string
     const columnNames = Object.keys(columns);
     for (let columnName of columnNames) {
-      const { dataType, isNullable } = columns[columnName];
-      // adds foreign keys with object type to string
-      if (foreignKeys && foreignKeys[columnName]) {
-        const { referenceTable } = foreignKeys[columnName];
-        // supposed to check here for one-to-many relationship before displaying type as an array
-        // if (refsMany(foreignKeys[columnName])) typeStr += `\n  ${columnName}:[${capitalize(referenceTable)}]`;
-        typeStr += `\n    ${columnName}: ${capitalize(singular(referenceTable))}`;
-      // adds remaining columns with types to string
-      } else if (columnName !== primaryKey) {
+      if (!(foreignKeys && foreignKeys[columnName]) && columnName !== primaryKey) {
+        const { dataType, isNullable } = columns[columnName];
         typeStr += `\n    ${columnName}: ${typeSet(dataType)}`;
         if (isNullable === 'YES') typeStr += '!';
       }
   	}
-    getRelationships(data, tableName, referencedBy);
+    typeStr += getRelationships(data, tableName, referencedBy);
   	typeStr += '\n  }';
   	allTypes.push(typeStr);
   }

@@ -1,4 +1,4 @@
-
+const { singular } = require('pluralize');
 
 function capitalize(str) {
   return `${str[0].toUpperCase()}${str.slice(1)}`;
@@ -50,21 +50,20 @@ function storeIndexedColumns(obj, key, cache) {
   
 // Get table relationships
 function getRelationships(data, tableName, referencedBy) {
-	const refTableNames = (referencedBy === null) ? [] : Object.keys(referencedBy);
-  for (let refTableName of refTableNames) {
-    let isOneToOne;
-    const foreignTableData = data[refTableName];
-    if (foreignTableData.referencedBy && foreignTableData.referencedBy[tableName]) isOneToOne =  true;
-    else isOneToOne = false;
-    if (isOneToOne) console.log(tableName, ' <---------------------> ', refTableName);
-    else console.log(tableName, ' ----------<========== ', refTableName);
-    const { foreignKeys: foreignTableFKeys } = data[refTableName];
+  let relationships = '';
+  for (let refTableName in referencedBy) {
+    const { referencedBy: foreignRefBy, foreignKeys: foreignTableFKeys } = data[refTableName];
+    const refTableType = capitalize(singular(refTableName));
+    if (foreignRefBy && foreignRefBy[tableName]) relationships += `\n    ${reftableName}: [${refTableType}]`;
+    else relationships += `\n    ${refTableName}: [${refTableType}]`;
     for (let foreignTableFKey in foreignTableFKeys) {
-      if (tableName !== foreignTableFKeys[foreignTableFKey].referenceTable)
-      console.log(tableName, `--< ${refTableName} >--`, foreignTableFKeys[foreignTableFKey].referenceTable);
+      if (tableName !== foreignTableFKeys[foreignTableFKey].referenceTable) {
+        const manyToManyTable = foreignTableFKeys[foreignTableFKey].referenceTable;
+        relationships += `\n    ${manyToManyTable}: [${capitalize(singular(manyToManyTable))}]`;
+      }
     }
   }
-  console.log('')
+  return relationships;
 }
 
 module.exports = {
