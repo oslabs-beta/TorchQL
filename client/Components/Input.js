@@ -1,8 +1,8 @@
-import React, { useState , useState} from 'react';
+import React, { useState } from 'react';
 import HistoryContainer from '../containers/HistoryContainer';
 
 
-const Input = () => {
+const Input = (props) => {
   const [historyOpen, setHistoryOpen] = useState(false);
 
   const toggleHistory = () => {
@@ -40,7 +40,6 @@ const Input = () => {
       </div>
     );
   }
-}
 
 export default Input;
 

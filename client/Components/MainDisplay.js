@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Input from './Input';
 import CodeDisplay from './CodeDisplay';
 
-const MainDisplay = () => {
+const MainDisplay = (props) => {
   return (
     <div>
       {props.displayCode ? (
