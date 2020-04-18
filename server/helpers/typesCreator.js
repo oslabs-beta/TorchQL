@@ -1,5 +1,5 @@
-const { singular } = require("pluralize");
-const { capitalize, typeSet, getRelationships } = require('./helperFunctions');
+const { singular } = require('pluralize');
+const { capitalize, toCamelCase, typeSet, getRelationships } = require('./helperFunctions');
 const Generator = require('./../generators/typeGenerator');
 
 // returns query root types for each table in SDL format as array of strings
@@ -37,13 +37,13 @@ function createTypes(data) {
   for(let i = 0; i < tables.length; i++) {
     const tableName = tables[i];
     const { primaryKey, foreignKeys, referencedBy, columns } = data[tableName];
-    let typeStr = `\n  type ${capitalize(singular(tableName))} {\n    ${primaryKey}: ID!`;
-    // adds all columns with types to string
     const columnNames = Object.keys(columns);
+    let typeStr = `\n  type ${toCamelCase(capitalize(singular(tableName)))} {\n    ${toCamelCase(primaryKey)}: ID!`;
+    // adds all columns with types to string
     for (let columnName of columnNames) {
       if (!(foreignKeys && foreignKeys[columnName]) && columnName !== primaryKey) {
         const { dataType, isNullable } = columns[columnName];
-        typeStr += `\n    ${columnName}: ${typeSet(dataType)}`;
+        typeStr += `\n    ${toCamelCase(columnName)}: ${typeSet(dataType)}`;
         if (isNullable === 'YES') typeStr += '!';
       }
   	}

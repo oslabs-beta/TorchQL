@@ -3,6 +3,20 @@ const { singular } = require('pluralize');
 function capitalize(str) {
   return `${str[0].toUpperCase()}${str.slice(1)}`;
 }
+
+function toCamelCase(str) {
+  let varName = str.toLowerCase();
+  for (let i = 0, len = varName.length; i < len; i++) {
+    const isSeparator = varName[i] === '-' || varName[i] === '_';
+    if (varName[i + 1] && isSeparator) {
+      const char = (i === 0) ? varName[i + 1] : varName[i + 1].toUpperCase();
+      varName = varName.slice(0, i) + char + varName.slice(i + 2);
+    } else if (isSeparator) {
+      varName = varName.slice(0, i);
+    }
+  }
+  return varName;
+}
   
 function typeSet(str) {
 	switch (str) {
@@ -53,12 +67,12 @@ function getRelationships(data, tableName, referencedBy) {
   let relationships = '';
   for (let refTableName in referencedBy) {
     const { referencedBy: foreignRefBy, foreignKeys: foreignTableFKeys } = data[refTableName];
-    const refTableType = capitalize(singular(refTableName));
+    const refTableType = toCamelCase(capitalize(singular(refTableName)));
     if (foreignRefBy && foreignRefBy[tableName]) relationships += `\n    ${reftableName}: [${refTableType}]`;
-    else relationships += `\n    ${refTableName}: [${refTableType}]`;
+    else relationships += `\n    ${toCamelCase(refTableName)}: [${refTableType}]`;
     for (let foreignTableFKey in foreignTableFKeys) {
       if (tableName !== foreignTableFKeys[foreignTableFKey].referenceTable) {
-        const manyToManyTable = foreignTableFKeys[foreignTableFKey].referenceTable;
+        const manyToManyTable = toCamelCase(foreignTableFKeys[foreignTableFKey].referenceTable);
         relationships += `\n    ${manyToManyTable}: [${capitalize(singular(manyToManyTable))}]`;
       }
     }
@@ -68,6 +82,7 @@ function getRelationships(data, tableName, referencedBy) {
 
 module.exports = {
 	capitalize,
+  toCamelCase,
 	typeSet,
 	storeForeignKeys,
 	storeIndexedColumns,
