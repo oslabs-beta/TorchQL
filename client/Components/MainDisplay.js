@@ -1,39 +1,34 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import Input from './Input';
 import CodeDisplay from './CodeDisplay';
 
-class MainDisplay extends Component {
-  render() {
-    return (
-      <div>
-        {props.displayCode ? (
-          <div className="container">
-            <CodeDisplay
-              schema={props.schema}
-              handleClick={props.handleClick}
-            />
-            <Input
-              URI={props.URI}
-              handleInput={props.handleInput}
-              handleURI={props.handleURI}
-              displayCode={props.displayCode}
-              searchHistory={props.searchHistory}
-            />
-          </div>
-        ) : (
-          <div className="container">
-            <Input
-              URI={props.URI}
-              handleInput={props.handleInput}
-              handleURI={props.handleURI}
-              displayCode={props.displayCode}
-              searchHistory={props.searchHistory}
-            />
-          </div>
-        )}
-      </div>
-    );
-  }
-}
+const MainDisplay = () => {
+  return (
+    <div>
+      {props.displayCode ? (
+        <div className="container">
+          <CodeDisplay schema={props.schema} handleClick={props.handleClick} />
+          <Input
+            URI={props.URI}
+            handleInput={props.handleInput}
+            handleURI={props.handleURI}
+            displayCode={props.displayCode}
+            searchHistory={props.searchHistory}
+          />
+        </div>
+      ) : (
+        <div className="container">
+          <Input
+            URI={props.URI}
+            handleInput={props.handleInput}
+            handleURI={props.handleURI}
+            displayCode={props.displayCode}
+            searchHistory={props.searchHistory}
+          />
+        </div>
+      )}
+    </div>
+  );
+};
 
 export default MainDisplay;
