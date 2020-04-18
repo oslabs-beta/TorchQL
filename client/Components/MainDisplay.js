@@ -6,28 +6,28 @@ class MainDisplay extends Component {
   render() {
     return (
       <div>
-        {this.props.displayCode ? (
+        {props.displayCode ? (
           <div className="container">
             <CodeDisplay
-              schema={this.props.schema}
-              handleClick={this.props.handleClick}
+              schema={props.schema}
+              handleClick={props.handleClick}
             />
             <Input
-              URI={this.props.URI}
-              handleInput={this.props.handleInput}
-              handleURI={this.props.handleURI}
-              displayCode={this.props.displayCode}
-              searchHistory={this.props.searchHistory}
+              URI={props.URI}
+              handleInput={props.handleInput}
+              handleURI={props.handleURI}
+              displayCode={props.displayCode}
+              searchHistory={props.searchHistory}
             />
           </div>
         ) : (
           <div className="container">
             <Input
-              URI={this.props.URI}
-              handleInput={this.props.handleInput}
-              handleURI={this.props.handleURI}
-              displayCode={this.props.displayCode}
-              searchHistory={this.props.searchHistory}
+              URI={props.URI}
+              handleInput={props.handleInput}
+              handleURI={props.handleURI}
+              displayCode={props.displayCode}
+              searchHistory={props.searchHistory}
             />
           </div>
         )}
