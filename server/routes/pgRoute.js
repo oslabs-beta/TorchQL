@@ -28,7 +28,7 @@ router.get('/pg-prog',
   pgProgController.formatMutations,
   pgProgController.combineQueryAndMutations,
   (req, res) => {
-    console.log(res.locals.combine)
+    console.log(res.locals.mutations)
     res.status(200).json(res.locals.combine);
   }
 );

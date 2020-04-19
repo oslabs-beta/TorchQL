@@ -14,11 +14,7 @@ const {
   generateQueryResolvers,
   generateMutationResolvers,
   formatResolvers,
-<<<<<<< HEAD
-} = require('./../helpers/resolversCreator');
-=======
 } = require('../helpers/resolversCreator');
->>>>>>> dev
 
 // middleware function for recovering info from pg tables
 pgController.getPGTables = (req, res, next) => {
