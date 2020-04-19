@@ -42,25 +42,6 @@ function typeSet(str) {
 			return 'Int';
 	}
 }
-
-function storeForeignKeys(obj) {
-  const cache = {};
-  const fKeys = (obj === null) ? [] : Object.keys(obj);
-	for (key of fKeys) cache[key] = obj[key];
-	return cache;
-}
-
-function storeIndexedColumns(obj, key, cache) {
-	let newObj = {};
-	let index = 1;
-	const columnNames = Object.keys(obj);
-	for (columnName of columnNames) {
-		if (!cache[columnName] && columnName !== key) {
-			newObj[index++] = columnName;
-		}
-	}
-	return newObj;
-}
   
 // Get table relationships
 function getRelationships(data, tableName, referencedBy) {
@@ -84,7 +65,5 @@ module.exports = {
 	capitalize,
   toCamelCase,
 	typeSet,
-	storeForeignKeys,
-	storeIndexedColumns,
 	getRelationships
 };

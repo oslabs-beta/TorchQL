@@ -1,12 +1,9 @@
-const { storeForeignKeys } = require('./helperFunctions');
-const { storeIndexedColumns } = require('./helperFunctions');
-const Generator = require('./../generators/resolverGenerator');
+const Generator = require('../generators/resolverGenerator');
 
 // returns query resolvers for each table in SDL format as array of strings
 function generateQueryResolvers(data) {
 	let queries = '';
-	const tables = Object.keys(data);
-	for (tableName of tables) {
+	for (tableName in data) {
 		const { primaryKey } = data[tableName];
 		const resolveOneStr = Generator.column(tableName, primaryKey);
 		const resolveAllStr = Generator.allColumn(tableName);
@@ -17,57 +14,14 @@ function generateQueryResolvers(data) {
 
 // formats and returns mutation resolvers arranged by table in SDL as single string 
 function generateMutationResolvers(data) {
-	const allMutResolvers = [];
-	const tables = Object.keys(data);
-	for (let i = 0; i < tables.length; i++) {
-		const tableName = tables[i]
+	let mutations = '';
+	for (let tableName in data) {
 		const { primaryKey, foreignKeys, columns } = data[tableName];
-		// stores foreign keys and associated properties as an object
-		const fkCache = storeForeignKeys(foreignKeys);
-		// stores columns that are not primary or foreign keys as values in indexed object 
-		const valueObj = storeIndexedColumns(columns, primaryKey, fkCache);
-		// skip tables with columns with only primary and foreign keys
-		if (Object.entries(valueObj).length === 0) continue;
-		allMutResolvers.push(createMutResolvers(tableName, valueObj));
-		allMutResolvers.push(updateMutResolvers(tableName, data[tableName], valueObj));
-		allMutResolvers.push(deleteMutResolvers(tableName, data[tableName]));
+		mutations += `${Generator.createColumn(tableName, primaryKey, foreignKeys, columns)}\n`
+			+ `${Generator.updateColumn(tableName, primaryKey, foreignKeys, columns)}\n`
+			+ `${Generator.deleteColumn(tableName, primaryKey)}\n\n`;
 	}
-	return assembleMutResolvers(allMutResolvers);
-}
-
-// returns create mutation resolvers for each table as array
-function createMutResolvers(tableName, data) {
-	const mutResolvers = [];
-	let resolveStr = Generator.createColumn(tableName, data);
-		mutResolvers.push(resolveStr);
-	return mutResolvers;
-}
-
-// returns update mutation resolvers for each table as array
-function updateMutResolvers(tableName, data, obj) {
-	const mutResolvers = [];
-	const { primaryKey } = data;
-	let displaySet = '';
-	for (let key in obj) displaySet += `${obj[key]}=$${key} `;
-	let resolveStr = Generator.updateColumn(tableName, primaryKey, obj, displaySet);
-  mutResolvers.push(resolveStr);
-	return mutResolvers;
-}
-
-// returns delete mutation resolvers for each table as array
-function deleteMutResolvers(tableName, data) {
-	let mutResolvers = [];
-	const { primaryKey } = data;
-	resolveStr = Generator.deleteColumn(tableName, primaryKey);
-	mutResolvers.push(resolveStr);
-  return mutResolvers;
-}
-
-// formats and returns mutation resolvers in SDL as single string
-function assembleMutResolvers(mutations) {
-	let resolveStr = '';
-	for (i = 0; i < mutations.length; i++) resolveStr += `${mutations[i]}\n`;
-	return resolveStr;
+	return mutations;
 }
 
 // formats and returns all resolvers in SDL as single string for rendering on front-end
@@ -79,7 +33,7 @@ function formatResolvers(queryResolvers, mutationResolvers) {
 		+ '  Mutation: {\n'
 		+ `${mutationResolvers}`
 		+ '  }\n'
-		+ '}\n'
+		+ '}\n';
 }
 
 module.exports = {

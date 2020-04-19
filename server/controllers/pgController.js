@@ -59,9 +59,13 @@ pgController.makeQueryResolvers = (req, res, next) => {
 
 // middleware function for making mutation resolvers in SDL as string
 pgController.makeMutationResolvers = (req, res, next) => {
-  const mutationResolvers = generateMutationResolvers(res.locals.tables);
-  res.locals.mutationResolvers = mutationResolvers;
-  return next();
+  try {
+    const mutationResolvers = generateMutationResolvers(res.locals.tables);
+    res.locals.mutationResolvers = mutationResolvers;
+    return next();
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 // middleware function for returning formatted resolvers in SDL as string
