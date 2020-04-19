@@ -3,7 +3,7 @@ const { capitalize } = require('./../helpers/helperFunctions');
 
 const ResolverGenerator = {};
 
-ResolverGenerator.allColumns = (table) => {
+ResolverGenerator.allColumn = (table) => {
   return `    ${table}: () => {\n`
     + '      try {\n'
     + `        const query = 'SELECT * FROM ${table}';\n`

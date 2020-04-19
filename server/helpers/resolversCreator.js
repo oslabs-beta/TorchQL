@@ -2,36 +2,17 @@ const { storeForeignKeys } = require('./helperFunctions');
 const { storeIndexedColumns } = require('./helperFunctions');
 const Generator = require('./../generators/resolverGenerator');
 
-// returns get all query resolvers for each table in SDL format as array of strings
-function generateGetAllQuery(data) {
-	const queriesAll = [];
-	// iterates through each data object corresponding to single table in PostgreSQL database
-	const tables = Object.keys(data);
-	for (tableName of tables) {
-		let resolveStr = Generator.allColumns(tableName);
-	queriesAll.push(resolveStr);
-	}
-	return queriesAll;
-}
-
-// returns get one query resolvers for each table in SDL format as array of strings
-function generateGetOneQuery(data) {
-	const queriesById = [];
-	// iterates through each data object corresponding to single table in PostgreSQL database
+// returns query resolvers for each table in SDL format as array of strings
+function generateQueryResolvers(data) {
+	let queries = '';
 	const tables = Object.keys(data);
 	for (tableName of tables) {
 		const { primaryKey } = data[tableName];
-		let resolveStr = Generator.column(tableName, primaryKey);
-		queriesById.push(resolveStr);
+		const resolveOneStr = Generator.column(tableName, primaryKey);
+		const resolveAllStr = Generator.allColumn(tableName);
+		queries += `\n${resolveOneStr}\n${resolveAllStr}`;
 	}
-	return queriesById;
-}
-
-// formats and returns query resolvers arranged by table in SDL as single string 
-function generateQueryResolvers(arr1, arr2) {
-	let resolveStr = '';
-	for (i = 0; i < arr1.length; i++) resolveStr += `\n${arr1[i]}\n${arr2[i]}`;
-	return resolveStr;
+	return queries;
 }
 
 // formats and returns mutation resolvers arranged by table in SDL as single string 
@@ -102,8 +83,6 @@ function formatResolvers(queryResolvers, mutationResolvers) {
 }
 
 module.exports = {
-  generateGetAllQuery,
-  generateGetOneQuery,
 	generateQueryResolvers,
 	generateMutationResolvers,
 	formatResolvers

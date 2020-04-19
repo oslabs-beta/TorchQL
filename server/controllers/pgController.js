@@ -3,7 +3,7 @@ const { Pool } = require('pg');
 const pgQuery = fs.readFileSync('server/queries/tableData.sql', 'utf8');
 const pgController = {};
 const { createQuery, createMutation, createTypes, formatTypeDefs } = require('./../helpers/typesCreator');
-const { generateGetAllQuery, generateGetOneQuery, generateQueryResolvers, generateMutationResolvers, formatResolvers } = require('./../helpers/resolversCreator');
+const { generateQueryResolvers, generateMutationResolvers, formatResolvers } = require('./../helpers/resolversCreator');
 
 // middleware function for recovering info from pg tables
 pgController.getPGTables = (req, res, next) => {
@@ -52,9 +52,8 @@ pgController.returnTypeDefs = (req, res, next) => {
 
 // middleware function for making query resolvers in SDL as string
 pgController.makeQueryResolvers = (req, res, next) => {
-  const queryAllResolvers = generateGetAllQuery(res.locals.tables);
-  const queryOneResolvers = generateGetOneQuery(res.locals.tables);
-  res.locals.queryResolvers = generateQueryResolvers(queryAllResolvers, queryOneResolvers);
+  const queryResolvers = generateQueryResolvers(res.locals.tables);
+  res.locals.queryResolvers = queryResolvers;
   return next();
 };
 
