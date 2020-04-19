@@ -16,7 +16,7 @@ MutationGenerator.createColumn = (tableName, values, columns) => {
         for(let i = 0; i < values.length; i += 1){
             const dataType = getDataType(valsAndTypes[i][1]);
 
-            argsArray.push(`${values[i]}: { type: ${dataType} }`);
+            argsArray.push(`        ${values[i]}: { type: ${dataType} }`);
         };
 
         return '    ' + argsArray.join(', \n');
@@ -33,10 +33,10 @@ MutationGenerator.createColumn = (tableName, values, columns) => {
         return numArr;
     };
     return (
-            `add${capSingle}: {\n`
-        +   `     type: ${capSingle}Type,\n`
+            `   add${capSingle}: {\n`
+        +   `       type: ${capSingle}Type,\n`
         +   `       args: {\n`
-        +   `     ${generateArgs(valsArr)}\n`
+        +   `           ${generateArgs(valsArr)}\n`
         +   `       },\n` 
         +   `       resolve(parent, args) {\n`     
         +   `           try {\n`   
@@ -61,7 +61,7 @@ MutationGenerator.updateColumn = (tableName, values, primaryKey) => {
 
         for (const value of values) {
             const dataType = getDataType(value);
-            argsArray.push(`${value}: { type: ${dataType} }`);
+            argsArray.push(`        ${value}: { type: ${dataType} }`);
         };
 
         return '    ' + argsArray.join(', \n');
@@ -78,23 +78,23 @@ MutationGenerator.updateColumn = (tableName, values, primaryKey) => {
     };
 
     return (
-            `update${capSingle}: {\n`
-        +   `   type: ${capSingle}Type,\n`
-        +   `   args: {\n`
-        +   `${generateArgs(valsArr)}\n`
+            `   update${capSingle}: {\n`
+        +   `       type: ${capSingle}Type,\n`
+        +   `       args: {\n`
+        +   `   ${generateArgs(valsArr)}\n`
+        +   `       },\n`
+        +   `       resolve(parent, args) {\n`
+        +   `       try { \n`
+        +   `           const query = \`UPDATE ${tableName}(${valsArr.join(', ')}) \n`
+        +   `           SET(${valsAndNums(valsArr).join(', ')})\`\n`
+        +   `           WHERE ${primaryKey} = ${valsArr.length}\n`
+        +   `           const values = [${valsArr.map((val) => 'args.' + val).join(', ')}, args.${primaryKey}]\n`
+        +   `           return db.query(query, values).then((res) => res.rows[0]);\n`
+        +   `       } catch(err) {\n`
+        +   `           throw new Error(err);\n`
+        +   `           }\n`
+        +   `       },\n`
         +   `   },\n`
-        +   `   resolve(parent, args) {\n`
-        +   `   try { \n`
-        +   `     const query = \`UPDATE ${tableName}(${valsArr.join(', ')}) \n`
-        +   `     SET(${valsAndNums(valsArr).join(', ')})\`\n`
-        +   `     WHERE ${primaryKey} = ${valsArr.length}\n`
-        +   `     const values = [${valsArr.map((val) => 'args.' + val).join(', ')}, args.${primaryKey}]\n`
-        +   `     return db.query(query, values).then((res) => res.rows[0]);\n`
-        +   `   } catch(err) {\n`
-        +   `       throw new Error(err);\n`
-        +   `     }\n`
-        +   `   },\n`
-        +   ` },\n`
     );
 };
 
@@ -103,8 +103,8 @@ MutationGenerator.destroyColumn = (tableName, primaryKey, primaryKeyType) => {
     const capSingle = capitalize(singleName);
 
     return(
-            ` delete${capSingle}: {\n`
-        +   `     type: ${capSingle}Type,\n`
+            `   delete${capSingle}: {\n`
+        +   `       type: ${capSingle}Type,\n`
         +   `       args: {\n`
         +   `         ${primaryKey}: { type: newGraphQLNonNull(${primaryKeyType}) },\n`
         +   `       },\n`

@@ -66,7 +66,7 @@ function formatMutations(mutations) {
     `const Mutation = new GraphQL ObjectType({\n` +
     `  name: 'Mutation',\n` +
     `  fields: {\n` +
-    `    ${mutations}\n` +
+    `    ${mutations}` +
     `  },\n` +
     `});\n`
   );
