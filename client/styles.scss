@@ -10,7 +10,8 @@ $pink-shadow: #ffe3e2;
 
 * {
   box-sizing: border-box;
-  &::before, &::after {
+  &::before,
+  &::after {
     box-sizing: border-box;
   }
 }
@@ -20,11 +21,21 @@ body {
   font-size: 1rem;
   line-height: 1.5;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   margin: 0;
   min-height: 100vh;
   background: $bg;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  .codemirror {
+    width: 80vw;
+  }
 }
 
 button {
@@ -37,7 +48,7 @@ button {
   text-decoration: none;
   font-size: inherit;
   font-family: inherit;
-  &.MainBtn {
+  &.main-btn {
     font-weight: 600;
     color: $text;
     text-transform: uppercase;
@@ -46,8 +57,9 @@ button {
     border: 2px solid $pink-border;
     border-radius: 0.75em;
     transform-style: preserve-3d;
-    display:inline-block;
-    transition: transform 150ms cubic-bezier(0, 0, 0.58, 1), background 150ms cubic-bezier(0, 0, 0.58, 1);
+    display: inline-block;
+    transition: transform 150ms cubic-bezier(0, 0, 0.58, 1),
+      background 150ms cubic-bezier(0, 0, 0.58, 1);
     &::before {
       position: absolute;
       content: '';
@@ -61,7 +73,8 @@ button {
       border-radius: inherit;
       box-shadow: 0 0 0 2px $pink-border, 0 0.625em 0 0 $pink-shadow;
       transform: translate3d(0, 0.75em, -1em);
-      transition: transform 150ms cubic-bezier(0, 0, 0.58, 1), box-shadow 150ms cubic-bezier(0, 0, 0.58, 1);
+      transition: transform 150ms cubic-bezier(0, 0, 0.58, 1),
+        box-shadow 150ms cubic-bezier(0, 0, 0.58, 1);
     }
     &:hover {
       background: $pink;
@@ -82,58 +95,58 @@ button {
   }
 }
 
-.Input {
-    display: flex;
-    box-sizing: border-box;
-    // align-self: flex-end;
-    align-items: flex-end;
-    justify-content: center;
-    box-shadow: 0 0 0 2px $pink-border, 0 0.625em 0 0 $pink-shadow;
-    font-family: 'Rubik', sans-serif;
-    font-size: 1rem;
-    line-height: 1.5;
-    margin: 0;
-    min-height: 10vh;
-    background: $bg;
-    color: $text;
-    text-transform: uppercase;
-    padding: 1.25em 2em;
-    background: $light-pink;
-    border: 2px solid $pink-border;
-    border-radius: 0.75em;
-    display: inline-block;
+.input {
+  display: flex;
+  box-sizing: border-box;
+  // align-self: flex-end;
+  align-items: flex-end;
+  justify-content: center;
+  box-shadow: 0 0 0 2px $pink-border, 0 0.625em 0 0 $pink-shadow;
+  font-family: 'Rubik', sans-serif;
+  font-size: 1rem;
+  line-height: 1.5;
+  margin: 0;
+  min-height: 10vh;
+  background: $bg;
+  color: $text;
+  text-transform: uppercase;
+  padding: 1.25em 2em;
+  background: $light-pink;
+  border: 2px solid $pink-border;
+  border-radius: 0.75em;
+  display: inline-block;
 }
 
-.Form {
-    // display: flex;
-    // box-sizing: border-box;
-    // // align-self: flex-end;
-    // align-items: flex-end;
-    // justify-content: center;
-    box-shadow: 0 0 0 2px $pink-border, 0 0.625em 0 0 $pink-shadow;
-    font-family: 'Rubik', sans-serif;
-    font-size: 1rem;
-    line-height: 1.5;
-    margin: 0;
-    min-height: 50vh;
-    background: $bg;
-    color: $text;
-    text-transform: uppercase;
-    padding: 1.25em 2em;
-    background: $light-pink;
-    border: 2px solid $pink-border;
-    border-width: 1px;
-    border-radius: 0.75em;
-    display: inline-block;
+.input-form {
+  box-shadow: 0 0 0 2px $pink-border, 0 0.625em 0 0 $pink-shadow;
+  font-family: 'Rubik', sans-serif;
+  font-size: 1rem;
+  line-height: 1.5;
+  margin: 0;
+  min-height: 50vh;
+  background: $bg;
+  color: $text;
+  text-transform: uppercase;
+  padding: 1.25em 2em;
+  background: $light-pink;
+  border: 2px solid $pink-border;
+  border-width: 1px;
+  border-radius: 0.75em;
+  display: inline-block;
 }
 
 .piQL {
-    font-family: 'Rubik', sans-serif;
-    font-size: 5rem;
-    line-height: 1.5;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0;
-    background: $light-pink;
+  font-family: 'Rubik', sans-serif;
+  font-size: 5rem;
+  line-height: 1.5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  background: $light-pink;
+  text-overflow: clip;
+}
+
+.toggle-history-text {
+  cursor: pointer;
 }

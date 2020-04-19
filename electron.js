@@ -25,11 +25,14 @@ const createWindow = () => {
     })
   );
 
+  mainWindow.webContents.openDevTools();
+
+  // These are currently interfering with keyboard commands (e.g. paste)
   // Build Menu
-  const mainMenu = Menu.buildFromTemplate(mainMenuTemplate);
+  // const mainMenu = Menu.buildFromTemplate(mainMenuTemplate);
 
   // Insert Menu
-  Menu.setApplicationMenu(mainMenu);
+  // Menu.setApplicationMenu(mainMenu);
 };
 
 // Once Electron has finished initialization:
@@ -54,56 +57,57 @@ const aboutNewWindow = () => {
   aboutWindow = new BrowserWindow({
     width: 300,
     height: 300,
-    title: 'About'
+    title: 'About',
   });
 
-  aboutWindow.loadURL(url.format({
-    pathname: path.join(__dirname, './client/Components/About.html'),
-    protocol: 'file',
-    slashes: true
-  }));
+  aboutWindow.loadURL(
+    url.format({
+      pathname: path.join(__dirname, './client/Components/About.html'),
+      protocol: 'file',
+      slashes: true,
+    })
+  );
 
   // Garbage Collection Handler
   aboutWindow.on('close', () => {
     aboutWindow = null;
   });
-  
 };
 
 // Create Menu Template
 const mainMenuTemplate = [
   {
     label: '',
-    submenu:[
+    submenu: [
       {
         label: 'About',
-        click(){
-          aboutNewWindow()
-        }
+        click() {
+          aboutNewWindow();
+        },
       },
       {
         label: 'Quit',
         accelerator: isMac ? 'Command+Q' : 'Ctrl+Q',
-        click(){
+        click() {
           app.quit(); // Closes the program/gooey
-        }
-      }
-    ]
+        },
+      },
+    ],
   },
   {
-      label: 'File',
-      submenu:[
-          {
-            label: 'Placeholder'
-          },
-          {
-            label: 'Placeholder'
-          },
-          {
-            label: 'Placeholder'
-          },
-      ]
-  }
+    label: 'File',
+    submenu: [
+      {
+        label: 'Placeholder',
+      },
+      {
+        label: 'Placeholder',
+      },
+      {
+        label: 'Placeholder',
+      },
+    ],
+  },
 ];
 
 if (process.env.NODE_ENV !== 'production' && process.NODE_ENV !== 'test') {
@@ -122,4 +126,4 @@ if (process.env.NODE_ENV !== 'production' && process.NODE_ENV !== 'test') {
       },
     ],
   });
-};
+}
