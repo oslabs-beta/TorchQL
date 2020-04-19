@@ -63,12 +63,12 @@ function assembleMutations(mutations) {
 
 function formatMutations(mutations) {
   return (
-    `const Mutation = new GraphQL ObjectType({` +
-    `  name: 'Mutation',` +
-    `  fields: {` +
-    `    ${mutations}` +
-    `  },` +
-    `});`
+    `const Mutation = new GraphQL ObjectType({\n` +
+    `  name: 'Mutation',\n` +
+    `  fields: {\n` +
+    `    ${mutations}\n` +
+    `  },\n` +
+    `});\n`
   );
 }
 

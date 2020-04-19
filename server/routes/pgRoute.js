@@ -19,18 +19,17 @@ router.get(
   }
 );
 
-router.get(
-  '/pg-prog',
-  pgProgController.getPGTables,
-  pgProgController.makeProgQueryResolvers,
-
-  // mutations
-  pgController.generateMutations,
-  pgController.assembleMutations,
-  pgController.formatMutations,
+router.get('/pg-prog',
+  pgController.getPGTables,
+  pgProgController.generateQuery,
+  pgProgController.formatQueries,
+  pgProgController.generateMutations,
+  pgProgController.assembleMutations,
+  pgProgController.formatMutations,
+  pgProgController.combineQueryAndMutations,
   (req, res) => {
-    console.log(res.locals.mutations);
-    res.status(200).json(res.locals.mutations);
+    console.log(res.locals.mutations)
+    res.status(200).json(res.locals.combine);
   }
 );
 module.exports = router;
