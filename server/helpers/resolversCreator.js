@@ -1,31 +1,20 @@
 const Generator = require('../generators/resolverGenerator');
 
 // returns query resolvers for each table in SDL format as array of strings
-function generateQueryResolvers(data) {
+function createResolvers(data) {
 	let queries = '';
+	let mutations = '';
 	for (tableName in data) {
 		const { primaryKey } = data[tableName];
-		const resolveOneStr = Generator.column(tableName, primaryKey);
-		const resolveAllStr = Generator.allColumn(tableName);
-		queries += `\n${resolveOneStr}\n${resolveAllStr}`;
+		const tableData = data[tableName];
+		queries += Generator.queries(tableName, primaryKey);
+		mutations += Generator.mutations(tableName, tableData)
 	}
-	return queries;
-}
-
-// formats and returns mutation resolvers arranged by table in SDL as single string 
-function generateMutationResolvers(data) {
-	let mutations = '';
-	for (let tableName in data) {
-		const { primaryKey, foreignKeys, columns } = data[tableName];
-		mutations += `${Generator.createColumn(tableName, primaryKey, foreignKeys, columns)}\n`
-			+ `${Generator.updateColumn(tableName, primaryKey, foreignKeys, columns)}\n`
-			+ `${Generator.deleteColumn(tableName, primaryKey)}\n\n`;
-	}
-	return mutations;
+	return { queries, mutations };
 }
 
 // formats and returns all resolvers in SDL as single string for rendering on front-end
-function formatResolvers(queryResolvers, mutationResolvers) {
+function combineResolvers(queryResolvers, mutationResolvers) {
 	return 'const resolvers = {\n'
 		+ '  Query: {'
 		+ `    ${queryResolvers}\n`
@@ -37,7 +26,6 @@ function formatResolvers(queryResolvers, mutationResolvers) {
 }
 
 module.exports = {
-	generateQueryResolvers,
-	generateMutationResolvers,
-	formatResolvers
+	createResolvers,
+	combineResolvers
 };

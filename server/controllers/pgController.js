@@ -3,7 +3,7 @@ const { Pool } = require('pg');
 const pgQuery = fs.readFileSync('server/queries/tableData.sql', 'utf8');
 const pgController = {};
 const { createQuery, createMutation, createTypes, formatTypeDefs } = require('./../helpers/typesCreator');
-const { generateQueryResolvers, generateMutationResolvers, formatResolvers } = require('./../helpers/resolversCreator');
+const { createResolvers, combineResolvers } = require('./../helpers/resolversCreator');
 
 // middleware function for recovering info from pg tables
 pgController.getPGTables = (req, res, next) => {
@@ -50,28 +50,18 @@ pgController.returnTypeDefs = (req, res, next) => {
   return next();
 }
 
-// middleware function for making query resolvers in SDL as string
-pgController.makeQueryResolvers = (req, res, next) => {
-  const queryResolvers = generateQueryResolvers(res.locals.tables);
-  res.locals.queryResolvers = queryResolvers;
+// middleware function for creating resolvers in SDL as string
+pgController.createResolvers = (req, res, next) => {
+  const { queries, mutations }  = createResolvers(res.locals.tables);
+  res.locals.queryResolvers = queries;
+  res.locals.mutationResolvers = mutations;
   return next();
 };
 
-// middleware function for making mutation resolvers in SDL as string
-pgController.makeMutationResolvers = (req, res, next) => {
-  try {
-    const mutationResolvers = generateMutationResolvers(res.locals.tables);
-    res.locals.mutationResolvers = mutationResolvers;
-    return next();
-  } catch (err) {
-    console.log(err);
-  }
-};
-
 // middleware function for returning formatted resolvers in SDL as string
-pgController.returnResolvers = (req, res, next) => {
+pgController.combineResolvers = (req, res, next) => {
   const { queryResolvers, mutationResolvers } = res.locals;
-  res.locals.resolvers = formatResolvers(queryResolvers, mutationResolvers);
+  res.locals.resolvers = combineResolvers(queryResolvers, mutationResolvers);
   return next();
 }
 
