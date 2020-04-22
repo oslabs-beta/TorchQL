@@ -5,8 +5,8 @@ const TypeGenerator = {};
 
 TypeGenerator.queries = function queries(tableName) {
   const nameSingular = singular(tableName);
-  return `${tableName}:[${capitalize(nameSingular)}!]!\n`
-    + `    ${nameSingular}ByID(${nameSingular}id:ID):${capitalize(nameSingular)}!`;
+  return `    ${tableName}:[${capitalize(nameSingular)}!]!\n`
+    + `    ${nameSingular}ByID(${nameSingular}id:ID):${capitalize(nameSingular)}!\n`;
 };
 
 TypeGenerator.mutations = function mutations(tableName, tableData) {
