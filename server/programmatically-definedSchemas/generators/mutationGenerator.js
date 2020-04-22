@@ -64,7 +64,7 @@ MutationGenerator.updateColumn = (tableName, values, primaryKey) => {
             argsArray.push(`        ${value}: { type: ${dataType} }`);
         };
 
-        return '    ' + argsArray.join(', \n');
+        return argsArray.join(', \n');
     };
 
     // Array of column names
