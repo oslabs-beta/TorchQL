@@ -1,7 +1,7 @@
 const fs = require('fs');
 const { Pool } = require('pg');
-const { createTypes, formatTypeDefs } = require('./../helpers/typesCreator');
-const { createResolvers, combineResolvers } = require('./../helpers/resolversCreator');
+const TypeGenerator = require('../generators/typeGenerator');
+const ResolverGenerator = require('../generators/resolverGenerator');
 const pgQuery = fs.readFileSync('server/queries/tableData.sql', 'utf8');
 
 const pgController = {};
@@ -16,50 +16,85 @@ pgController.getPGTables = (req, res, next) => {
     })
     .catch((err) =>
       next({
-        log: 'There was a problem making database query',
+        log: err,
         status: 500,
-        message: { err },
+        message: { err: 'There was a problem making database query' },
       })
     );
 };
 
 // middleware function for making query and mutation root types in SDL
 pgController.createTypes = (req, res, next) => {
-  const { queries, mutations, customTypes } = createTypes(res.locals.tables);
-  res.locals.queries = queries;
-  res.locals.mutations = mutations;
-  res.locals.types = customTypes;
-  return next();
+  try {
+    const { tables } = res.locals;
+    let queries = '';
+    let mutations = '';
+    let customTypes = '';
+    for (let tableName in tables) {
+      queries += TypeGenerator.queries(tableName);
+      mutations += TypeGenerator.mutations(tableName, tables[tableName]);
+      customTypes += TypeGenerator.customTypes(tableName, tables);
+    }
+    res.locals.types = 'const typeDefs = `\n'
+      + '  type Query {\n'
+      + `    ${queries}\n`
+      + '  }\n\n'
+      + '  type Mutation {\n'
+      + `    ${mutations}\n`
+      + '  }\n\n'
+      + `${customTypes}\`;\n\n`;
+    return next();
+  } catch (err) {
+    return next({
+      log: err,
+      status: 500,
+      message: { err: 'There was a problem creating types' }
+    });
+  }
 };
-
-// middleware function for returning formatted type definitions in SDL as string
-pgController.returnTypeDefs = (req, res, next) => {
-  const { queries, mutations, types } = res.locals;
-  res.locals.allTypeDefs = formatTypeDefs(queries, mutations, types);
-  return next();
-}
 
 // middleware function for creating resolvers in SDL as string
 pgController.createResolvers = (req, res, next) => {
-  const { queries, mutations }  = createResolvers(res.locals.tables);
-  res.locals.queryResolvers = queries;
-  res.locals.mutationResolvers = mutations;
-  return next();
+  try {
+    const { tables } = res.locals;
+    let queries = '';
+    let mutations = '';
+    for (tableName in tables) {
+      const { primaryKey } = tables[tableName];
+      const tableData = tables[tableName];
+      queries += ResolverGenerator.queries(tableName, primaryKey);
+      mutations += ResolverGenerator.mutations(tableName, tableData)
+    }
+    res.locals.resolvers = 'const resolvers = {\n'
+      + '  Query: {'
+      + `    ${queries}\n`
+      + '  }\n\n'
+      + '  Mutation: {\n'
+      + `${mutations}`
+      + '  }\n'
+      + '}\n';
+    return next();
+  } catch (err) {
+    return next({
+      log: err,
+      status: 500,
+      message: { err: 'There was a problem creating resolvers' }
+    });
+  }
 };
 
-// middleware function for returning formatted resolvers in SDL as string
-pgController.combineResolvers = (req, res, next) => {
-  const { queryResolvers, mutationResolvers } = res.locals;
-  res.locals.resolvers = combineResolvers(queryResolvers, mutationResolvers);
-  return next();
-}
-
 pgController.assembleSchema = (req, res, next) => {
-  const { allTypeDefs, resolvers } = res.locals;
-  res.locals.schema = `${allTypeDefs}${resolvers}\n\nconst schema = makeExecutableSchema({\n  typeDefs,\n  resolvers,\n});\n\nmodule.exports = schema;`;
-  return next();
+  try {
+    const { types, resolvers } = res.locals;
+    res.locals.schema = `${types}${resolvers}\n\nconst schema = makeExecutableSchema({\n  typeDefs,\n  resolvers,\n});\n\nmodule.exports = schema;`;
+    return next();
+  } catch (err) {
+    return next({
+      log: err,
+      status: 500,
+      message: { err: 'There was a problem assembling SDL schema' }
+    });
+  }
 }
-
-
 
 module.exports = pgController;
