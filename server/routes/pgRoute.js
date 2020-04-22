@@ -3,12 +3,10 @@ const pgController = require('./../controllers/pgController');
 
 router.get('/pg',
   pgController.getPGTables,
-  pgController.makeQueries,
-  pgController.makeMutations,
-  pgController.makeTypes,
+  pgController.createTypes,
   pgController.returnTypeDefs,
   pgController.createResolvers,
-  pgController.returnResolvers,
+  pgController.combineResolvers,
   pgController.assembleSchema,
   (req, res) => {
     console.log(res.locals.schema);

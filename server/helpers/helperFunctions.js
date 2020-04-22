@@ -1,5 +1,3 @@
-const { singular } = require('pluralize');
-
 function capitalize(str) {
   return `${str[0].toUpperCase()}${str.slice(1)}`;
 }
@@ -42,28 +40,9 @@ function typeSet(str) {
 			return 'Int';
 	}
 }
-  
-// Get table relationships
-function getRelationships(data, tableName, referencedBy) {
-  let relationships = '';
-  for (let refTableName in referencedBy) {
-    const { referencedBy: foreignRefBy, foreignKeys: foreignTableFKeys } = data[refTableName];
-    const refTableType = toCamelCase(capitalize(singular(refTableName)));
-    if (foreignRefBy && foreignRefBy[tableName]) relationships += `\n    ${reftableName}: [${refTableType}]`;
-    else relationships += `\n    ${toCamelCase(refTableName)}: [${refTableType}]`;
-    for (let foreignTableFKey in foreignTableFKeys) {
-      if (tableName !== foreignTableFKeys[foreignTableFKey].referenceTable) {
-        const manyToManyTable = toCamelCase(foreignTableFKeys[foreignTableFKey].referenceTable);
-        relationships += `\n    ${manyToManyTable}: [${capitalize(singular(manyToManyTable))}]`;
-      }
-    }
-  }
-  return relationships;
-}
 
 module.exports = {
 	capitalize,
   toCamelCase,
-	typeSet,
-	getRelationships
+	typeSet
 };
