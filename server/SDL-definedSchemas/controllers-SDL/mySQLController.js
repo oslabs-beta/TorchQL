@@ -15,8 +15,8 @@ mySQLController.getTables = (req, res, next) => {
       throw err
     }
     console.log('connection successful')
-    const sql = 'SHOW COLUMNS FROM users';
-    const pgQuery = fs.readFileSync('server/queries/tableData.sql', 'utf8');
+    const sql = `SHOW fields from users`;
+    const pgQuery = fs.readFileSync('server/queries/mySQLtableData.sql', 'utf8');
     // db.query(sql)
     // .then((data) => {
     //   res.locals.mysqltables = data.rows[0].tables;
@@ -29,7 +29,7 @@ mySQLController.getTables = (req, res, next) => {
     //     message: { err },
     //   })
     // );
-    db.query(sql, (err, data) => {
+    db.query(pgQuery, (err, data) => {
       if(err) throw err;
       res.locals.mysqltables = data;
       return next();

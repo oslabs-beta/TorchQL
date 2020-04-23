@@ -15,7 +15,7 @@ router.get(
 );
 
 router.get('/pg-prog',
-  mySQLController.getTables,
+  pgController.getPGTables,
   pgProgController.generateQuery,
   pgProgController.formatQueries,
   pgProgController.generateMutations,
