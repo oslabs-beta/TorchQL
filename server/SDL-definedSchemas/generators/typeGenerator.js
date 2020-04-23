@@ -1,12 +1,12 @@
 const { singular } = require('pluralize');
-const { capitalize, toCamelCase, typeSet } = require('./../helpers/helperFunctions');
+const { toCamelCase, toPascalCase, typeSet } = require('./../helpers/helperFunctions');
 
 const TypeGenerator = {};
 
 TypeGenerator.queries = function queries(tableName) {
   const nameSingular = singular(tableName);
   const camSinName = toCamelCase(nameSingular);
-  return `    ${toCamelCase(tableName)}:[${capitalize(camSinName)}!]!\n`
+  return `    ${toCamelCase(tableName)}:[${toPascalCase(nameSingular)}!]!\n`
     + `    ${camSinName}ByID(${camSinName}id:ID):${camSinName}!\n`;
 };
 
@@ -20,7 +20,7 @@ TypeGenerator.mutations = function mutations(tableName, tableData) {
 TypeGenerator.customTypes = function customTypes(tableName, tables) {
   const { primaryKey, foreignKeys, columns } = tables[tableName];
   if (foreignKeys === null || Object.keys(columns).length !== Object.keys(foreignKeys).length + 1) {
-    return `  type ${toCamelCase(singular(tableName))} {\n`
+    return `  type ${toPascalCase(singular(tableName))} {\n`
       + `    ${toCamelCase(primaryKey)}: ID!`
       + this._columns(primaryKey, foreignKeys, columns)
       + this._getRelationships(tableName, tables)
@@ -45,14 +45,17 @@ TypeGenerator._columns = function columns(primaryKey, foreignKeys, columns) {
 TypeGenerator._getRelationships = function getRelationships(tableName, tables) {
   let relationships = '';
   for (let refTableName in tables[tableName].referencedBy) {
-    const { referencedBy: foreignRefBy, foreignKeys: foreignTableFKeys } = tables[refTableName];
-    const refTableType = capitalize(toCamelCase(singular(refTableName)));
-    if (foreignRefBy && foreignRefBy[tableName]) relationships += `\n    ${reftableName}: [${refTableType}]`;
-    else relationships += `\n    ${toCamelCase(refTableName)}: [${refTableType}]`;
-    for (let foreignTableFKey in foreignTableFKeys) {
-      if (tableName !== foreignTableFKeys[foreignTableFKey].referenceTable) {
-        const manyToManyTable = toCamelCase(foreignTableFKeys[foreignTableFKey].referenceTable);
-        relationships += `\n    ${manyToManyTable}: [${toCamelCase(singular(manyToManyTable))}]`;
+    const { referencedBy: foreignRefBy, foreignKeys: foreignFKeys, columns: foreignColumns } = tables[refTableName];
+    const refTableType = toPascalCase(singular(refTableName));
+    // One-to-one
+    if (foreignRefBy && foreignRefBy[tableName]) relationships += `\n    ${toCamelCase(singular(reftableName))}: ${refTableType}`;
+    // One-to-many
+    else if (Object.keys(foreignColumns).length !== Object.keys(foreignFKeys).length + 1) relationships += `\n    ${toCamelCase(refTableName)}: [${refTableType}]`;
+    // Many-to-many
+    for (let foreignFKey in foreignFKeys) {
+      if (tableName !== foreignFKeys[foreignFKey].referenceTable) { // Do not include original table in output
+        const manyToManyTable = toCamelCase(foreignFKeys[foreignFKey].referenceTable);
+        relationships += `\n    ${manyToManyTable}: [${toPascalCase(singular(manyToManyTable))}]`;
       }
     }
   }

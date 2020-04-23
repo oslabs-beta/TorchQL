@@ -1,3 +1,7 @@
+function toPascalCase(str) {
+  return capitalize(toCamelCase(str));
+}
+
 function capitalize(str) {
   return `${str[0].toUpperCase()}${str.slice(1)}`;
 }
@@ -43,6 +47,7 @@ function typeSet(str) {
 
 module.exports = {
 	capitalize,
+  toPascalCase,
   toCamelCase,
 	typeSet
 };
