@@ -15,11 +15,13 @@ const App: React.FC = () => {
     setURI('');
   };
 
-  const handleURI = (e) => {
+  const handleURI = (e: React.ChangeEvent<HTMLInputElement>) => {
     setURI(e.target.value);
   };
 
-  const handleInput = (event) => {
+  const handleInput = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     event.preventDefault();
     if (URI !== '') {
       fetch(`/db/pg?uri=${URI}`)
@@ -37,7 +39,9 @@ const App: React.FC = () => {
   };
 
   // for CodeDisplay.jsx/Back button
-  const handleClick = (event) => {
+  const handleClick = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     event.preventDefault();
     setDisplayCode(false);
   };
