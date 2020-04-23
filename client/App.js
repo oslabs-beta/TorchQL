@@ -7,7 +7,7 @@ const App = () => {
   const [searchHistory, setSearchHistory] = useState([]);
   const [URI, setURI] = useState('');
   const [schema, setSchema] = useState('');
-  const [displayCode, setDisplayCode] = useState(false);
+  const [displayCode, setDisplayCode] = useState(true);
 
   // Add inputted URI to search history
   const addToSearchHistory = () => {
@@ -15,8 +15,8 @@ const App = () => {
     setURI('');
   };
 
-  const handleURI = (input) => {
-    setURI(input);
+  const handleURI = (e) => {
+    setURI(e.target.value);
   };
 
   const handleInput = (event) => {
@@ -41,7 +41,7 @@ const App = () => {
     event.preventDefault();
     setDisplayCode(false);
   };
- 
+
   return (
     <div className="parent">
       <MainDisplay
@@ -58,4 +58,3 @@ const App = () => {
 };
 
 export default App;
-
