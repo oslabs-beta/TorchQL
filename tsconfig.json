@@ -1,11 +1,13 @@
 {
   "compilerOptions": {
-    "outDir": "./dist/",
+    "outDir": "./dist",
     // "sourceMap": true,
     "noImplicitAny": true,
     "esModuleInterop": true,
     "module": "CommonJS",
     "target": "ES6",
-    "jsx": "react"
+    "jsx": "react",
+    "rootDir": "./src",
+    "moduleResolution": "node"
   }
 }
