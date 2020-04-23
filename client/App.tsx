@@ -24,7 +24,7 @@ const App: React.FC = () => {
   ) => {
     event.preventDefault();
     if (URI !== '') {
-      fetch(`/db/pg?uri=${URI}`)
+      fetch(`/db/pg-sdl?uri=${URI}`)
         .then((data) => data.json())
         .then((data) => {
           addToSearchHistory();
