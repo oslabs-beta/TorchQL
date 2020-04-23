@@ -7,10 +7,10 @@ import '../../node_modules/codemirror/theme/dracula.css';
 
 interface Props {
   schema: string;
-  handleclick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  handleClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 }
 
-export const CodeDisplay: React.FC<Props> = (schema, handleClick) => {
+export const CodeDisplay: React.FC<Props> = ({ schema, handleClick }) => {
   useScript('../client/fileSave.js');
   const invisStyle = {
     display: 'none',
