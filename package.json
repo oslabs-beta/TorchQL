@@ -4,6 +4,7 @@
   "description": "A tool to help developers migrate to GraphQL APIs",
   "main": "electron.js",
   "dependencies": {
+    "bulma": "^0.8.2",
     "codemirror": "^5.52.2",
     "express": "^4.17.1",
     "pg": "^8.0.2",
