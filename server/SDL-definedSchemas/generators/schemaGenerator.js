@@ -12,7 +12,7 @@ SchemaGenerator.assembleSchema = function assembleSchema(tables) {
   for (let tableName in tables) {
     const { primaryKey } = tables[tableName];
     const tableData = tables[tableName];
-    queryType += TypeGenerator.queries(tableName);
+    queryType += TypeGenerator.queries(tableName, tableData);
     mutationType += TypeGenerator.mutations(tableName, tableData);
     customTypes += TypeGenerator.customTypes(tableName, tables);
     queryResolvers += ResolverGenerator.queries(tableName, primaryKey);

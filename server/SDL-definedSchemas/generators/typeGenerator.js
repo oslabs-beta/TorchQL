@@ -3,11 +3,16 @@ const { toCamelCase, toPascalCase, typeSet } = require('./../helpers/helperFunct
 
 const TypeGenerator = {};
 
-TypeGenerator.queries = function queries(tableName) {
+TypeGenerator.queries = function queries(tableName, tableData) {
+  const { primaryKey, foreignKeys, columns } = tableData;
   const nameSingular = singular(tableName);
-  const camSinName = toCamelCase(nameSingular);
-  return `    ${toCamelCase(tableName)}:[${toPascalCase(nameSingular)}!]!\n`
-    + `    ${camSinName}ByID(${camSinName}id:ID):${camSinName}!\n`;
+  if (!foreignKeys || Object.keys(columns).length !== Object.keys(foreignKeys).length + 1) { // Do not output pure join tables
+    let byID = toCamelCase(nameSingular);
+    if (nameSingular === tableName) byID += 'ByID';
+    return `    ${toCamelCase(tableName)}: [${toPascalCase(nameSingular)}!]!\n`
+      + `    ${byID}(${toCamelCase(primaryKey)}: ID!): ${toPascalCase(nameSingular)}!\n`;
+  }
+  return '';
 };
 
 TypeGenerator.mutations = function mutations(tableName, tableData) {
