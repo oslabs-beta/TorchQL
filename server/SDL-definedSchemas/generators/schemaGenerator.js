@@ -23,7 +23,7 @@ SchemaGenerator.assembleSchema = function assembleSchema(tables) {
     + `${queryType}`
     + '  }\n\n'
     + '  type Mutation {\n'
-    + `${mutationType}\n`
+    + `${mutationType}`
     + '  }\n\n'
     + `${customTypes}\`;\n\n`
     + 'const resolvers = {\n'

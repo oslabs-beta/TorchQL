@@ -17,9 +17,12 @@ TypeGenerator.queries = function queries(tableName, tableData) {
 
 TypeGenerator.mutations = function mutations(tableName, tableData) {
   const { primaryKey, foreignKeys, columns } = tableData;
-  return this._create(tableName, primaryKey, foreignKeys, columns)
-    + this._update(tableName, primaryKey, foreignKeys, columns)
-    + this._destroy(tableName, primaryKey);
+  if (!foreignKeys || Object.keys(columns).length !== Object.keys(foreignKeys).length + 1) { // Do not output pure join tables
+    return this._create(tableName, primaryKey, foreignKeys, columns)
+      + this._update(tableName, primaryKey, foreignKeys, columns)
+      + this._destroy(tableName, primaryKey);
+  }
+  return '';
 };
 
 TypeGenerator.customTypes = function customTypes(tableName, tables) {
@@ -70,17 +73,17 @@ TypeGenerator._getRelationships = function getRelationships(tableName, tables) {
 TypeGenerator._create = function create(tableName, primaryKey, foreignKeys, columns) {
   return `    ${toCamelCase(`create_${singular(tableName)}`)}(`
     + this._typeParams(primaryKey, foreignKeys, columns)
-    + `): ${toCamelCase(singular(tableName))}!\n`;
+    + `): ${toPascalCase(singular(tableName))}!\n`;
 };
 
 TypeGenerator._update = function update(tableName, primaryKey, foreignKeys, columns) {
   return `    ${toCamelCase(`update_${singular(tableName)}`)}(`
     + this._typeParams(primaryKey, foreignKeys, columns)
-    + `): ${singular(tableName)}!\n`;
+    + `): ${toPascalCase(singular(tableName))}!\n`;
 };
 
 TypeGenerator._destroy = function destroy(tableName, primaryKey) {
-  return `    ${toCamelCase(`delete_${singular(tableName)}`)}(${toCamelCase(primaryKey)}: ID!): ${toCamelCase(singular(tableName))}!\n`;
+  return `    ${toCamelCase(`delete_${singular(tableName)}`)}(${toCamelCase(primaryKey)}: ID!): ${toPascalCase(singular(tableName))}!\n\n`;
 };
 
 TypeGenerator._typeParams = function addParams(primaryKey, foreignKeys, columns) {
