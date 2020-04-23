@@ -5,7 +5,12 @@ import '../../node_modules/codemirror/mode/javascript/javascript';
 import '../../node_modules/codemirror/lib/codemirror.css';
 import '../../node_modules/codemirror/theme/dracula.css';
 
-const CodeDisplay = (props) => {
+interface Props {
+  schema: string;
+  handleClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+}
+
+export const CodeDisplay: React.FC<Props> = ({ schema, handleClick }) => {
   useScript('../client/fileSave.js');
   const invisStyle = {
     display: 'none',
@@ -14,27 +19,23 @@ const CodeDisplay = (props) => {
     <div id="codemirror-div">
       <CodeMirror
         className="codemirror"
-        id="codemirror"
-        value={props.schema}
+        value={schema}
         options={{
           mode: 'javascript',
           theme: 'dracula',
           lineNumbers: true,
           lineWrapping: true,
         }}
-        onChange={(editor, data, value) => {}}
       />
-      <button className="main-btn" onClick={(e) => props.handleClick(e)}>
+      <button className="main-btn" onClick={(e) => handleClick(e)}>
         Back
       </button>
       <button className="main-btn" id="save-file">
         Save File
       </button>
       <p id="invisible" style={invisStyle}>
-        {props.schema}
+        {schema}
       </p>
     </div>
   );
 };
-
-export default CodeDisplay;

@@ -3,11 +3,11 @@ import MainDisplay from './components/MainDisplay';
 
 import './styles.scss';
 
-const App = () => {
-  const [searchHistory, setSearchHistory] = useState([]);
-  const [URI, setURI] = useState('');
-  const [schema, setSchema] = useState('');
-  const [displayCode, setDisplayCode] = useState(false);
+const App: React.FC = () => {
+  const [searchHistory, setSearchHistory] = useState<string[]>([]);
+  const [URI, setURI] = useState<string>('');
+  const [schema, setSchema] = useState<string>('');
+  const [displayCode, setDisplayCode] = useState<boolean>(false);
 
   // Add inputted URI to search history
   const addToSearchHistory = () => {
@@ -15,14 +15,16 @@ const App = () => {
     setURI('');
   };
 
-  const handleURI = (input) => {
-    setURI(input);
+  const handleURI = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setURI(e.target.value);
   };
 
-  const handleInput = (event) => {
+  const handleInput = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     event.preventDefault();
     if (URI !== '') {
-      fetch(`/db/pg?uri=${URI}`)
+      fetch(`/db/pg-sdl?uri=${URI}`)
         .then((data) => data.json())
         .then((data) => {
           addToSearchHistory();
@@ -37,11 +39,13 @@ const App = () => {
   };
 
   // for CodeDisplay.jsx/Back button
-  const handleClick = (event) => {
+  const handleClick = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     event.preventDefault();
     setDisplayCode(false);
   };
- 
+
   return (
     <div className="parent">
       <MainDisplay
@@ -58,4 +62,3 @@ const App = () => {
 };
 
 export default App;
-

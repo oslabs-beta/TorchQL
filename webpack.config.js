@@ -9,7 +9,10 @@ module.exports = {
       '/': 'http://localhost:3000',
     },
   },
-  entry: path.resolve(__dirname, 'client/index.js'),
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js'],
+  },
+  entry: path.resolve(__dirname, 'client/index.tsx'),
   // target: 'electron-renderer',
   // devtool: 'source-map',
 
@@ -19,6 +22,20 @@ module.exports = {
   },
   module: {
     rules: [
+      {
+        test: /\.ts(x?)$/,
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: 'ts-loader',
+          },
+        ],
+      },
+      {
+        enforce: 'pre',
+        test: /\.js$/,
+        loader: 'source-map-loader',
+      },
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
@@ -53,12 +70,17 @@ module.exports = {
       },
     ],
   },
+  // The below 'externals' object is recommended in the official docs, but the app crashes whenever it's used
+  // externals: {
+  //   react: 'React',
+  //   'react-dom': 'ReactDOM',
+  // },
   // Comment out when running build or electron, since we need to require the 'renderer' file from dist/index.html when running the electron app
   // (The renderer file isn't needed in the client index.html file when running webpack-dev-server!)
-  // plugins: [
-  //   new HtmlWebPackPlugin({
-  //     template: path.resolve(__dirname, 'client/index.html'),
-  //     filename: 'index.html',
-  //   }),
-  // ],
+  plugins: [
+    new HtmlWebPackPlugin({
+      template: path.resolve(__dirname, 'client/index.html'),
+      filename: 'index.html',
+    }),
+  ],
 };

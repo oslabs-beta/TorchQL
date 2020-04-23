@@ -1,8 +1,18 @@
 import React from 'react';
-import Input from './Input';
-import CodeDisplay from './CodeDisplay';
+import { Input } from './Input';
+import { CodeDisplay } from './CodeDisplay';
 
-const MainDisplay = (props) => {
+interface Props {
+  displayCode: boolean;
+  schema: string;
+  URI: string;
+  searchHistory: Array<string>;
+  handleClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  handleInput: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  handleURI: (event: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+const MainDisplay: React.FC<Props> = (props) => {
   return (
     <div>
       {props.displayCode ? (
@@ -12,7 +22,6 @@ const MainDisplay = (props) => {
             URI={props.URI}
             handleInput={props.handleInput}
             handleURI={props.handleURI}
-            displayCode={props.displayCode}
             searchHistory={props.searchHistory}
           />
         </div>
@@ -22,7 +31,6 @@ const MainDisplay = (props) => {
             URI={props.URI}
             handleInput={props.handleInput}
             handleURI={props.handleURI}
-            displayCode={props.displayCode}
             searchHistory={props.searchHistory}
           />
         </div>
