@@ -1,5 +1,5 @@
 const { singular } = require('pluralize');
-const { capitalize, toCamelCase } = require('./../helpers/helperFunctions');
+const { toCamelCase } = require('./../helpers/helperFunctions');
 
 const ResolverGenerator = {
   _values: {}
@@ -37,7 +37,7 @@ ResolverGenerator._columnQuery = function column(tableName, primaryKey) {
     + '      } catch (err) {\n'
     + '        throw new Error(err);\n'
     + '      }\n'
-    + '    }';
+    + '    },';
 };
 
 ResolverGenerator._allColumnQuery = function allColumn(tableName) {
@@ -48,7 +48,7 @@ ResolverGenerator._allColumnQuery = function allColumn(tableName) {
     + '      } catch (err) {\n'
     + '        throw new Error(err);\n'
     + '      }\n'
-    + '    }';
+    + '    },';
 };
 
 ResolverGenerator._createMutation = function createColumn(tableName, primaryKey, foreignKeys, columns) {
@@ -60,7 +60,7 @@ ResolverGenerator._createMutation = function createColumn(tableName, primaryKey,
     + '      } catch (err) {\n'
     + '        throw new Error(err);\n'
     + '      }\n'
-    + '    }';
+    + '    },';
 };
 
 ResolverGenerator._updateMutation = function updateColumn(tableName, primaryKey, foreignKeys, columns) {
@@ -74,7 +74,7 @@ ResolverGenerator._updateMutation = function updateColumn(tableName, primaryKey,
     + '      } catch (err) {\n'
     + '        throw new Error(err);\n'
     + '      }\n'
-    + '    }';
+    + '    },';
 };
 
 ResolverGenerator._deleteMutations = function deleteColumn(tableName, primaryKey) {
@@ -86,7 +86,7 @@ ResolverGenerator._deleteMutations = function deleteColumn(tableName, primaryKey
     + '      } catch (err) {\n'
     + '        throw new Error(err);\n'
     + '      }\n'
-    + '    }';
+    + '    },';
 };
 
 module.exports = ResolverGenerator;

@@ -5,8 +5,9 @@ const TypeGenerator = {};
 
 TypeGenerator.queries = function queries(tableName) {
   const nameSingular = singular(tableName);
-  return `    ${tableName}:[${capitalize(nameSingular)}!]!\n`
-    + `    ${nameSingular}ByID(${nameSingular}id:ID):${capitalize(nameSingular)}!\n`;
+  const camSinName = toCamelCase(nameSingular);
+  return `    ${toCamelCase(tableName)}:[${capitalize(camSinName)}!]!\n`
+    + `    ${camSinName}ByID(${camSinName}id:ID):${camSinName}!\n`;
 };
 
 TypeGenerator.mutations = function mutations(tableName, tableData) {
@@ -19,7 +20,7 @@ TypeGenerator.mutations = function mutations(tableName, tableData) {
 TypeGenerator.customTypes = function customTypes(tableName, tables) {
   const { primaryKey, foreignKeys, columns } = tables[tableName];
   if (foreignKeys === null || Object.keys(columns).length !== Object.keys(foreignKeys).length + 1) {
-    return `  type ${toCamelCase(capitalize(singular(tableName)))} {\n`
+    return `  type ${toCamelCase(singular(tableName))} {\n`
       + `    ${toCamelCase(primaryKey)}: ID!`
       + this._columns(primaryKey, foreignKeys, columns)
       + this._getRelationships(tableName, tables)
@@ -45,13 +46,13 @@ TypeGenerator._getRelationships = function getRelationships(tableName, tables) {
   let relationships = '';
   for (let refTableName in tables[tableName].referencedBy) {
     const { referencedBy: foreignRefBy, foreignKeys: foreignTableFKeys } = tables[refTableName];
-    const refTableType = toCamelCase(capitalize(singular(refTableName)));
+    const refTableType = capitalize(toCamelCase(singular(refTableName)));
     if (foreignRefBy && foreignRefBy[tableName]) relationships += `\n    ${reftableName}: [${refTableType}]`;
     else relationships += `\n    ${toCamelCase(refTableName)}: [${refTableType}]`;
     for (let foreignTableFKey in foreignTableFKeys) {
       if (tableName !== foreignTableFKeys[foreignTableFKey].referenceTable) {
         const manyToManyTable = toCamelCase(foreignTableFKeys[foreignTableFKey].referenceTable);
-        relationships += `\n    ${manyToManyTable}: [${capitalize(singular(manyToManyTable))}]`;
+        relationships += `\n    ${manyToManyTable}: [${toCamelCase(singular(manyToManyTable))}]`;
       }
     }
   }
@@ -59,19 +60,19 @@ TypeGenerator._getRelationships = function getRelationships(tableName, tables) {
 };
 
 TypeGenerator._create = function create(tableName, primaryKey, foreignKeys, columns) {
-  return `create${capitalize(singular(tableName))}(`
+  return `    ${toCamelCase(`create_${singular(tableName)}`)}(`
     + this._typeParams(primaryKey, foreignKeys, columns)
-    + `): ${capitalize(singular(tableName))}!\n`;
+    + `): ${toCamelCase(singular(tableName))}!\n`;
 };
 
 TypeGenerator._update = function update(tableName, primaryKey, foreignKeys, columns) {
-  return `    update${capitalize(singular(tableName))}(`
+  return `    ${toCamelCase(`update_${singular(tableName)}`)}(`
     + this._typeParams(primaryKey, foreignKeys, columns)
-    + `): ${capitalize(singular(tableName))}!\n`;
+    + `): ${singular(tableName)}!\n`;
 };
 
 TypeGenerator._destroy = function destroy(tableName, primaryKey) {
-  return `    delete${capitalize(singular(tableName))}(${primaryKey}: ID!): ${capitalize(singular(tableName))}!`;
+  return `    ${toCamelCase(`delete_${singular(tableName)}`)}(${toCamelCase(primaryKey)}: ID!): ${toCamelCase(singular(tableName))}!\n`;
 };
 
 TypeGenerator._typeParams = function addParams(primaryKey, foreignKeys, columns) {
