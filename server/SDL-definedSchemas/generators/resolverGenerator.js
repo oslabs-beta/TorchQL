@@ -5,17 +5,24 @@ const ResolverGenerator = {
   _values: {}
 };
 
-ResolverGenerator.queries = function queries(tableName, primaryKey) {
-  return `\n${this._columnQuery(tableName, primaryKey)}`
-    + `\n${this._allColumnQuery(tableName)}`;
+ResolverGenerator.queries = function queries(tableName, tableData) {
+  const { primaryKey, foreignKeys, columns } = tableData;
+  if (!foreignKeys || Object.keys(columns).length !== Object.keys(foreignKeys).length + 1) {
+    return `\n${this._columnQuery(tableName, primaryKey)}`
+      + `\n${this._allColumnQuery(tableName)}`;
+  }
+  return '';
 };
 
 ResolverGenerator.mutations = function mutations(tableName, tableData) {
   const { primaryKey, foreignKeys, columns } = tableData;
   this._createValues(primaryKey, foreignKeys, columns);
-  return `${this._createMutation(tableName, primaryKey, foreignKeys, columns)}\n`
-    + `${this._updateMutation(tableName, primaryKey, foreignKeys, columns)}\n`
-    + `${this._deleteMutations(tableName, primaryKey)}\n\n`;
+  if (!foreignKeys || Object.keys(columns).length !== Object.keys(foreignKeys).length + 1) {
+    return `${this._createMutation(tableName, primaryKey, foreignKeys, columns)}\n`
+      + `${this._updateMutation(tableName, primaryKey, foreignKeys, columns)}\n`
+      + `${this._deleteMutations(tableName, primaryKey)}\n\n`;
+  }
+  return '';
 };
 
 ResolverGenerator._createValues = function values(primaryKey, foreignKeys, columns) {
@@ -29,7 +36,9 @@ ResolverGenerator._createValues = function values(primaryKey, foreignKeys, colum
 };
 
 ResolverGenerator._columnQuery = function column(tableName, primaryKey) {
-  return `    ${toCamelCase(singular(tableName))}ById: (parent, args) => {\n`
+  let byID = toCamelCase(singular(tableName));
+  if (byID === toCamelCase(tableName)) byID += 'ByID';
+  return `    ${byID}: (parent, args) => {\n`
     + '      try{\n'
     + `        const query = 'SELECT * FROM ${tableName} WHERE ${primaryKey} = $1';\n`
     + `        const values = [args.${primaryKey}]\n`
