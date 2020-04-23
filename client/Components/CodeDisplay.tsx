@@ -19,7 +19,6 @@ export const CodeDisplay: React.FC<Props> = ({ schema, handleClick }) => {
     <div id="codemirror-div">
       <CodeMirror
         className="codemirror"
-        id="codemirror"
         value={schema}
         options={{
           mode: 'javascript',
