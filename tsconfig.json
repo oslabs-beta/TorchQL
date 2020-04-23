@@ -2,7 +2,7 @@
   "compilerOptions": {
     "outDir": "./dist/",
     // "sourceMap": true,
-    "noImplicitAny": false,
+    "noImplicitAny": true,
     "esModuleInterop": true,
     "module": "CommonJS",
     "target": "ES6",
