@@ -8,7 +8,7 @@ interface Props {
   searchHistory: Array<string>;
 }
 
-const Input: React.FC<Props> = (props) => {
+export const Input: React.FC<Props> = (props) => {
   const [historyOpen, setHistoryOpen] = useState<boolean>(false);
 
   const toggleHistory = () => {
@@ -37,5 +37,3 @@ const Input: React.FC<Props> = (props) => {
     </div>
   );
 };
-
-export default Input;
