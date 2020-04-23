@@ -19,12 +19,29 @@ function generateOneQuery(data) {
     for(let i = 0; i < table.length; i += 1){
         const { primaryKey } = data[table[i]];
         let oneQueryStr = Generate.column(table[i], primaryKey)
-        console.log(oneQueryStr)
+        oneQuery.push(oneQueryStr)
     }
-    console.log('This is one query:', oneQuery)
+    return oneQuery;
 }; 
+
+function generateReturnQueries(allQuery, oneQuery) {
+    let queryStr = '';
+    for(let i = 0; i < allQuery.length; i += 1) queryStr += `\n ${allQuery[i]} \n ${oneQuery[i]}`
+    return queryStr;
+}
+
+function formatQueries(query){
+    return(
+        `const RootQuery = new GraphQLObjectType({\n` +
+            `name: 'RootQueryType',\n` +
+            `fields: {` +
+                `${query}\n`
+    )
+}
 
 module.exports = {
     generateAllQuery,
-    generateOneQuery
+    generateOneQuery,
+    generateReturnQueries,
+    formatQueries
 }

@@ -2,8 +2,19 @@ const fs = require('fs');
 const { Pool } = require('pg');
 const pgQuery = fs.readFileSync('server/queries/tableData.sql', 'utf8');
 const pgController = {};
-const { createQuery, createMutation, createTypes, formatTypeDefs } = require('./../helpers/typesCreator');
-const { generateGetAllQuery, generateGetOneQuery, generateQueryResolvers, generateMutationResolvers, formatResolvers } = require('./../helpers/resolversCreator');
+const {
+  createQuery,
+  createMutation,
+  createTypes,
+  formatTypeDefs,
+} = require('../helpers/typesCreator');
+const {
+  generateGetAllQuery,
+  generateGetOneQuery,
+  generateQueryResolvers,
+  generateMutationResolvers,
+  formatResolvers,
+} = require('../helpers/resolversCreator');
 
 // middleware function for recovering info from pg tables
 pgController.getPGTables = (req, res, next) => {
@@ -18,7 +29,7 @@ pgController.getPGTables = (req, res, next) => {
         log: 'There was a problem making database query',
         status: 500,
         message: { err },
-      }),
+      })
     );
 };
 
@@ -54,7 +65,10 @@ pgController.returnTypeDefs = (req, res, next) => {
 pgController.makeQueryResolvers = (req, res, next) => {
   const queryAllResolvers = generateGetAllQuery(res.locals.tables);
   const queryOneResolvers = generateGetOneQuery(res.locals.tables);
-  res.locals.queryResolvers = generateQueryResolvers(queryAllResolvers, queryOneResolvers);
+  res.locals.queryResolvers = generateQueryResolvers(
+    queryAllResolvers,
+    queryOneResolvers
+  );
   return next();
 };
 
@@ -77,7 +91,5 @@ pgController.assembleSchema = (req, res, next) => {
   res.locals.schema = `${allTypeDefs}${resolvers}\n\nconst schema = makeExecutableSchema({\n  typeDefs,\n  resolvers,\n});\n\nmodule.exports = schema;`;
   return next();
 };
-
-
 
 module.exports = pgController;

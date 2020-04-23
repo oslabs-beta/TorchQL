@@ -29,10 +29,10 @@ const createWindow = () => {
 
   // These are currently interfering with keyboard commands (e.g. paste)
   // Build Menu
-  // const mainMenu = Menu.buildFromTemplate(mainMenuTemplate);
+  const mainMenu = Menu.buildFromTemplate(mainMenuTemplate);
 
   // Insert Menu
-  // Menu.setApplicationMenu(mainMenu);
+  Menu.setApplicationMenu(mainMenu);
 };
 
 // Once Electron has finished initialization:
@@ -105,6 +105,41 @@ const mainMenuTemplate = [
       },
       {
         label: 'Placeholder',
+      },
+    ],
+  },
+  {
+    label: 'Edit',
+    submenu: [
+      {
+        label: 'Copy',
+        accelerator: isMac ? 'Command+C' : 'Ctrl+C',
+        selector: 'copy:'
+      },
+      {
+        label: 'Paste',
+        accelerator: isMac ? 'Command+V' : 'Ctrl+V',
+        selector: 'paste:'
+      },
+      {
+        label: 'Cut',
+        accelerator: isMac ? 'Command+X' : 'Ctrl+X',
+        selector: 'cut:'
+      },
+      {
+        label: 'Select All',
+        accelerator: isMac ? 'Command+A' : 'Ctrl+A',
+        selector: 'selectAll:'
+      },
+      {
+        label: 'Undo',
+        accelerator: isMac ? 'Command+Z' : 'Ctrl+Z',
+        selector: 'undo:'
+      },
+      {
+        label: 'Redo',
+        accelerator: isMac ? 'Command+Shift+Z' : 'Ctrl+Shift+Z',
+        selector: 'redo:'
       },
     ],
   },
