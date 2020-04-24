@@ -59,4 +59,19 @@ pgController.combineQueryAndMutations = (req, res, next) => {
   res.locals.combine = `${returnQuery}${mutations}`
   return next();
 }
+
+pgController.generateTypes = (req, res, next) => {
+  try {
+    const typesArr = generateTypes(res.locals.tables);
+    res.locals.types = typesArr;
+    return next();
+  } catch (err) {
+    return next({
+      log: 'There was a problem generating types',
+      status: 500,
+      message: { error: 'Problem generating types' },
+    });
+  }
+};
+
 module.exports = pgController;
