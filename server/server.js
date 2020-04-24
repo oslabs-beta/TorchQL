@@ -1,5 +1,6 @@
 const express = require('express');
 const pgRouter = require('./routes/pgRoute');
+const mySQLRouter = require('./routes/mySQLRoute');
 const app = express();
 const PORT = 3000;
 
@@ -8,6 +9,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use('/db/pg', pgRouter);
+app.use('/db/mySQL', mySQLRouter);
 
 app.use((err, req, res, next) => {
   const defaultErr = {
