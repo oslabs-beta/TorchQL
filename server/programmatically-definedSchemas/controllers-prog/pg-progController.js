@@ -4,6 +4,21 @@ const { generateMutations, assembleMutations, formatMutations } = require('../he
 
 /* Programatic Middlware */
 
+// Gets the Types and return back as string.
+pgController.generateTypes = (req, res, next) => {
+  try {
+    const typesArr = generateTypes(res.locals.tables);
+    res.locals.types = typesArr;
+    return next();
+  } catch (err) {
+    return next({
+      log: 'There was a problem generating types',
+      status: 500,
+      message: { error: 'Problem generating types' },
+    });
+  }
+};
+
 // Gets the Queries and return back as string.
 pgController.generateQuery = (req, res, next) => {
   try{
@@ -60,18 +75,6 @@ pgController.combineQueryAndMutations = (req, res, next) => {
   return next();
 }
 
-pgController.generateTypes = (req, res, next) => {
-  try {
-    const typesArr = generateTypes(res.locals.tables);
-    res.locals.types = typesArr;
-    return next();
-  } catch (err) {
-    return next({
-      log: 'There was a problem generating types',
-      status: 500,
-      message: { error: 'Problem generating types' },
-    });
-  }
-};
+
 
 module.exports = pgController;
