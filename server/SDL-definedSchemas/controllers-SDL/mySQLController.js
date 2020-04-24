@@ -29,7 +29,7 @@ mySQLController.getTables = (req, res, next) => {
     //     message: { err },
     //   })
     // );
-    db.query(pgQuery, (err, data) => {
+    db.query(sql, (err, data) => {
       if(err) throw err;
       res.locals.mysqltables = data;
       return next();
