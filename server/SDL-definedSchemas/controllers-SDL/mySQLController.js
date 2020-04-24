@@ -15,26 +15,20 @@ mySQLController.getTables = (req, res, next) => {
       throw err
     }
     console.log('connection successful')
-    const sql = `SHOW fields from users`;
-    // const pgQuery = fs.readFileSync('server/queries/mySQLtableData.sql', 'utf8');
-    // db.query(sql)
-    // .then((data) => {
-    //   res.locals.mysqltables = data.rows[0].tables;
-    //   return next();
-    // })
-    // .catch((err) =>
-    //   next({
-    //     log: 'There was a problem making database query',
-    //     status: 500,
-    //     message: { err },
-    //   })
-    // );
-    db.query(sql, (err, data) => {
-      if(err) throw err;
-      res.locals.mysqltables = data;
-      return next();
-    });
-  })
+  });
+  const sql = `SHOW fields from users`;
+  // const pgQuery = fs.readFileSync('server/queries/mySQLtableData.sql', 'utf8');
+  db.query(sql, (err, data) => {
+    if (err) {
+      return next({
+              log: 'There was a problem making MySQL database query',
+              status: 500,
+              message: { err },
+        })
+    }
+    res.locals.mysqltables = data;
+    return next();
+  });
 }
 
 module.exports = mySQLController;
