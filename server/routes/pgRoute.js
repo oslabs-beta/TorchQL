@@ -3,7 +3,7 @@ const pgController = require('../SDL-definedSchemas/controllers/pgController');
 const pgProgController = require('../programmatically-definedSchemas/controllers-prog/pg-progController');
 
 router.get(
-  '/pg-sdl',
+  '/pg/sdl',
   pgController.getPGTables,
   pgController.assembleSDLSchema,
   (req, res) => {
@@ -12,7 +12,7 @@ router.get(
   }
 );
 
-router.get('/pg-prog',
+router.get('/pg/prog',
   pgController.getPGTables,
   pgProgController.generateQuery,
   pgProgController.formatQueries,
