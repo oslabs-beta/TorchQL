@@ -7,7 +7,7 @@ const PORT = 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use('/db', pgRouter);
+app.use('/db/pg', pgRouter);
 
 app.use((err, req, res, next) => {
   const defaultErr = {
