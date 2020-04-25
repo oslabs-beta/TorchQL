@@ -12,9 +12,8 @@ TypeGenerator.createCustomTypes = function createCustomTypes(tableName, tables) 
     + `  fields: () => ({\n`
     + `    ${toCamelCase(primaryKey)}: { type: GraphQLString },`
     + this._columns(primaryKey, foreignKeys, columns)
-    // + this._getRelationships(tableName, tables)
+    + this._getRelationships(tableName, tables)
     + '\n  }),\n});\n';
-
 };
 
 TypeGenerator._columns = function columns(primaryKey, foreignKeys, columns) {
@@ -27,5 +26,17 @@ TypeGenerator._columns = function columns(primaryKey, foreignKeys, columns) {
   }
   return colStr;
 };
+
+TypeGenerator._getRelationships = function getRelationships(tableName, tables) {
+  let relationships = '';
+  for (let refTableName in tables[tableName].referencedBy) {
+    const { referencedBy: foreignRefBy, foreignKeys: foreignFKeys, columns: foreignColumns } = tables[refTableName];
+    const { primaryKey } = tables[refTableName];
+    const refTableType = toPascalCase(singular(refTableName));
+    relationships += `\n${this._columnQuery(refTableName, primaryKey)}`;
+  }
+  return relationships;
+};
+
 
 module.exports = TypeGenerator;
