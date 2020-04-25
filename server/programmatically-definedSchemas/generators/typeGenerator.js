@@ -38,5 +38,20 @@ TypeGenerator._getRelationships = function getRelationships(tableName, tables) {
   return relationships;
 };
 
+TypeGenerator._columnQuery = function column(tableName, primaryKey) {
+  let byID = toCamelCase(singular(tableName));
+  if (byID === toCamelCase(tableName)) byID += 'ByID';
+  return `    ${byID}: {\n`
+    + `      type: ${capitalize(singular(tableName))}Type,\n`
+    + `      resolve(parent, args) => {\n`
+    + '        try{\n'
+    + `          const query = 'SELECT * FROM ${tableName} WHERE ${primaryKey} = $1';\n`
+    + `          const values = [args.${primaryKey}]\n`
+    + '          return db.query(query).then((res) => res.rows)\n'
+    + '        } catch (err) {\n'
+    + '          throw new Error(err);\n'
+    + '        }\n'
+    + '      },';
+};
 
 module.exports = TypeGenerator;
