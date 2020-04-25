@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const mySQLController = require('../SDL-definedSchemas/controllers-SDL/mySQLController');
+const mySQLController = require('../SDL-definedSchemas/controllers/mySQLController');
 
 router.get(
   '/sdl',
