@@ -2,6 +2,7 @@ const pgController = {};
 const { generateAllQuery, generateOneQuery, generateReturnQueries, formatQueries } = require('../helpers/queryCreator');
 const { generateMutations, assembleMutations, formatMutations } = require('../helpers/mutationCreator');
 const { generateCustomTypes, assembleCustomTypes } = require('../helpers/typeCreator');
+const SchemaGenerator = require('../generators/schemaGenerator');
 
 /* Programatic Middlware */
 
@@ -77,7 +78,7 @@ pgController.formatMutations = (req, res, next) => {
 };
 
 pgController.combineAllSchema = (req, res, next) => {
-  res.locals.progSchema = assembleProgSchema(res.locals)
+  res.locals.progSchema = SchemaGenerator.assembleProgSchema(res.locals)
   return next();
 }
 
