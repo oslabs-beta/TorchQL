@@ -5,7 +5,7 @@ const { toCamelCase, toPascalCase } = require('../../SDL-definedSchemas/helpers/
 
 const TypeGenerator = {};
 
-TypeGenerator.createTypes = function createTypes(tableName, tables) {
+TypeGenerator.createCustomTypes = function createCustomTypes(tableName, tables) {
   const { primaryKey, foreignKeys, columns } = tables[tableName];
   return `const ${capitalize(singular(tableName))}Type = new GraphQLObjectType({\n`
     + `  name: '${capitalize(singular(tableName))}',\n`
