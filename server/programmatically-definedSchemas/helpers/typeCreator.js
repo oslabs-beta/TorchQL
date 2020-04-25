@@ -17,3 +17,15 @@ function generateTypes(data) {
   return allTypes;
 }
 
+function assembleTypes(types) {
+  let typeString = '';
+  for (let i = 0; i < types.length; i++) {
+    typeString += `${types[i]}\n`;
+  }
+  return typeString;
+}
+
+module.exports = {
+  generateTypes,
+  assembleTypes
+}
