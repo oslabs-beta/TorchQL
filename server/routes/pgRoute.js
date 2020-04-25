@@ -23,8 +23,8 @@ router.get('/prog',
   pgProgController.formatMutations,
   pgProgController.combineAllSchema,
   (req, res) => {
-    console.log(res.locals.combine)
-    res.status(200).json(res.locals.combine);
+    console.log(res.locals.progSchema)
+    res.status(200).json(res.locals.progSchema);
   }
 );
 
