@@ -1,3 +1,4 @@
+const TypeGenerator = require('../generators/typeGenerator');
 const {
   storeIndexedColumns,
   getPrimaryKeyType,
@@ -11,7 +12,7 @@ function generateTypes(data) {
     const valueObj = storeIndexedColumns(columns, primaryKey);
     const primaryKeyType = getPrimaryKeyType(primaryKey, columns);
     // need to add code to skip columns with only primary and foreign keys?
-    allTypes.push(createType(tableName, valueObj, columns));
+    allTypes.push(TypeGenerator.createTypes(tableName, data));
   }
   return allTypes;
 }

@@ -1,6 +1,7 @@
 const pgController = {};
 const { generateAllQuery, generateOneQuery, generateReturnQueries, formatQueries } = require('../helpers/queryCreator');
 const { generateMutations, assembleMutations, formatMutations } = require('../helpers/mutationCreator');
+const { generateTypes, assembleTypes } = require('../helpers/typeCreator');
 
 /* Programatic Middlware */
 
@@ -17,6 +18,12 @@ pgController.generateTypes = (req, res, next) => {
       message: { error: 'Problem generating types' },
     });
   }
+};
+
+pgController.assembleTypes = (req, res, next) => {
+  const types = assembleTypes(res.locals.types);
+  res.locals.types = types;
+  return next();
 };
 
 // Gets the Queries and return back as string.
