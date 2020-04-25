@@ -8,7 +8,7 @@ router.get(
   pgController.assembleSDLSchema,
   (req, res) => {
     console.log(res.locals.SDLSchema);
-    res.status(200).json(res.locals.SDLSchema);
+    res.status(200).json(res.locals.tables);
   }
 );
 
@@ -24,7 +24,7 @@ router.get('/prog',
   pgProgController.assembleProgSchema,
   (req, res) => {
     console.log(res.locals.progSchema)
-    res.status(200).json(res.locals.progSchema);
+    res.status(200).json(res.locals.tables);
   }
 );
 
