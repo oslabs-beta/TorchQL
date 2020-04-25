@@ -20,7 +20,7 @@ export const Input: React.FC<Props> = (props) => {
   return (
     <div className="input-form">
       <div className="input-button-row">
-        <h1 className="piQL">PiQL 🥒</h1>
+        <h1 className="header">TorchQL</h1>
         <label htmlFor="uri-input">AUTOMATICALLY GENERATES GRAPHQL SCHEMA AND RESOLVERS</label>
         <div></div>
         <input className="input" name="uri-input" value={URI} onChange={(e) => handleURI(e)} placeholder="Enter Your Relational Database URI Here"/>
