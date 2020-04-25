@@ -16,12 +16,12 @@ router.get('/prog',
   pgController.getPGTables,
   pgProgController.generateTypes,
   pgProgController.assembleTypes,
-  // pgProgController.generateQuery,
-  // pgProgController.formatQueries,
-  // pgProgController.generateMutations,
-  // pgProgController.assembleMutations,
-  // pgProgController.formatMutations,
-  // pgProgController.combineQueryAndMutations,
+  pgProgController.generateQuery,
+  pgProgController.formatQueries,
+  pgProgController.generateMutations,
+  pgProgController.assembleMutations,
+  pgProgController.formatMutations,
+  pgProgController.combineQueryAndMutations,
   (req, res) => {
     console.log(res.locals.types)
     res.status(200).json(res.locals.types);
