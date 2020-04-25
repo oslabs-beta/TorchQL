@@ -1,8 +1,31 @@
 const pgController = {};
 const { generateAllQuery, generateOneQuery, generateReturnQueries, formatQueries } = require('../helpers/queryCreator');
 const { generateMutations, assembleMutations, formatMutations } = require('../helpers/mutationCreator');
+const { generateCustomTypes, assembleCustomTypes } = require('../helpers/typeCreator');
+const SchemaGenerator = require('../generators/schemaGenerator');
 
 /* Programatic Middlware */
+
+// Gets the Types and return back as string.
+pgController.generateCustomTypes = (req, res, next) => {
+  try {
+    const typesArr = generateCustomTypes(res.locals.tables);
+    res.locals.types = typesArr;
+    return next();
+  } catch (err) {
+    return next({
+      log: 'There was a problem generating types',
+      status: 500,
+      message: { error: 'Problem generating types' },
+    });
+  }
+};
+
+pgController.assembleCustomTypes = (req, res, next) => {
+  const types = assembleCustomTypes(res.locals.types);
+  res.locals.types = types;
+  return next();
+};
 
 // Gets the Queries and return back as string.
 pgController.generateQuery = (req, res, next) => {
@@ -54,9 +77,11 @@ pgController.formatMutations = (req, res, next) => {
   return next();
 };
 
-pgController.combineQueryAndMutations = (req, res, next) => {
-  const { returnQuery , mutations } = res.locals;
-  res.locals.combine = `${returnQuery}${mutations}`
+pgController.assembleProgSchema = (req, res, next) => {
+  res.locals.progSchema = SchemaGenerator.assembleProgSchema(res.locals)
   return next();
 }
+
+
+
 module.exports = pgController;

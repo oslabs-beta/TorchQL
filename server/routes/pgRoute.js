@@ -7,22 +7,24 @@ router.get(
   pgController.getPGTables,
   pgController.assembleSDLSchema,
   (req, res) => {
-    console.log(res.locals.schema);
-    res.status(200).json(res.locals.tables);
+    console.log(res.locals.SDLSchema);
+    res.status(200).json(res.locals.SDLSchema);
   }
 );
 
 router.get('/prog',
   pgController.getPGTables,
+  pgProgController.generateCustomTypes,
+  pgProgController.assembleCustomTypes,
   pgProgController.generateQuery,
   pgProgController.formatQueries,
   pgProgController.generateMutations,
   pgProgController.assembleMutations,
   pgProgController.formatMutations,
-  pgProgController.combineQueryAndMutations,
+  pgProgController.assembleProgSchema,
   (req, res) => {
-    console.log(res.locals.mutations)
-    res.status(200).json(res.locals.combine);
+    console.log(res.locals.progSchema)
+    res.status(200).json(res.locals.progSchema);
   }
 );
 

@@ -17,7 +17,7 @@ mySQLController.getTables = (req, res, next) => {
     console.log('connection successful')
   });
   const sql = `SHOW fields from users`;
-  // const pgQuery = fs.readFileSync('server/queries/mySQLtableData.sql', 'utf8');
+  // const mySQLQuery = fs.readFileSync('server/queries/mySQLtableData.sql', 'utf8');
   db.query(sql, (err, data) => {
     if (err) {
       return next({
