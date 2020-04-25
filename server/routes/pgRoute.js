@@ -21,7 +21,7 @@ router.get('/prog',
   pgProgController.generateMutations,
   pgProgController.assembleMutations,
   pgProgController.formatMutations,
-  pgProgController.combineAllSchema,
+  pgProgController.assembleProgSchema,
   (req, res) => {
     console.log(res.locals.progSchema)
     res.status(200).json(res.locals.progSchema);

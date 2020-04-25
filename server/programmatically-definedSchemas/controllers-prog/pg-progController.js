@@ -77,7 +77,7 @@ pgController.formatMutations = (req, res, next) => {
   return next();
 };
 
-pgController.combineAllSchema = (req, res, next) => {
+pgController.assembleProgSchema = (req, res, next) => {
   res.locals.progSchema = SchemaGenerator.assembleProgSchema(res.locals)
   return next();
 }
