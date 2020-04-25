@@ -21,10 +21,10 @@ router.get('/prog',
   pgProgController.generateMutations,
   pgProgController.assembleMutations,
   pgProgController.formatMutations,
-  pgProgController.combineQueryAndMutations,
+  pgProgController.combineAllSchema,
   (req, res) => {
-    console.log(res.locals.types)
-    res.status(200).json(res.locals.types);
+    console.log(res.locals.combine)
+    res.status(200).json(res.locals.combine);
   }
 );
 

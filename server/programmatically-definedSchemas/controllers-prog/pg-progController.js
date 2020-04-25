@@ -76,9 +76,9 @@ pgController.formatMutations = (req, res, next) => {
   return next();
 };
 
-pgController.combineQueryAndMutations = (req, res, next) => {
-  const { returnQuery , mutations } = res.locals;
-  res.locals.combine = `${returnQuery}${mutations}`
+pgController.combineAllSchema = (req, res, next) => {
+  const { types, returnQuery , mutations } = res.locals;
+  res.locals.combine = `${types}${returnQuery}${mutations}`
   return next();
 }
 
