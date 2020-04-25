@@ -4,7 +4,7 @@ const {
   getPrimaryKeyType,
 } = require('../helpers/helperFunctions');
 
-function generateTypes(data) {
+function generateCustomTypes(data) {
   const allTypes = [];
   const tables = Object.keys(data);
   for (const tableName of tables) {
@@ -25,6 +25,6 @@ function assembleTypes(types) {
 }
 
 module.exports = {
-  generateTypes,
+  generateCustomTypes,
   assembleTypes
 }
