@@ -16,7 +16,7 @@ function generateCustomTypes(data) {
   return allTypes;
 }
 
-function assembleTypes(types) {
+function assembleCustomTypes(types) {
   let typeString = '';
   for (let i = 0; i < types.length; i++) {
     typeString += `${types[i]}\n`;
@@ -26,5 +26,5 @@ function assembleTypes(types) {
 
 module.exports = {
   generateCustomTypes,
-  assembleTypes
+  assembleCustomTypes
 }

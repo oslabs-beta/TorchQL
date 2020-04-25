@@ -15,7 +15,7 @@ router.get(
 router.get('/prog',
   pgController.getPGTables,
   pgProgController.generateCustomTypes,
-  pgProgController.assembleTypes,
+  pgProgController.assembleCustomTypes,
   pgProgController.generateQuery,
   pgProgController.formatQueries,
   pgProgController.generateMutations,

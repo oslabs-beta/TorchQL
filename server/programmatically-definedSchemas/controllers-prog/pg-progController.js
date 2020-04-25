@@ -1,7 +1,7 @@
 const pgController = {};
 const { generateAllQuery, generateOneQuery, generateReturnQueries, formatQueries } = require('../helpers/queryCreator');
 const { generateMutations, assembleMutations, formatMutations } = require('../helpers/mutationCreator');
-const { generateCustomTypes, assembleTypes } = require('../helpers/typeCreator');
+const { generateCustomTypes, assembleCustomTypes } = require('../helpers/typeCreator');
 
 /* Programatic Middlware */
 
@@ -20,8 +20,8 @@ pgController.generateCustomTypes = (req, res, next) => {
   }
 };
 
-pgController.assembleTypes = (req, res, next) => {
-  const types = assembleTypes(res.locals.types);
+pgController.assembleCustomTypes = (req, res, next) => {
+  const types = assembleCustomTypes(res.locals.types);
   res.locals.types = types;
   return next();
 };
