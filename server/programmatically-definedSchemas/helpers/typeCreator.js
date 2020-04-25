@@ -8,7 +8,10 @@ function generateTypes(data) {
   const allTypes = [];
   const tables = Object.keys(data);
   for (const tableName of tables) {
-    allTypes.push(TypeGenerator.createTypes(tableName, data));
+    const { foreignKeys, columns } = data[tableName];
+    if (foreignKeys === null || Object.keys(columns).length !== Object.keys(foreignKeys).length + 1) {
+      allTypes.push(TypeGenerator.createTypes(tableName, data));
+    }
   }
   return allTypes;
 }
