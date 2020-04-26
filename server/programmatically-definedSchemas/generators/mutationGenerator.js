@@ -6,10 +6,10 @@ const MutationGenerator = {
   _values: {}
 };
 
-MutationGenerator.createColumn = (tableName, primaryKey, foreignKeys, columns) => {
+MutationGenerator.createColumn = function createColumn(tableName, primaryKey, foreignKeys, columns) {
     const singleName = singular(tableName);
     const capSingle = capitalize(singleName);
-
+    this._createValues(primaryKey, foreignKeys, columns);
     // Loops through args and gets the data type for each one then returns as a string
     /* To do: Account for non-nulls */
     const generateArgs = (values) => {
@@ -122,6 +122,16 @@ MutationGenerator.destroyColumn = (tableName, primaryKey, primaryKeyType) => {
         +   `     },\n`
         +   `   },`
     );
+};
+
+MutationGenerator._createValues = function values(primaryKey, foreignKeys, columns) {
+	let index = 1;
+	for (columnName in columns) {
+			if (!(foreignKeys && foreignKeys[columnName]) && columnName !== primaryKey) {
+			this._values[index++] = columnName;
+			}
+	}
+	return this._values;
 };
 
 module.exports = MutationGenerator;
