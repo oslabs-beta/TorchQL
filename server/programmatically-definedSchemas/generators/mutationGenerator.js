@@ -43,9 +43,9 @@ MutationGenerator.createColumn = function createColumn(tableName, primaryKey, fo
         +   `         },\n` 
         +   `         resolve(parent, args) {\n`     
         +   `           try {\n`   
-        +   `               const query = \`INSERT INTO ${tableName}(${valsArr.join(', ')})\n`      
-        +   `               VALUES(${numCount(valsArr).join(', ')})\`\n`
-        +   `               const values = [${valsArr.map((val) => 'args.' + val).join(', ')}]\n`
+        +   `               const query = \`INSERT INTO ${tableName}(${Object.values(this._values).join(', ')})\n`      
+        +   `               VALUES(${Object.keys(this._values).map(x => `$${x}`).join(', ')})\`\n`
+        +   `               const values = [${Object.values(this._values).map(x => `args.${x}`).join(', ')}]\n`
         +   `               return db.query(query, values).then((res) => res.rows[0]);\n`
         +   `           } catch(err) {\n`
         +   `               throw new Error(err);\n`
