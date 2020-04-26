@@ -2,11 +2,11 @@ const { singular } = require('pluralize');
 const { capitalize } = require('../../SDL-definedSchemas/helpers/helperFunctions');
 const { getDataType, getValsAndTypes } = require('../helpers/helperFunctions');
 
-const MutationGenerator = {{
+const MutationGenerator = {
   _values: {}
 };
 
-MutationGenerator.createColumn = (tableName, values, columns) => {
+MutationGenerator.createColumn = (tableName, primaryKey, foreignKeys, columns) => {
     const singleName = singular(tableName);
     const capSingle = capitalize(singleName);
 
@@ -26,7 +26,7 @@ MutationGenerator.createColumn = (tableName, values, columns) => {
 
     // Array of column names
 
-    const valsArr = Object.values(values);
+    const valsArr = Object.values(columns);
     const numCount = (valsArr) => {
         const numArr = [];
         for(let i = 0; i < valsArr.length; i += 1){
