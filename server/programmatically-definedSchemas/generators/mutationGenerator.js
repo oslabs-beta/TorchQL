@@ -9,7 +9,8 @@ const MutationGenerator = {
 MutationGenerator.createColumn = function createColumn(tableName, primaryKey, foreignKeys, columns) {
     const singleName = singular(tableName);
     const capSingle = capitalize(singleName);
-    this._createValues(primaryKey, foreignKeys, columns);
+		this._createValues(primaryKey, foreignKeys, columns);
+		console.log('_values: ', this._values)
     // Loops through args and gets the data type for each one then returns as a string
     /* To do: Account for non-nulls */
     const generateArgs = (values) => {
@@ -18,7 +19,7 @@ MutationGenerator.createColumn = function createColumn(tableName, primaryKey, fo
         for(let i = 0; i < values.length; i += 1){
             const dataType = getDataType(valsAndTypes[i][1]);
 
-            argsArray.push(`        ${values[i]}: { type: ${dataType} }`);
+            argsArray.push(`           ${values[i]}: { type: ${dataType} }`);
         };
 
         return '    ' + argsArray.join(', \n');
@@ -26,7 +27,7 @@ MutationGenerator.createColumn = function createColumn(tableName, primaryKey, fo
 
     // Array of column names
 
-    const valsArr = Object.values(columns);
+    const valsArr = Object.keys(columns);
     const numCount = (valsArr) => {
         const numArr = [];
         for(let i = 0; i < valsArr.length; i += 1){
@@ -36,11 +37,11 @@ MutationGenerator.createColumn = function createColumn(tableName, primaryKey, fo
     };
     return (
             `   add${capSingle}: {\n`
-        +   `       type: ${capSingle}Type,\n`
-        +   `       args: {\n`
-        +   `           ${generateArgs(valsArr)}\n`
-        +   `       },\n` 
-        +   `       resolve(parent, args) {\n`     
+        +   `         type: ${capSingle}Type,\n`
+        +   `         args: {\n`
+        +   `${generateArgs(valsArr)}\n`
+        +   `         },\n` 
+        +   `         resolve(parent, args) {\n`     
         +   `           try {\n`   
         +   `               const query = \`INSERT INTO ${tableName}(${valsArr.join(', ')})\n`      
         +   `               VALUES(${numCount(valsArr).join(', ')})\`\n`
