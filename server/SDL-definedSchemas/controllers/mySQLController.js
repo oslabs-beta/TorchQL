@@ -12,8 +12,17 @@ mySQLController.getTables = (req, res, next) => {
   const connection = mysql.createConnection(config);
   connection.query(
     `
-SELECT * FROM information_schema.columns
-WHERE TABLE_SCHEMA = '${config.database}'
+    SELECT  A.*,
+      B.TABLE_NAME,
+      B.COLUMN_NAME,
+      B.CONSTRAINT_NAME,
+      B.REFERENCED_TABLE_NAME,
+      B.REFERENCED_COLUMN_NAME
+    FROM information_schema.columns AS A
+    LEFT JOIN INFORMATION_SCHEMA.KEY_COLUMN_USAGE AS B
+    ON (A.TABLE_NAME = B.TABLE_NAME) 
+      AND (A.COLUMN_NAME = B.COLUMN_NAME)
+    WHERE A.TABLE_SCHEMA = '${config.database}'
 `,
     (err, results, fields) => {
       if (err) {
