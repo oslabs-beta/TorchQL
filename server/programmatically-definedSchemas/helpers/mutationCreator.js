@@ -16,7 +16,7 @@ function generateMutations(data) {
     // necessary to skip columns with only primary and foreign keys?
     // allMutations.push(createMutation(tableName, valueObj, columns));
     allMutations.push(createMutation(tableName, primaryKey, foreignKeys, columns));
-    allMutations.push(updateMutation(tableName, primaryKey, columns));
+    allMutations.push(updateMutation(tableName, primaryKey, foreignKeys, columns));
     allMutations.push(deleteMutation(tableName, primaryKey, primaryKeyType));
   }
   return allMutations;
@@ -34,12 +34,13 @@ function createMutation(tableName, primaryKey, foreignKeys, columns) {
   return createMutations;
 }
 
-function updateMutation(tableName, values, primaryKey) {
+function updateMutation(tableName, primaryKey, foreignKeys, columns) {
   const updateMutations = [];
   const mutationStr = MutationGenerator.updateColumn(
     tableName,
-    values,
-    primaryKey
+    primaryKey,
+    foreignKeys,
+    columns
   );
   updateMutations.push(mutationStr);
   return updateMutations;

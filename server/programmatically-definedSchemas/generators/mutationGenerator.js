@@ -30,23 +30,23 @@ MutationGenerator.createColumn = function createColumn(tableName, primaryKey, fo
     );
 };
 
-MutationGenerator.updateColumn = (tableName, values, primaryKey) => {
+MutationGenerator.updateColumn = function updateColumn(tableName, primaryKey, foreignKeys, columns) {
     const singleName = singular(tableName);
-    const capSingle = capitalize(singleName);
+		const capSingle = capitalize(singleName);
+		this._createValues(primaryKey, primaryKey, foreignKeys, columns);
+    // const generateArgs = (values) => {
+    //     const argsArray = [];
 
-    const generateArgs = (values) => {
-        const argsArray = [];
+    //     for (const value of values) {
+    //         const dataType = getDataType(value);
+    //         argsArray.push(`        ${value}: { type: ${dataType} }`);
+    //     };
 
-        for (const value of values) {
-            const dataType = getDataType(value);
-            argsArray.push(`        ${value}: { type: ${dataType} }`);
-        };
-
-        return argsArray.join(', \n');
-    };
+    //     return argsArray.join(', \n');
+    // };
 
     // Array of column names
-    const valsArr = Object.values(values);
+    const valsArr = Object.keys(columns);
     const valsAndNums = (valsArr) => {
         const valsNumArr = [];
         for(let i = 1; i <= valsArr.length; i += 1){
@@ -59,7 +59,7 @@ MutationGenerator.updateColumn = (tableName, values, primaryKey) => {
             `   update${capSingle}: {\n`
         +   `       type: ${capSingle}Type,\n`
         +   `       args: {\n`
-        +   `   ${generateArgs(valsArr)}\n`
+        +   `   ${this._columns(primaryKey, foreignKeys, columns)}\n`
         +   `       },\n`
         +   `       resolve(parent, args) {\n`
         +   `       try { \n`
