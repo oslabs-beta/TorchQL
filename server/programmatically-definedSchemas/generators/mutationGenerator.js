@@ -24,17 +24,6 @@ MutationGenerator.createColumn = function createColumn(tableName, primaryKey, fo
 
         return '    ' + argsArray.join(', \n');
     };
-
-    // Array of column names
-
-    const valsArr = Object.keys(columns);
-    const numCount = (valsArr) => {
-        const numArr = [];
-        for(let i = 0; i < valsArr.length; i += 1){
-            numArr.push('$' + i);
-        }
-        return numArr;
-    };
     return (
             `add${capSingle}: {\n`
         +   `      type: ${capSingle}Type,\n`
