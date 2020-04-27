@@ -27,19 +27,19 @@ QueryGenerator.column = (table, primaryKey) => {
     return `${toCamelCase(singleName)}ById: {\n`
     +`    type: ${toPascalCase(singleName)}Type,\n`
     +`    args: {\n`
-    +`    id: { type: GraphQL[placeholder] },\n` // <-- need to replace placer holder with string/num/id/list
-    +`   },`
-    +`   resolver(parent, args) {\n`
+    +`      id: { type: GraphQL[placeholder] },\n` // <-- need to replace placer holder with string/num/id/list
+    +`    },\n`
+    +`    resolver(parent, args) {\n`
     +`      try {\n`
-    +`            const query = 'SELECT * FROM ${table}\n`
-    +`            WHERE ${primaryKey} = $1';\n`
-    +`            const values = [args.${primaryKey}];\n`
-    +`            return db.query(query, values).then((res) => res.rows[0]);\n`
-    +`          } catch (err) {\n`
-    +`            throw new Error(err);\n`
-    +`          }\n`
-    +`      },\n`
-    +`   }\n`
+    +`        const query = 'SELECT * FROM ${table}\n`
+    +`        WHERE ${primaryKey} = $1';\n`
+    +`        const values = [args.${primaryKey}];\n`
+    +`        return db.query(query, values).then((res) => res.rows[0]);\n`
+    +`      } catch (err) {\n`
+    +`        throw new Error(err);\n`
+    +`      }\n`
+    +`    },\n`
+    +`  }\n`
 };
 
 module.exports = QueryGenerator;
