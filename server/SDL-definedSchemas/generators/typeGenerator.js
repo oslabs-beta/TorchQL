@@ -1,16 +1,17 @@
 const { singular } = require('pluralize');
-const { toCamelCase, toPascalCase, typeSet } = require('./../helpers/helperFunctions');
+const { toCamelCase, toPascalCase, typeSet, getPrimaryKeyType } = require('./../helpers/helperFunctions');
 
 const TypeGenerator = {};
 
 TypeGenerator.queries = function queries(tableName, tableData) {
   const { primaryKey, foreignKeys, columns } = tableData;
   const nameSingular = singular(tableName);
+  const primaryKeyType = getPrimaryKeyType(primaryKey, columns);
   if (!foreignKeys || Object.keys(columns).length !== Object.keys(foreignKeys).length + 1) { // Do not output pure join tables
     let byID = toCamelCase(nameSingular);
     if (nameSingular === tableName) byID += 'ByID';
     return `    ${toCamelCase(tableName)}: [${toPascalCase(nameSingular)}!]!\n`
-      + `    ${byID}(${toCamelCase(primaryKey)}: ID!): ${toPascalCase(nameSingular)}!\n`;
+      + `    ${byID}(${toCamelCase(primaryKey)}: ${primaryKeyType}!): ${toPascalCase(nameSingular)}!\n`;
   }
   return '';
 };
@@ -27,9 +28,10 @@ TypeGenerator.mutations = function mutations(tableName, tableData) {
 
 TypeGenerator.customTypes = function customTypes(tableName, tables) {
   const { primaryKey, foreignKeys, columns } = tables[tableName];
+  const primaryKeyType = getPrimaryKeyType(primaryKey, columns);
   if (foreignKeys === null || Object.keys(columns).length !== Object.keys(foreignKeys).length + 1) {
     return `  type ${toPascalCase(singular(tableName))} {\n`
-      + `    ${toCamelCase(primaryKey)}: ID!`
+      + `    ${toCamelCase(primaryKey)}: ${primaryKeyType}!`
       + this._columns(primaryKey, foreignKeys, columns)
       + this._getRelationships(tableName, tables)
       + '\n  }\n\n';
