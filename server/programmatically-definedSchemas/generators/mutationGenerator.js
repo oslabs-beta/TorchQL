@@ -36,22 +36,22 @@ MutationGenerator.createColumn = function createColumn(tableName, primaryKey, fo
         return numArr;
     };
     return (
-            `   add${capSingle}: {\n`
-        +   `         type: ${capSingle}Type,\n`
-        +   `         args: {\n`
-        +   `${generateArgs(valsArr)}\n`
-        +   `         },\n` 
-        +   `         resolve(parent, args) {\n`     
-        +   `           try {\n`   
-        +   `               const query = \`INSERT INTO ${tableName}(${Object.values(this._values).join(', ')})\n`      
-        +   `               VALUES(${Object.keys(this._values).map(x => `$${x}`).join(', ')})\`\n`
-        +   `               const values = [${Object.values(this._values).map(x => `args.${x}`).join(', ')}]\n`
-        +   `               return db.query(query, values).then((res) => res.rows[0]);\n`
-        +   `           } catch(err) {\n`
-        +   `               throw new Error(err);\n`
-        +   `             }\n`
-        +   `           },\n`
-        +   `       },`
+            `add${capSingle}: {\n`
+        +   `      type: ${capSingle}Type,\n`
+        +   `        args: {`
+        +   `${this._columns(primaryKey, foreignKeys, columns)}\n`
+        +   `        },\n` 
+        +   `        resolve(parent, args) {\n`     
+        +   `          try {\n`   
+        +   `            const query = \`INSERT INTO ${tableName}(${Object.values(this._values).join(', ')})\n`      
+        +   `            VALUES(${Object.keys(this._values).map(x => `$${x}`).join(', ')})\`\n`
+        +   `            const values = [${Object.values(this._values).map(x => `args.${x}`).join(', ')}]\n`
+        +   `            return db.query(query, values).then((res) => res.rows[0]);\n`
+        +   `          } catch(err) {\n`
+        +   `            throw new Error(err);\n`
+        +   `          }\n`
+        +   `        },\n`
+        +   `      },`
     );
 };
 
@@ -133,6 +133,19 @@ MutationGenerator._createValues = function values(primaryKey, foreignKeys, colum
 			}
 	}
 	return this._values;
+};
+
+MutationGenerator._columns = function columns(primaryKey, foreignKeys, columns) {
+	let colStr = '';
+  for (let columnName in columns) {
+    if (!(foreignKeys && foreignKeys[columnName]) && columnName !== primaryKey) {
+			const { dataType, isNullable } = columns[columnName];
+			colStr += `\n          ${columnName}: { type: `
+			if (isNullable === 'YES') colStr += 'new GraphQLNonNull(';
+			colStr +=  `${getDataType(dataType)}) },`;
+    }
+  }
+  return colStr;
 };
 
 module.exports = MutationGenerator;
