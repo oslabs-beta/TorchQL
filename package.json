@@ -54,7 +54,7 @@
     "start": "NODE_ENV=production nodemon server/server.js",
     "build": "NODE_ENV=production webpack",
     "ts:build": "tsc -p .",
-    "start:dev": "NODE_ENV=development webpack-dev-server --open & nodemon server/server.ts ",
+    "start:dev": "NODE_ENV=development webpack-dev-server --open & nodemon server/server.js",
     "electron": "npm run build && electron electron.js",
     "test": "NODE_ENV=test mocha"
   },
