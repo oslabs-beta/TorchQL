@@ -12,7 +12,7 @@ MutationGenerator.createColumn = function createColumn(tableName, primaryKey, fo
 		let needNull = true;
 		this._createValues(primaryKey, foreignKeys, columns);
     return (
-            `add${capSingle}: {\n`
+            `    add${capSingle}: {\n`
         +   `      type: ${capSingle}Type,\n`
         +   `        args: {`
         +   `${this._columns(primaryKey, foreignKeys, columns, needNull)}\n`
@@ -39,23 +39,23 @@ MutationGenerator.updateColumn = function updateColumn(tableName, primaryKey, fo
 		let displaySet = '';
     for (let key in this._values) displaySet += `${this._values[key]}=$${key} `;
     return (
-            `   update${capSingle}: {\n`
-        +   `       type: ${capSingle}Type,\n`
-        +   `       args: {\n`
-        +   `   ${this._columns(primaryKey, foreignKeys, columns, needNull)}\n`
-        +   `       },\n`
-        +   `       resolve(parent, args) {\n`
-        +   `       try { \n`
-        +   `           const query = \`UPDATE ${tableName}\n`
-        +   `           SET ${displaySet}\`\n`
-        +   `           WHERE ${primaryKey} = $${Object.entries(this._values).length + 1}\n`
-        +   `           const values = [${Object.values(this._values).map(x => `args.${x}`).join(', ')}, args.${primaryKey}]\n`
-        +   `           return db.query(query, values).then((res) => res.rows[0]);\n`
-        +   `       } catch(err) {\n`
-        +   `           throw new Error(err);\n`
-        +   `           }\n`
-        +   `       },\n`
-        +   `   },\n`
+            `    update${capSingle}: {\n`
+        +   `      type: ${capSingle}Type,\n`
+        +   `      args: {`
+        +   `${this._columns(primaryKey, foreignKeys, columns, needNull)}\n`
+        +   `      },\n`
+        +   `      resolve(parent, args) {\n`
+        +   `        try { \n`
+        +   `          const query = \`UPDATE ${tableName}\n`
+        +   `          SET ${displaySet}\`\n`
+        +   `          WHERE ${primaryKey} = $${Object.entries(this._values).length + 1}\n`
+        +   `          const values = [${Object.values(this._values).map(x => `args.${x}`).join(', ')}, args.${primaryKey}]\n`
+        +   `          return db.query(query, values).then((res) => res.rows[0]);\n`
+        +   `        } catch(err) {\n`
+        +   `          throw new Error(err);\n`
+        +   `        }\n`
+        +   `      },\n`
+        +   `    },\n`
     );
 };
 
