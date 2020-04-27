@@ -1,6 +1,6 @@
 const { singular } = require('pluralize');
 const { getDataType } = require('../helpers/helperFunctions');
-const { toCamelCase, toPascalCase } = require('../helpers/helperFunctions');
+const { toCamelCase, toPascalCase, getPrimaryKeyType } = require('../helpers/helperFunctions');
 
 const TypeGenerator = {};
 
@@ -10,7 +10,7 @@ TypeGenerator.createCustomTypes = function createCustomTypes(tableName, tables) 
   return `const ${toPascalCase(singleName)}Type = new GraphQLObjectType({\n`
     + `  name: '${toPascalCase(singleName)}',\n`
     + `  fields: () => ({\n`
-    + `    ${toCamelCase(primaryKey)}: { type: GraphQLString },`
+    + `    ${toCamelCase(primaryKey)}: { type: ${getDataType(getPrimaryKeyType(primaryKey, columns))} },`
     + this._columns(primaryKey, foreignKeys, columns)
     + this._getRelationships(tableName, tables)
     + '\n  }),\n});\n';
@@ -39,7 +39,7 @@ TypeGenerator._getRelationships = function getRelationships(tableName, tables) {
 TypeGenerator._columnQuery = function column(tableName, primaryKey) {
   const singleName = singular(tableName);
   // if (byID === toCamelCase(singleName)) byID += 'ByID';
-  return `    ${toCamelCase(singleName)}ByID: {\n`
+  return `    ${toCamelCase(singleName)}: {\n`
     + `      type: ${toPascalCase(singleName)}Type,\n`
     + `      resolve(parent, args) => {\n`
     + '        try{\n'
