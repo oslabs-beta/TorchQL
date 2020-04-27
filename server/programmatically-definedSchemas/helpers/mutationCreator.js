@@ -5,13 +5,14 @@ function generateMutations(data) {
   const allMutations = [];
   const tables = Object.keys(data);
   for (const tableName of tables) {
-    const { primaryKey, columns } = data[tableName];
-    const { foreignKeys } = data[tableName];
+    const { primaryKey, foreignKeys, columns } = data[tableName];
     // necessary to skip columns with only primary and foreign keys?
     // allMutations.push(createMutation(tableName, valueObj, columns));
-    allMutations.push(createMutation(tableName, primaryKey, foreignKeys, columns));
-    allMutations.push(updateMutation(tableName, primaryKey, foreignKeys, columns));
-    allMutations.push(deleteMutation(tableName, primaryKey, columns));
+    if (foreignKeys === null || Object.keys(columns).length !== Object.keys(foreignKeys).length + 1) {
+      allMutations.push(createMutation(tableName, primaryKey, foreignKeys, columns));
+      allMutations.push(updateMutation(tableName, primaryKey, foreignKeys, columns));
+      allMutations.push(deleteMutation(tableName, primaryKey, columns));
+    }
   }
   return allMutations;
 }
