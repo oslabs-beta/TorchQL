@@ -1,7 +1,6 @@
 const { singular } = require('pluralize');
-const { capitalize } = require('../../SDL-definedSchemas/helpers/helperFunctions');
 const { getDataType } = require('../helpers/helperFunctions');
-const { toCamelCase, toPascalCase } = require('../../SDL-definedSchemas/helpers/helperFunctions');
+const { toCamelCase, toPascalCase } = require('../helpers/helperFunctions');
 
 const TypeGenerator = {};
 
@@ -31,9 +30,7 @@ TypeGenerator._columns = function columns(primaryKey, foreignKeys, columns) {
 TypeGenerator._getRelationships = function getRelationships(tableName, tables) {
   let relationships = '';
   for (let refTableName in tables[tableName].referencedBy) {
-    const { referencedBy: foreignRefBy, foreignKeys: foreignFKeys, columns: foreignColumns } = tables[refTableName];
     const { primaryKey } = tables[refTableName];
-    const refTableType = toPascalCase(singular(refTableName));
     relationships += `\n${this._columnQuery(refTableName, primaryKey)}`;
   }
   return relationships;
@@ -43,7 +40,7 @@ TypeGenerator._columnQuery = function column(tableName, primaryKey) {
   const singleName = singular(tableName);
   // if (byID === toCamelCase(singleName)) byID += 'ByID';
   return `    ${toCamelCase(singleName)}ByID: {\n`
-    + `      type: ${capitalize(singular(tableName))}Type,\n`
+    + `      type: ${toPascalCase(singleName)}Type,\n`
     + `      resolve(parent, args) => {\n`
     + '        try{\n'
     + `          const query = 'SELECT * FROM ${tableName} WHERE ${primaryKey} = $1';\n`
