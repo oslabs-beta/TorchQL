@@ -1,12 +1,12 @@
 const { singular } = require('pluralize');
-const { toPascalCase } = require('../helpers/helperFunctions');
+const { toPascalCase, toCamelCase } = require('../helpers/helperFunctions');
 const QueryGenerator = {};
 
 
 // RootQuery output to get all tables
 QueryGenerator.allColumns = table => {
   const singleName = singular(table);
-    return `${table}: {\n`
+    return `${toCamelCase(table)}: {\n`
     +`    type: ${toPascalCase(singleName)}Type,\n`
     +`      resolve() { \n`
     +`        try { \n`
@@ -24,7 +24,7 @@ QueryGenerator.allColumns = table => {
 // RootQuery output to get single table by id
 QueryGenerator.column = (table, primaryKey) => {
   const singleName = singular(table);
-    return `${singleName}ById: {\n`
+    return `${toCamelCase(singleName)}ById: {\n`
     +`    type: ${toPascalCase(singleName)}Type,\n`
     +`    args: {\n`
     +`    id: { type: GraphQL[placeholder] },\n` // <-- need to replace placer holder with string/num/id/list
