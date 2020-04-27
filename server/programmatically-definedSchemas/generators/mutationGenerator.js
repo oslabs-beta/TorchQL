@@ -36,6 +36,8 @@ MutationGenerator.updateColumn = function updateColumn(tableName, primaryKey, fo
 		const capSingle = capitalize(singleName);
 		let needNull = false;
 		this._createValues(primaryKey, primaryKey, foreignKeys, columns);
+		let displaySet = '';
+    for (let key in this._values) displaySet += `${this._values[key]}=$${key} `;
     // const generateArgs = (values) => {
     //     const argsArray = [];
 
@@ -65,9 +67,9 @@ MutationGenerator.updateColumn = function updateColumn(tableName, primaryKey, fo
         +   `       },\n`
         +   `       resolve(parent, args) {\n`
         +   `       try { \n`
-        +   `           const query = \`UPDATE ${tableName}(${valsArr.join(', ')}) \n`
-        +   `           SET(${valsAndNums(valsArr).join(', ')})\`\n`
-        +   `           WHERE ${primaryKey} = ${valsArr.length}\n`
+        +   `           const query = \`UPDATE ${tableName}\n`
+        +   `           SET ${displaySet}\`\n`
+        +   `           WHERE ${primaryKey} = $${Object.entries(this._values).length + 1}\n`
         +   `           const values = [${valsArr.map((val) => 'args.' + val).join(', ')}, args.${primaryKey}]\n`
         +   `           return db.query(query, values).then((res) => res.rows[0]);\n`
         +   `       } catch(err) {\n`
