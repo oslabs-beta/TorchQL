@@ -1,15 +1,13 @@
 const { singular } = require('pluralize');
-const { capitalize } = require('../../SDL-definedSchemas/helpers/helperFunctions');
-
+const { toPascalCase } = require('../helpers/helperFunctions');
 const QueryGenerator = {};
 
 
 // RootQuery output to get all tables
 QueryGenerator.allColumns = table => {
-  const singularName = singular(table);
-  const capSingle = capitalize(singularName)
+  const singleName = singular(table);
     return `${table}: {\n`
-    +`    type: new GraphQLList(${capSingle}Type),\n`
+    +`    type: ${toPascalCase(singleName)}Type,\n`
     +`      resolve() { \n`
     +`        try { \n`
     +`          const query = \`SELECT * FROM ${table}\`\n`
@@ -25,10 +23,9 @@ QueryGenerator.allColumns = table => {
 
 // RootQuery output to get single table by id
 QueryGenerator.column = (table, primaryKey) => {
-  const singularName = singular(table);
-  const capSingle = capitalize(singularName);
-    return `${singularName}ById: {\n`
-    +`    type: ${capSingle}Type,\n`
+  const singleName = singular(table);
+    return `${singleName}ById: {\n`
+    +`    type: ${toPascalCase(singleName)}Type,\n`
     +`    args: {\n`
     +`    id: { type: GraphQL[placeholder] },\n` // <-- need to replace placer holder with string/num/id/list
     +`   },`
