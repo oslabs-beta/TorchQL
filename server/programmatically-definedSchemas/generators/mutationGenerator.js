@@ -38,27 +38,6 @@ MutationGenerator.updateColumn = function updateColumn(tableName, primaryKey, fo
 		this._createValues(primaryKey, primaryKey, foreignKeys, columns);
 		let displaySet = '';
     for (let key in this._values) displaySet += `${this._values[key]}=$${key} `;
-    // const generateArgs = (values) => {
-    //     const argsArray = [];
-
-    //     for (const value of values) {
-    //         const dataType = getDataType(value);
-    //         argsArray.push(`        ${value}: { type: ${dataType} }`);
-    //     };
-
-    //     return argsArray.join(', \n');
-    // };
-
-    // Array of column names
-    const valsArr = Object.keys(columns);
-    const valsAndNums = (valsArr) => {
-        const valsNumArr = [];
-        for(let i = 1; i <= valsArr.length; i += 1){
-            valsNumArr.push(`${valsArr[i]} = $${i}`);
-        };
-        return valsNumArr;
-    };
-
     return (
             `   update${capSingle}: {\n`
         +   `       type: ${capSingle}Type,\n`
@@ -70,7 +49,7 @@ MutationGenerator.updateColumn = function updateColumn(tableName, primaryKey, fo
         +   `           const query = \`UPDATE ${tableName}\n`
         +   `           SET ${displaySet}\`\n`
         +   `           WHERE ${primaryKey} = $${Object.entries(this._values).length + 1}\n`
-        +   `           const values = [${valsArr.map((val) => 'args.' + val).join(', ')}, args.${primaryKey}]\n`
+        +   `           const values = [${Object.values(this._values).map(x => `args.${x}`).join(', ')}, args.${primaryKey}]\n`
         +   `           return db.query(query, values).then((res) => res.rows[0]);\n`
         +   `       } catch(err) {\n`
         +   `           throw new Error(err);\n`
