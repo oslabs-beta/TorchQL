@@ -1,6 +1,6 @@
 const { singular } = require('pluralize');
 const { capitalize } = require('../../SDL-definedSchemas/helpers/helperFunctions');
-const { getDataType } = require('../helpers/helperFunctions');
+const { getDataType, getPrimaryKeyType } = require('../helpers/helperFunctions');
 
 const MutationGenerator = {
   _values: {}
@@ -59,10 +59,10 @@ MutationGenerator.updateColumn = function updateColumn(tableName, primaryKey, fo
     );
 };
 
-MutationGenerator.destroyColumn = (tableName, primaryKey, primaryKeyType) => {
+MutationGenerator.destroyColumn = (tableName, primaryKey, columns) => {
     const singleName = singular(tableName);
     const capSingle = capitalize(singleName);
-
+		const primaryKeyType = getPrimaryKeyType(primaryKey, columns);
     return(
             `   delete${capSingle}: {\n`
         +   `       type: ${capSingle}Type,\n`
