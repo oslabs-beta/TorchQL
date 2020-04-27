@@ -1,8 +1,4 @@
 const TypeGenerator = require('../generators/typeGenerator');
-const {
-  storeIndexedColumns,
-  getPrimaryKeyType,
-} = require('../helpers/helperFunctions');
 
 function generateCustomTypes(data) {
   const allTypes = [];

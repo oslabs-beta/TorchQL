@@ -1,7 +1,4 @@
 const MutationGenerator = require('../generators/mutationGenerator');
-const {
-  storeIndexedColumns,
-} = require('../helpers/helperFunctions');
 
 // Outputs entire mutation object as a string
 function generateMutations(data) {
