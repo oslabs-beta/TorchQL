@@ -57,7 +57,8 @@
     "ts:build": "tsc -p .",
     "start:dev": "NODE_ENV=development webpack-dev-server --open & nodemon server/server.js ",
     "electron": "npm run build && electron electron.js",
-    "test": "NODE_ENV=test mocha"
+    "test": "NODE_ENV=test mocha",
+    "cypress:open": "cypress open"
   },
   "repository": {
     "type": "git",
