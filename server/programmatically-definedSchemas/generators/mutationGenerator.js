@@ -1,5 +1,4 @@
 const { singular } = require('pluralize');
-const { capitalize } = require('../../SDL-definedSchemas/helpers/helperFunctions');
 const { toPascalCase, toCamelCase, getDataType, getPrimaryKeyType } = require('../helpers/helperFunctions');
 
 const MutationGenerator = {
@@ -8,7 +7,6 @@ const MutationGenerator = {
 
 MutationGenerator.createColumn = function createColumn(tableName, primaryKey, foreignKeys, columns) {
     const singleName = singular(tableName);
-		const capSingle = capitalize(singleName);
 		let needNull = true;
 		this._createValues(primaryKey, foreignKeys, columns);
     return (
@@ -33,7 +31,6 @@ MutationGenerator.createColumn = function createColumn(tableName, primaryKey, fo
 
 MutationGenerator.updateColumn = function updateColumn(tableName, primaryKey, foreignKeys, columns) {
     const singleName = singular(tableName);
-		const capSingle = capitalize(singleName);
 		let needNull = false;
 		this._createValues(primaryKey, primaryKey, foreignKeys, columns);
 		let displaySet = '';
@@ -61,7 +58,6 @@ MutationGenerator.updateColumn = function updateColumn(tableName, primaryKey, fo
 
 MutationGenerator.destroyColumn = (tableName, primaryKey, columns) => {
     const singleName = singular(tableName);
-    const capSingle = capitalize(singleName);
 		const primaryKeyType = getPrimaryKeyType(primaryKey, columns);
     return(
             `   ${toCamelCase(`delete_${singleName}`)}: {\n`
