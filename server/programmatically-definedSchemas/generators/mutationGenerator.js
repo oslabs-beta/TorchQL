@@ -1,6 +1,6 @@
 const { singular } = require('pluralize');
 const { capitalize } = require('../../SDL-definedSchemas/helpers/helperFunctions');
-const { getDataType, getPrimaryKeyType } = require('../helpers/helperFunctions');
+const { toCamelCase, getDataType, getPrimaryKeyType } = require('../helpers/helperFunctions');
 
 const MutationGenerator = {
   _values: {}
@@ -12,7 +12,7 @@ MutationGenerator.createColumn = function createColumn(tableName, primaryKey, fo
 		let needNull = true;
 		this._createValues(primaryKey, foreignKeys, columns);
     return (
-            `    add${capSingle}: {\n`
+            `    ${toCamelCase(`add_${singular(singleName)}`)}: {\n`
         +   `      type: ${capSingle}Type,\n`
         +   `        args: {`
         +   `${this._columns(primaryKey, foreignKeys, columns, needNull)}\n`
@@ -39,7 +39,7 @@ MutationGenerator.updateColumn = function updateColumn(tableName, primaryKey, fo
 		let displaySet = '';
     for (let key in this._values) displaySet += `${this._values[key]}=$${key} `;
     return (
-            `    update${capSingle}: {\n`
+            `    ${toCamelCase(`update_${singular(singleName)}`)}: {\n`
         +   `      type: ${capSingle}Type,\n`
         +   `      args: {`
         +   `${this._columns(primaryKey, foreignKeys, columns, needNull)}\n`
@@ -64,7 +64,7 @@ MutationGenerator.destroyColumn = (tableName, primaryKey, columns) => {
     const capSingle = capitalize(singleName);
 		const primaryKeyType = getPrimaryKeyType(primaryKey, columns);
     return(
-            `   delete${capSingle}: {\n`
+            `   ${toCamelCase(`delete_${singleName}`)}: {\n`
         +   `       type: ${capSingle}Type,\n`
         +   `       args: {\n`
         +   `         ${primaryKey}: { type: newGraphQLNonNull(${primaryKeyType}) },\n`
