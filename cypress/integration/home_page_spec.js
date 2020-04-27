@@ -1,5 +1,12 @@
 describe('The Home Page', () => {
-  it('successfully loads', () => {
-    cy.visit('http://localhost:8080')
-  })
-})
+  beforeEach(() => {
+    cy.visit('/');
+  });
+
+  it('focuses input on load', () => {
+    cy.visit('/');
+
+    cy.get('.input')
+      .should('have.class', 'input');
+  });
+});
