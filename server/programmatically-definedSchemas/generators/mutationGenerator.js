@@ -8,13 +8,14 @@ const MutationGenerator = {
 
 MutationGenerator.createColumn = function createColumn(tableName, primaryKey, foreignKeys, columns) {
     const singleName = singular(tableName);
-    const capSingle = capitalize(singleName);
+		const capSingle = capitalize(singleName);
+		let needNull = true;
 		this._createValues(primaryKey, foreignKeys, columns);
     return (
             `add${capSingle}: {\n`
         +   `      type: ${capSingle}Type,\n`
         +   `        args: {`
-        +   `${this._columns(primaryKey, foreignKeys, columns)}\n`
+        +   `${this._columns(primaryKey, foreignKeys, columns, needNull)}\n`
         +   `        },\n` 
         +   `        resolve(parent, args) {\n`     
         +   `          try {\n`   
@@ -33,6 +34,7 @@ MutationGenerator.createColumn = function createColumn(tableName, primaryKey, fo
 MutationGenerator.updateColumn = function updateColumn(tableName, primaryKey, foreignKeys, columns) {
     const singleName = singular(tableName);
 		const capSingle = capitalize(singleName);
+		let needNull = false;
 		this._createValues(primaryKey, primaryKey, foreignKeys, columns);
     // const generateArgs = (values) => {
     //     const argsArray = [];
@@ -59,7 +61,7 @@ MutationGenerator.updateColumn = function updateColumn(tableName, primaryKey, fo
             `   update${capSingle}: {\n`
         +   `       type: ${capSingle}Type,\n`
         +   `       args: {\n`
-        +   `   ${this._columns(primaryKey, foreignKeys, columns)}\n`
+        +   `   ${this._columns(primaryKey, foreignKeys, columns, needNull)}\n`
         +   `       },\n`
         +   `       resolve(parent, args) {\n`
         +   `       try { \n`
@@ -110,14 +112,16 @@ MutationGenerator._createValues = function values(primaryKey, foreignKeys, colum
 	return this._values;
 };
 
-MutationGenerator._columns = function columns(primaryKey, foreignKeys, columns) {
+MutationGenerator._columns = function columns(primaryKey, foreignKeys, columns, needNull) {
 	let colStr = '';
   for (let columnName in columns) {
     if (!(foreignKeys && foreignKeys[columnName]) && columnName !== primaryKey) {
 			const { dataType, isNullable } = columns[columnName];
 			colStr += `\n          ${columnName}: { type: `
-			if (isNullable === 'YES') colStr += 'new GraphQLNonNull(';
-			colStr +=  `${getDataType(dataType)}) },`;
+			if (needNull && isNullable === 'NO') colStr += 'new GraphQLNonNull(';
+			colStr +=  `${getDataType(dataType)}`;
+			if (needNull && isNullable === 'NO') colStr += ')';
+			colStr += ` },`;
     }
   }
   return colStr;
