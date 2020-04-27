@@ -57,14 +57,6 @@ function storeIndexedColumns(obj, key) {
   return newObj;
 }
 
-function getValsAndTypes(obj) {
-  const newObj = {};
-  for (const val in obj) {
-    newObj[val] = obj[val].dataType;
-  }
-  return newObj;
-}
-
 function getPrimaryKeyType(primaryKey, columns) {
   return getDataType(columns[primaryKey].dataType);
 }
@@ -75,6 +67,5 @@ module.exports = {
   toCamelCase,
   getDataType,
   storeIndexedColumns,
-  getValsAndTypes,
   getPrimaryKeyType,
 };

@@ -60,22 +60,22 @@ MutationGenerator.destroyColumn = (tableName, primaryKey, columns) => {
     const singleName = singular(tableName);
 		const primaryKeyType = getPrimaryKeyType(primaryKey, columns);
     return(
-            `   ${toCamelCase(`delete_${singleName}`)}: {\n`
-        +   `       type: ${toPascalCase(singleName)}Type,\n`
-        +   `       args: {\n`
-        +   `         ${primaryKey}: { type: newGraphQLNonNull(${primaryKeyType}) },\n`
-        +   `       },\n`
-        +   `       resolve(parent, args) {\n`
-        +   `       try {\n`
-        +   `         const query = \`DELETE FROM ${tableName}\n`
-        +   `         WHERE ${primaryKey} = $1\`;\n`
-        +   `         const values = [args.${primaryKey}]\n`
-        +   `         return db.query(query, values).then((res) => res.rows[0]);\n`
-        +   `       } catch(err) {\n`
-        +   `           throw new Error(err)\n`
-        +   `       }\n`
-        +   `     },\n`
-        +   `   },`
+            `    ${toCamelCase(`delete_${singleName}`)}: {\n`
+        +   `      type: ${toPascalCase(singleName)}Type,\n`
+        +   `      args: {\n`
+        +   `        ${primaryKey}: { type: newGraphQLNonNull(${primaryKeyType}) },\n`
+        +   `      },\n`
+        +   `      resolve(parent, args) {\n`
+        +   `      try {\n`
+        +   `        const query = \`DELETE FROM ${tableName}\n`
+        +   `        WHERE ${primaryKey} = $1\`;\n`
+        +   `        const values = [args.${primaryKey}]\n`
+        +   `        return db.query(query, values).then((res) => res.rows[0]);\n`
+        +   `      } catch(err) {\n`
+        +   `          throw new Error(err)\n`
+        +   `      }\n`
+        +   `    },\n`
+        +   `  },`
     );
 };
 
