@@ -46,7 +46,7 @@ function typeSet(str) {
 }
 
 function getPrimaryKeyType(primaryKey, columns) {
-  return getDataType(columns[primaryKey].dataType);
+  return typeSet(columns[primaryKey].dataType);
 }
 
 module.exports = {
