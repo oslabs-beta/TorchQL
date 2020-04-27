@@ -45,9 +45,14 @@ function typeSet(str) {
 	}
 }
 
+function getPrimaryKeyType(primaryKey, columns) {
+  return getDataType(columns[primaryKey].dataType);
+}
+
 module.exports = {
 	capitalize,
   toPascalCase,
   toCamelCase,
-	typeSet
+	typeSet,
+	getPrimaryKeyType
 };
