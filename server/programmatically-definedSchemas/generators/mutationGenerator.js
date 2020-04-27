@@ -1,6 +1,6 @@
 const { singular } = require('pluralize');
 const { capitalize } = require('../../SDL-definedSchemas/helpers/helperFunctions');
-const { getDataType, getValsAndTypes } = require('../helpers/helperFunctions');
+const { getDataType } = require('../helpers/helperFunctions');
 
 const MutationGenerator = {
   _values: {}
@@ -10,20 +10,6 @@ MutationGenerator.createColumn = function createColumn(tableName, primaryKey, fo
     const singleName = singular(tableName);
     const capSingle = capitalize(singleName);
 		this._createValues(primaryKey, foreignKeys, columns);
-		console.log('_values: ', this._values)
-    // Loops through args and gets the data type for each one then returns as a string
-    /* To do: Account for non-nulls */
-    const generateArgs = (values) => {
-        const argsArray = [];
-        const valsAndTypes = Object.entries(getValsAndTypes(columns));
-        for(let i = 0; i < values.length; i += 1){
-            const dataType = getDataType(valsAndTypes[i][1]);
-
-            argsArray.push(`           ${values[i]}: { type: ${dataType} }`);
-        };
-
-        return '    ' + argsArray.join(', \n');
-    };
     return (
             `add${capSingle}: {\n`
         +   `      type: ${capSingle}Type,\n`
