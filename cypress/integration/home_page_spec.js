@@ -4,9 +4,14 @@ describe('The Home Page', () => {
   });
 
   it('focuses input on load', () => {
-    cy.visit('/');
+    cy.focused()
+      .should('have.class', 'input')
+  })
 
+  it('accepts input', () => {
+    const typedText = 'Test Input 123'
     cy.get('.input')
-      .should('have.class', 'input');
+      .type(typedText)
+      .should('have.value', typedText);
   });
 });
