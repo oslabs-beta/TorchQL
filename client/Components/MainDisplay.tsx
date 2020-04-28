@@ -8,7 +8,8 @@ interface Props {
   URI: string;
   searchHistory: Array<string>;
   handleClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-  handleInput: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  handleSDLInput: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  handleProgInput: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   handleURI: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -20,7 +21,8 @@ const MainDisplay: React.FC<Props> = (props) => {
           <CodeDisplay schema={props.schema} handleClick={props.handleClick} />
           <Input
             URI={props.URI}
-            handleInput={props.handleInput}
+            handleSDLInput={props.handleSDLInput}
+            handleProgInput={props.handleProgInput}
             handleURI={props.handleURI}
             searchHistory={props.searchHistory}
           />
@@ -29,7 +31,8 @@ const MainDisplay: React.FC<Props> = (props) => {
         <div className="container">
           <Input
             URI={props.URI}
-            handleInput={props.handleInput}
+            handleSDLInput={props.handleSDLInput}
+            handleProgInput={props.handleProgInput}
             handleURI={props.handleURI}
             searchHistory={props.searchHistory}
           />

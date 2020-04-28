@@ -55,11 +55,7 @@
     "start": "NODE_ENV=production nodemon server/server.js",
     "build": "NODE_ENV=production webpack",
     "ts:build": "tsc -p .",
-<<<<<<< HEAD
-    "start:dev": "NODE_ENV=development webpack-dev-server --open & nodemon server/server.js",
-=======
     "start:dev": "NODE_ENV=development webpack-dev-server --open & nodemon server/server.js ",
->>>>>>> dev
     "electron": "npm run build && electron electron.js",
     "test": "NODE_ENV=test mocha",
     "cypress:open": "cypress open"
