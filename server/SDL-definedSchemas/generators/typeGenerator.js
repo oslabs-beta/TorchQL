@@ -10,7 +10,7 @@ TypeGenerator.queries = function queries(tableName, tableData) {
     let byID = toCamelCase(nameSingular);
     if (nameSingular === tableName) byID += 'ByID';
     return `    ${toCamelCase(tableName)}: [${toPascalCase(nameSingular)}!]!\n`
-      + `    ${byID}(${toCamelCase(primaryKey)}: ID!): ${toPascalCase(nameSingular)}!\n`;
+      + `    ${byID}(${primaryKey}: ID!): ${toPascalCase(nameSingular)}!\n`;
   }
   return '';
 };
@@ -29,7 +29,7 @@ TypeGenerator.customTypes = function customTypes(tableName, tables) {
   const { primaryKey, foreignKeys, columns } = tables[tableName];
   if (foreignKeys === null || Object.keys(columns).length !== Object.keys(foreignKeys).length + 1) {
     return `  type ${toPascalCase(singular(tableName))} {\n`
-      + `    ${toCamelCase(primaryKey)}: ID!`
+      + `    ${primaryKey}: ID!`
       + this._columns(primaryKey, foreignKeys, columns)
       + this._getRelationships(tableName, tables)
       + '\n  }\n\n';
@@ -41,9 +41,9 @@ TypeGenerator._columns = function columns(primaryKey, foreignKeys, columns) {
   let colStr = '';
   for (let columnName in columns) {
     if (!(foreignKeys && foreignKeys[columnName]) && columnName !== primaryKey) {
-      const { dataType, isNullable } = columns[columnName];
-      colStr += `\n    ${toCamelCase(columnName)}: ${typeSet(dataType)}`;
-      if (isNullable === 'YES') colStr += '!';
+      const { dataType, isNullable, columnDefault } = columns[columnName];
+      colStr += `\n    ${columnName}: ${typeSet(dataType)}`;
+      if (isNullable === 'NO' && columnDefault === null) colStr += '!';
     }
   }
   return colStr;

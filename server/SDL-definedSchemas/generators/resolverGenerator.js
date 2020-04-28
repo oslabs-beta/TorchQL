@@ -41,8 +41,8 @@ ResolverGenerator._columnQuery = function column(tableName, primaryKey) {
   return `    ${byID}: (parent, args) => {\n`
     + '      try{\n'
     + `        const query = 'SELECT * FROM ${tableName} WHERE ${primaryKey} = $1';\n`
-    + `        const values = [args.${primaryKey}]\n`
-    + '        return db.query(query).then((res) => res.rows)\n'
+    + `        const values = [args.${primaryKey}];\n`
+    + '        return db.query(query, values).then((res) => res.rows[0]);\n'
     + '      } catch (err) {\n'
     + '        throw new Error(err);\n'
     + '      }\n'
@@ -53,7 +53,7 @@ ResolverGenerator._allColumnQuery = function allColumn(tableName) {
   return `    ${toCamelCase(tableName)}: () => {\n`
     + '      try {\n'
     + `        const query = 'SELECT * FROM ${tableName}';\n`
-    + '        return db.query(query).then((res) => res.rows)\n'
+    + '        return db.query(query).then((res) => res.rows);\n'
     + '      } catch (err) {\n'
     + '        throw new Error(err);\n'
     + '      }\n'
@@ -78,8 +78,8 @@ ResolverGenerator._updateMutation = function updateColumn(tableName, primaryKey,
   return `    ${toCamelCase(`update_${singular(tableName)}`)}: (parent, args) => {\n`
     + '      try {\n'
     + `        const query = 'UPDATE ${tableName} SET ${displaySet} WHERE ${primaryKey} = $${Object.entries(this._values).length + 1}';\n`
-    + `        const values = [${Object.values(this._values).map(x => `args.${x}`).join(', ')}, args.${primaryKey}]\n`
-    + '        return db.query(query).then((res) => res.rows)\n'
+    + `        const values = [${Object.values(this._values).map(x => `args.${x}`).join(', ')}, args.${primaryKey}];\n`
+    + '        return db.query(query).then((res) => res.rows);\n'
     + '      } catch (err) {\n'
     + '        throw new Error(err);\n'
     + '      }\n'
@@ -90,8 +90,8 @@ ResolverGenerator._deleteMutations = function deleteColumn(tableName, primaryKey
   return `    ${toCamelCase(`delete_${singular(tableName)}`)}: (parent, args) => {\n`
     + '      try {\n'
     + `        const query = 'DELETE FROM ${tableName} WHERE ${primaryKey} = $1';\n`
-    + `        const values = [args.${primaryKey}]\n`
-    + '        return db.query(query).then((res) => res.rows)\n'
+    + `        const values = [args.${primaryKey}];\n`
+    + '        return db.query(query).then((res) => res.rows);\n'
     + '      } catch (err) {\n'
     + '        throw new Error(err);\n'
     + '      }\n'
