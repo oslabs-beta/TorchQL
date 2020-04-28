@@ -12,20 +12,20 @@ MutationGenerator.createColumn = function createColumn(tableName, primaryKey, fo
     return (
             `    ${toCamelCase(`add_${singular(singleName)}`)}: {\n`
         +   `      type: ${toPascalCase(singleName)}Type,\n`
-        +   `        args: {`
+        +   `      args: {`
         +   `${this._columns(primaryKey, foreignKeys, columns, needNull)}\n`
-        +   `        },\n` 
-        +   `        resolve(parent, args) {\n`     
-        +   `          try {\n`   
-        +   `            const query = \`INSERT INTO ${tableName}(${Object.values(this._values).join(', ')})\n`      
-        +   `            VALUES(${Object.keys(this._values).map(x => `$${x}`).join(', ')})\`\n`
-        +   `            const values = [${Object.values(this._values).map(x => `args.${x}`).join(', ')}]\n`
-        +   `            return db.query(query, values).then((res) => res.rows[0]);\n`
-        +   `          } catch(err) {\n`
-        +   `            throw new Error(err);\n`
-        +   `          }\n`
-        +   `        },\n`
-        +   `      },`
+        +   `      },\n` 
+        +   `      resolve(parent, args) {\n`     
+        +   `        try {\n`   
+        +   `          const query = \`INSERT INTO ${tableName}(${Object.values(this._values).join(', ')})\n`      
+        +   `          VALUES(${Object.keys(this._values).map(x => `$${x}`).join(', ')})\`\n`
+        +   `          const values = [${Object.values(this._values).map(x => `args.${x}`).join(', ')}]\n`
+        +   `          return db.query(query, values).then((res) => res.rows[0]);\n`
+        +   `        } catch(err) {\n`
+        +   `          throw new Error(err);\n`
+        +   `        }\n`
+        +   `      },\n`
+        +   `    },`
     );
 };
 
@@ -66,16 +66,16 @@ MutationGenerator.destroyColumn = (tableName, primaryKey, columns) => {
         +   `        ${primaryKey}: { type: newGraphQLNonNull(${primaryKeyType}) },\n`
         +   `      },\n`
         +   `      resolve(parent, args) {\n`
-        +   `      try {\n`
-        +   `        const query = \`DELETE FROM ${tableName}\n`
-        +   `        WHERE ${primaryKey} = $1\`;\n`
-        +   `        const values = [args.${primaryKey}]\n`
-        +   `        return db.query(query, values).then((res) => res.rows[0]);\n`
-        +   `      } catch(err) {\n`
+        +   `        try {\n`
+        +   `          const query = \`DELETE FROM ${tableName}\n`
+        +   `          WHERE ${primaryKey} = $1\`;\n`
+        +   `          const values = [args.${primaryKey}]\n`
+        +   `          return db.query(query, values).then((res) => res.rows[0]);\n`
+        +   `        } catch(err) {\n`
         +   `          throw new Error(err)\n`
-        +   `      }\n`
-        +   `    },\n`
-        +   `  },`
+        +   `        }\n`
+        +   `      },\n`
+        +   `    },`
     );
 };
 
@@ -94,7 +94,7 @@ MutationGenerator._columns = function columns(primaryKey, foreignKeys, columns, 
   for (let columnName in columns) {
     if (!(foreignKeys && foreignKeys[columnName]) && columnName !== primaryKey) {
 			const { dataType, isNullable } = columns[columnName];
-			colStr += `\n          ${columnName}: { type: `
+			colStr += `\n        ${columnName}: { type: `
 			if (needNull && isNullable === 'NO') colStr += 'new GraphQLNonNull(';
 			colStr +=  `${getDataType(dataType)}`;
 			if (needNull && isNullable === 'NO') colStr += ')';
