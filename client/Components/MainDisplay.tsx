@@ -40,13 +40,13 @@ const MainDisplay: React.FC<Props> = (props) => {
         </div>
       ) : (
         <div className="container">
-          {/* <Input
+          <Input
             URI={props.URI}
             handleSDLInput={props.handleSDLInput}
             handleProgInput={props.handleProgInput}
             handleURI={props.handleURI}
             searchHistory={props.searchHistory}
-          /> */}
+          />
           <MySQL
             host={props.host}
             user={props.user}
