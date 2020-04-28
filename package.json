@@ -6,6 +6,7 @@
   "dependencies": {
     "bulma": "^0.8.2",
     "codemirror": "^5.52.2",
+    "cypress": "^4.4.1",
     "express": "^4.17.1",
     "mongodb": "^3.5.6",
     "mongoose": "^5.9.9",
@@ -56,7 +57,8 @@
     "ts:build": "tsc -p .",
     "start:dev": "NODE_ENV=development webpack-dev-server --open & nodemon server/server.js ",
     "electron": "npm run build && electron electron.js",
-    "test": "NODE_ENV=test mocha"
+    "test": "NODE_ENV=test mocha",
+    "cypress:open": "cypress open"
   },
   "repository": {
     "type": "git",
