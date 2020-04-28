@@ -42,7 +42,7 @@ TypeGenerator._columnQuery = function column(tableName, primaryKey) {
   return `    ${toCamelCase(singleName)}: {\n`
     + `      type: ${toPascalCase(singleName)}Type,\n`
     + `      resolve(parent, args) => {\n`
-    + '        try{\n'
+    + '        try {\n'
     + `          const query = 'SELECT * FROM ${tableName} WHERE ${primaryKey} = $1';\n`
     + `          const values = [args.${primaryKey}]\n`
     + '          return db.query(query).then((res) => res.rows)\n'
