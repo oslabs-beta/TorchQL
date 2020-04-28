@@ -5,6 +5,7 @@ interface Props {
   URI: string;
   handleSDLInput: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   handleProgInput: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  handleMySQLInput: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   handleURI: (event: React.ChangeEvent<HTMLInputElement>) => void;
   searchHistory: Array<string>;
 }
@@ -16,7 +17,7 @@ export const Input: React.FC<Props> = (props) => {
     setHistoryOpen(!historyOpen);
   };
 
-  const { searchHistory, handleSDLInput, handleProgInput, handleURI, URI } = props;
+  const { searchHistory, handleSDLInput, handleProgInput, handleMySQLInput, handleURI, URI } = props;
 
   return (
     <div className="input-form">
@@ -39,6 +40,13 @@ export const Input: React.FC<Props> = (props) => {
           onClick={(e) => handleProgInput(e)}
         >
         Programmatic Schema
+        </button>
+        <button
+          id="submit-uri"
+          className="main-btn"
+          onClick={(e) => handleMySQLInput(e)}
+        >
+        MySQL SDL Schema
         </button>
         <p className="toggle-history-text" onClick={() => toggleHistory()}>
           View Past Searches
