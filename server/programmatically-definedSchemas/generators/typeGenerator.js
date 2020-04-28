@@ -1,21 +1,21 @@
 const { singular } = require('pluralize');
-const { capitalize } = require('../../SDL-definedSchemas/helpers/helperFunctions');
 const { getDataType } = require('../helpers/helperFunctions');
-const { toCamelCase, toPascalCase } = require('../../SDL-definedSchemas/helpers/helperFunctions');
+const { toCamelCase, toPascalCase, getPrimaryKeyType } = require('../helpers/helperFunctions');
 
 const TypeGenerator = {};
-
+// composes custom types in programmatic schema format
 TypeGenerator.createCustomTypes = function createCustomTypes(tableName, tables) {
   const { primaryKey, foreignKeys, columns } = tables[tableName];
-  return `const ${capitalize(singular(tableName))}Type = new GraphQLObjectType({\n`
-    + `  name: '${capitalize(singular(tableName))}',\n`
+  const singleName = singular(tableName);
+  return `const ${toPascalCase(singleName)}Type = new GraphQLObjectType({\n`
+    + `  name: '${toPascalCase(singleName)}',\n`
     + `  fields: () => ({\n`
-    + `    ${toCamelCase(primaryKey)}: { type: GraphQLString },`
+    + `    ${toCamelCase(primaryKey)}: { type: ${getDataType(getPrimaryKeyType(primaryKey, columns))} },`
     + this._columns(primaryKey, foreignKeys, columns)
     + this._getRelationships(tableName, tables)
     + '\n  }),\n});\n';
 };
-
+// returns formatted non-primary or foreign key fields with their types in programmatic schema format
 TypeGenerator._columns = function columns(primaryKey, foreignKeys, columns) {
   let colStr = '';
   for (let columnName in columns) {
@@ -26,25 +26,22 @@ TypeGenerator._columns = function columns(primaryKey, foreignKeys, columns) {
   }
   return colStr;
 };
-
+// returns resolver for all fields with relationships in custom types as a string
 TypeGenerator._getRelationships = function getRelationships(tableName, tables) {
   let relationships = '';
   for (let refTableName in tables[tableName].referencedBy) {
-    const { referencedBy: foreignRefBy, foreignKeys: foreignFKeys, columns: foreignColumns } = tables[refTableName];
     const { primaryKey } = tables[refTableName];
-    const refTableType = toPascalCase(singular(refTableName));
     relationships += `\n${this._columnQuery(refTableName, primaryKey)}`;
   }
   return relationships;
 };
-
+// returns resolver for one field of custom types as a string
 TypeGenerator._columnQuery = function column(tableName, primaryKey) {
-  let byID = toCamelCase(singular(tableName));
-  if (byID === toCamelCase(tableName)) byID += 'ByID';
-  return `    ${byID}: {\n`
-    + `      type: ${capitalize(singular(tableName))}Type,\n`
+  const singleName = singular(tableName);
+  return `    ${toCamelCase(singleName)}: {\n`
+    + `      type: ${toPascalCase(singleName)}Type,\n`
     + `      resolve(parent, args) => {\n`
-    + '        try{\n'
+    + '        try {\n'
     + `          const query = 'SELECT * FROM ${tableName} WHERE ${primaryKey} = $1';\n`
     + `          const values = [args.${primaryKey}]\n`
     + '          return db.query(query).then((res) => res.rows)\n'

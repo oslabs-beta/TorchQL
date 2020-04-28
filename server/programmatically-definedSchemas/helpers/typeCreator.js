@@ -5,9 +5,7 @@ function generateCustomTypes(data) {
   const tables = Object.keys(data);
   for (const tableName of tables) {
     const { foreignKeys, columns } = data[tableName];
-    if (foreignKeys === null || Object.keys(columns).length !== Object.keys(foreignKeys).length + 1) {
-      allTypes.push(TypeGenerator.createCustomTypes(tableName, data));
-    }
+    allTypes.push(TypeGenerator.createCustomTypes(tableName, data));
   }
   return allTypes;
 }
