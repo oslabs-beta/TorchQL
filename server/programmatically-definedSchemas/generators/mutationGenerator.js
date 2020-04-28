@@ -4,7 +4,7 @@ const { toPascalCase, toCamelCase, getDataType, getPrimaryKeyType } = require('.
 const MutationGenerator = {
   _values: {}
 };
-
+// composes create mutation in programmatic schema
 MutationGenerator.createColumn = function createColumn(tableName, primaryKey, foreignKeys, columns) {
     const singleName = singular(tableName);
 		let needNull = true;
@@ -28,7 +28,7 @@ MutationGenerator.createColumn = function createColumn(tableName, primaryKey, fo
         +   `    },`
     );
 };
-
+// composes update mutation in programmatic schema
 MutationGenerator.updateColumn = function updateColumn(tableName, primaryKey, foreignKeys, columns) {
     const singleName = singular(tableName);
 		let needNull = false;
@@ -55,7 +55,7 @@ MutationGenerator.updateColumn = function updateColumn(tableName, primaryKey, fo
         +   `    },\n`
     );
 };
-
+// composes delete mutation in programmatic schema
 MutationGenerator.destroyColumn = (tableName, primaryKey, columns) => {
     const singleName = singular(tableName);
 		const primaryKeyType = getPrimaryKeyType(primaryKey, columns);
@@ -78,7 +78,7 @@ MutationGenerator.destroyColumn = (tableName, primaryKey, columns) => {
         +   `    },`
     );
 };
-
+// returns indexed collection of non-primary or foreign key fields
 MutationGenerator._createValues = function values(primaryKey, foreignKeys, columns) {
 	let index = 1;
 	for (columnName in columns) {
@@ -88,7 +88,7 @@ MutationGenerator._createValues = function values(primaryKey, foreignKeys, colum
 	}
 	return this._values;
 };
-
+// returns formatted non-primary or foreign key fields with their types in programmatic schema format
 MutationGenerator._columns = function columns(primaryKey, foreignKeys, columns, needNull) {
 	let colStr = '';
   for (let columnName in columns) {
