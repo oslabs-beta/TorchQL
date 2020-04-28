@@ -2,7 +2,7 @@ const TypeGenerator = require('../generators/typeGenerator');
 const ResolverGenerator = require('../generators/resolverGenerator');
 
 const SchemaGenerator = {};
-
+// assembles all programmatic schema and resolvers together in one string
 SchemaGenerator.assembleSchema = function assembleSchema(tables) {
   let queryType = '';
   let mutationType = '';
