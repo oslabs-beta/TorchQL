@@ -16,7 +16,7 @@ interface Props {
 const MainDisplay: React.FC<Props> = (props) => {
   return (
     <div>
-      {props.displayCode ? (
+      {props.displayCode ? ( s
         <div className="container">
           <CodeDisplay schema={props.schema} handleClick={props.handleClick} />
           <Input
