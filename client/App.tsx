@@ -20,7 +20,7 @@ const App: React.FC = () => {
   };
 
 
-  // Fetches and returns the SDL Schema
+  // Fetches and returns the Postgres SDL Schema
   const handleSDLInput = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
@@ -40,13 +40,33 @@ const App: React.FC = () => {
     }
   };
 
-  // Fetches and returns the Programmatic Schema
+  // Fetches and returns the Postgres Programmatic Schema
   const handleProgInput = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     event.preventDefault();
     if (URI !== '') {
       fetch(`/db/pg/prog?uri=${URI}`)
+        .then((data) => data.json())
+        .then((data) => {
+          addToSearchHistory();
+          setSchema(data);
+          setDisplayCode(true);
+          console.log('schema: ', schema);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
+  };
+
+  // Handles and fetches the MySQL SDL Schema
+  const handleMySQLInput = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    event.preventDefault();
+    if (URI !== '') {
+      fetch(`/db/mySQL/sdl?uri=${URI}`)
         .then((data) => data.json())
         .then((data) => {
           addToSearchHistory();
