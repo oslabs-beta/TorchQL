@@ -6,12 +6,20 @@ interface Props {
   displayCode: boolean;
   schema: string;
   URI: string;
+  host: string;
+  user: string;
+  password: string;
+  database: string;
   searchHistory: Array<string>;
   handleClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   handleSDLInput: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   handleProgInput: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   handleMySQLInput: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   handleURI: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleHost: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleUser: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handlePassword: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleDatabase: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const MainDisplay: React.FC<Props> = (props) => {

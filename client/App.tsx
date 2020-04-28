@@ -15,6 +15,19 @@ const App: React.FC = () => {
   const [password, setPassword] = useState<string>('');
   const [database, setDatabase] = useState<string>('');
 
+  const handleHost = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setHost(e.target.value);
+  };
+  const handleUser = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUser(e.target.value);
+  };
+  const handlePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
+  };
+  const handleDatabase = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setDatabase(e.target.value);
+  };
+
   // Add inputted URI to search history
   const addToSearchHistory = () => {
     setSearchHistory([...searchHistory, URI]);
@@ -67,6 +80,7 @@ const App: React.FC = () => {
   };
 
   // Handles and fetches the MySQL SDL Schema
+  // TODO change fetch to post request intead
   const handleMySQLInput = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
@@ -99,6 +113,14 @@ const App: React.FC = () => {
       <MainDisplay
         schema={schema}
         URI={URI}
+        host={host}
+        handleHost={handleURI}
+        user={user}
+        handleUser={handleURI}
+        password={password}
+        handlePassword={handleURI}
+        database={database}
+        handleDatabase={handleURI}
         handleSDLInput={handleSDLInput}
         handleProgInput={handleProgInput}
         handleMySQLInput={handleMySQLInput}
