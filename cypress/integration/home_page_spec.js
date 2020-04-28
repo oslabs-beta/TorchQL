@@ -6,7 +6,7 @@ describe('The Home Page', () => {
   it('focuses input on load', () => {
     cy.focused()
       .should('have.class', 'input')
-  })
+  });
 
   it('accepts input', () => {
     const typedText = 'Test Input 123'
