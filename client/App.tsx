@@ -9,6 +9,12 @@ const App: React.FC = () => {
   const [schema, setSchema] = useState<string>('');
   const [displayCode, setDisplayCode] = useState<boolean>(false);
 
+  //MySQL 
+  const [host, setHost] = useState<string>('');
+  const [user, setUser] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [database, setDatabase] = useState<string>('');
+
   // Add inputted URI to search history
   const addToSearchHistory = () => {
     setSearchHistory([...searchHistory, URI]);
