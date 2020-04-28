@@ -31,14 +31,14 @@ export const Input: React.FC<Props> = (props) => {
           className="main-btn"
           onClick={(e) => handleSDLInput(e)}
         >
-          SDL
+        SDL Schema
         </button>
         <button
           id="submit-uri"
           className="main-btn"
           onClick={(e) => handleProgInput(e)}
         >
-          Prop
+        Programmatic Schema
         </button>
         <p className="toggle-history-text" onClick={() => toggleHistory()}>
           View Past Searches
