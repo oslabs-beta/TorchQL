@@ -6,10 +6,11 @@
   "dependencies": {
     "bulma": "^0.8.2",
     "codemirror": "^5.52.2",
+    "cypress": "^4.4.1",
     "express": "^4.17.1",
     "mongodb": "^3.5.6",
     "mongoose": "^5.9.9",
-    "mysql": "^2.18.1",
+    "mysql2": "^2.1.0",
     "pg": "^8.0.2",
     "pluralize": "^8.0.0",
     "react": "^16.13.1",
@@ -54,9 +55,10 @@
     "start": "NODE_ENV=production nodemon server/server.js",
     "build": "NODE_ENV=production webpack",
     "ts:build": "tsc -p .",
-    "start:dev": "NODE_ENV=development webpack-dev-server --open & nodemon server/server.ts ",
+    "start:dev": "NODE_ENV=development webpack-dev-server --open & nodemon server/server.js ",
     "electron": "npm run build && electron electron.js",
-    "test": "NODE_ENV=test mocha"
+    "test": "NODE_ENV=test mocha",
+    "cypress:open": "cypress open"
   },
   "repository": {
     "type": "git",
