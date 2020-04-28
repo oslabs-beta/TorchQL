@@ -95,6 +95,7 @@ const App: React.FC = () => {
         URI={URI}
         handleSDLInput={handleSDLInput}
         handleProgInput={handleProgInput}
+        handleMySQLInput={handleMySQLInput}
         handleURI={handleURI}
         displayCode={displayCode}
         handleClick={handleClick}

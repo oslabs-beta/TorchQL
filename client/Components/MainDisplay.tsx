@@ -10,6 +10,7 @@ interface Props {
   handleClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   handleSDLInput: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   handleProgInput: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  handleMySQLInput: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   handleURI: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -23,6 +24,7 @@ const MainDisplay: React.FC<Props> = (props) => {
             URI={props.URI}
             handleSDLInput={props.handleSDLInput}
             handleProgInput={props.handleProgInput}
+            handleMySQLInput={props.handleMySQLInput}
             handleURI={props.handleURI}
             searchHistory={props.searchHistory}
           />
@@ -33,6 +35,7 @@ const MainDisplay: React.FC<Props> = (props) => {
             URI={props.URI}
             handleSDLInput={props.handleSDLInput}
             handleProgInput={props.handleProgInput}
+            handleMySQLInput={props.handleMySQLInput}
             handleURI={props.handleURI}
             searchHistory={props.searchHistory}
           />
