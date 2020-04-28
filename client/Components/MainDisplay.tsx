@@ -1,6 +1,7 @@
 import React from 'react';
 import { Input } from './Input';
 import { CodeDisplay } from './CodeDisplay';
+import { MySQL } from './MySQL';
 
 interface Props {
   displayCode: boolean;
@@ -32,19 +33,30 @@ const MainDisplay: React.FC<Props> = (props) => {
             URI={props.URI}
             handleSDLInput={props.handleSDLInput}
             handleProgInput={props.handleProgInput}
-            handleMySQLInput={props.handleMySQLInput}
             handleURI={props.handleURI}
             searchHistory={props.searchHistory}
           />
+          
         </div>
       ) : (
         <div className="container">
-          <Input
+          {/* <Input
             URI={props.URI}
             handleSDLInput={props.handleSDLInput}
             handleProgInput={props.handleProgInput}
-            handleMySQLInput={props.handleMySQLInput}
             handleURI={props.handleURI}
+            searchHistory={props.searchHistory}
+          /> */}
+          <MySQL
+            host={props.host}
+            user={props.user}
+            password={props.password}
+            database={props.database}
+            handleHost={props.handleHost}
+            handleUser={props.handleUser}
+            handlePassword={props.handlePassword}
+            handleDatabase={props.handleDatabase}
+            handleMySQLInput={props.handleMySQLInput}
             searchHistory={props.searchHistory}
           />
         </div>

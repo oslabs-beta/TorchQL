@@ -114,13 +114,13 @@ const App: React.FC = () => {
         schema={schema}
         URI={URI}
         host={host}
-        handleHost={handleURI}
+        handleHost={handleHost}
         user={user}
-        handleUser={handleURI}
+        handleUser={handleUser}
         password={password}
-        handlePassword={handleURI}
+        handlePassword={handlePassword}
         database={database}
-        handleDatabase={handleURI}
+        handleDatabase={handleDatabase}
         handleSDLInput={handleSDLInput}
         handleProgInput={handleProgInput}
         handleMySQLInput={handleMySQLInput}
