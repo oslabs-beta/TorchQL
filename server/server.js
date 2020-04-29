@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const pgRouter = require('./routes/pgRoute');
 const mySQLRouter = require('./routes/mySQLRoute');
 const app = express();
@@ -7,6 +8,8 @@ const PORT = 3000;
 /* Express logic/handler */
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use(express.static(path.resolve(__dirname, '../dist')));
 
 app.use('/db/pg', pgRouter);
 app.use('/db/mySQL', mySQLRouter);
