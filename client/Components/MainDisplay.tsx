@@ -31,7 +31,7 @@ interface Props {
 const MainDisplay: React.FC<Props> = (props) => {
   return (
     <div>
-      <button onClick={props.inputToggle} >Postgres SQL</button>
+      <button className="main-btn" onClick={props.inputToggle} >Postgres SQL</button>
       {props.displayInput &&
         <div className="container">
           {props.displayCode ? (
@@ -58,7 +58,7 @@ const MainDisplay: React.FC<Props> = (props) => {
           )}
         </div>
       }
-      <button onClick={props.mySQLToggle} >MySQL</button>
+      <button className="main-btn" onClick={props.mySQLToggle} >MySQL</button>
       {props.displayMySQL && 
         <div className="container">
           {props.displayCode ? (
@@ -79,18 +79,18 @@ const MainDisplay: React.FC<Props> = (props) => {
             </div>
           ) : (
             <div className="container">
-            <MySQL
-              host={props.host}
-              user={props.user}
-              password={props.password}
-              database={props.database}
-              handleHost={props.handleHost}
-              handleUser={props.handleUser}
-              handlePassword={props.handlePassword}
-              handleDatabase={props.handleDatabase}
-              handleMySQLInput={props.handleMySQLInput}
-              searchHistory={props.searchHistory}
-              />
+              <MySQL
+                host={props.host}
+                user={props.user}
+                password={props.password}
+                database={props.database}
+                handleHost={props.handleHost}
+                handleUser={props.handleUser}
+                handlePassword={props.handlePassword}
+                handleDatabase={props.handleDatabase}
+                handleMySQLInput={props.handleMySQLInput}
+                searchHistory={props.searchHistory}
+                />
             </div>
           )}
         </div>
