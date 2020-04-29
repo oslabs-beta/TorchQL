@@ -6,6 +6,7 @@ import { MySQL } from './MySQL';
 interface Props {
   displayCode: boolean;
   displayInput: boolean;
+  displayMySQL: boolean;
   schema: string;
   URI: string;
   host: string;
@@ -31,54 +32,72 @@ const MainDisplay: React.FC<Props> = (props) => {
   return (
     <div>
       <button onClick={props.inputToggle} >Postgres SQL</button>
-      {props.displayInput && <div className="container">
-          <Input
-            URI={props.URI}
-            handleSDLInput={props.handleSDLInput}
-            handleProgInput={props.handleProgInput}
-            handleURI={props.handleURI}
-            searchHistory={props.searchHistory}
-          />
-        </div>}
-      <button>MySQL</button>
-      {props.displayCode ? ( 
+      {props.displayInput &&
         <div className="container">
-          <CodeDisplay schema={props.schema} handleClick={props.handleClick} />
-          <Input
-            URI={props.URI}
-            handleSDLInput={props.handleSDLInput}
-            handleProgInput={props.handleProgInput}
-            handleURI={props.handleURI}
-            searchHistory={props.searchHistory}
-          />
+          {props.displayCode ? (
+            <div className="container">
+              <CodeDisplay schema={props.schema} handleClick={props.handleClick} />
+              <Input
+              URI={props.URI}
+              handleSDLInput={props.handleSDLInput}
+              handleProgInput={props.handleProgInput}
+              handleURI={props.handleURI}
+              searchHistory={props.searchHistory}
+              />
+            </div>
+          ) : (
+            <div className="container">
+              <Input
+                URI={props.URI}
+                handleSDLInput={props.handleSDLInput}
+                handleProgInput={props.handleProgInput}
+                handleURI={props.handleURI}
+                searchHistory={props.searchHistory}
+              />
+            </div>
+          )}
         </div>
-      ) : (
+      }
+      <button onClick={props.mySQLToggle} >MySQL</button>
+      {props.displayMySQL && 
         <div className="container">
-          <Input
-            URI={props.URI}
-            handleSDLInput={props.handleSDLInput}
-            handleProgInput={props.handleProgInput}
-            handleURI={props.handleURI}
-            searchHistory={props.searchHistory}
-          />
+          {props.displayCode ? (
+            <div className="container">
+              <CodeDisplay schema={props.schema} handleClick={props.handleClick} />
+              <MySQL
+                host={props.host}
+                user={props.user}
+                password={props.password}
+                database={props.database}
+                handleHost={props.handleHost}
+                handleUser={props.handleUser}
+                handlePassword={props.handlePassword}
+                handleDatabase={props.handleDatabase}
+                handleMySQLInput={props.handleMySQLInput}
+                searchHistory={props.searchHistory}
+              />
+            </div>
+          ) : (
+            <div className="container">
+            <MySQL
+              host={props.host}
+              user={props.user}
+              password={props.password}
+              database={props.database}
+              handleHost={props.handleHost}
+              handleUser={props.handleUser}
+              handlePassword={props.handlePassword}
+              handleDatabase={props.handleDatabase}
+              handleMySQLInput={props.handleMySQLInput}
+              searchHistory={props.searchHistory}
+              />
+            </div>
+          )}
         </div>
-      )}
+      }
     </div>
   );
 };
 
 export default MainDisplay;
 
-
-          // <MySQL
-          //   host={props.host}
-          //   user={props.user}
-          //   password={props.password}
-          //   database={props.database}
-          //   handleHost={props.handleHost}
-          //   handleUser={props.handleUser}
-          //   handlePassword={props.handlePassword}
-          //   handleDatabase={props.handleDatabase}
-          //   handleMySQLInput={props.handleMySQLInput}
-          //   searchHistory={props.searchHistory}
-          // />

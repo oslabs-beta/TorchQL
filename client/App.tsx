@@ -104,7 +104,6 @@ const App: React.FC = () => {
       })
       .then((data) => data.json())
       .then((data) => {
-        addToSearchHistory(),
         setSchema(data),
         setDisplayCode(true);
       })
@@ -141,6 +140,7 @@ const App: React.FC = () => {
         handleURI={handleURI}
         displayCode={displayCode}
         displayInput={displayInput}
+        displayMySQL={displayMySQL}
         handleClick={handleClick}
         inputToggle={inputToggle}
         mySQLToggle={mySQLToggle}
