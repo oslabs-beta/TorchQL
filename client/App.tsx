@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import MainDisplay from './components/MainDisplay';
 
 import './styles.scss';
+import { json } from 'body-parser';
 
 const App: React.FC = () => {
   const [searchHistory, setSearchHistory] = useState<string[]>([]);
@@ -96,17 +97,20 @@ const App: React.FC = () => {
   ) => {
     event.preventDefault();
     if (URI !== '') {
-      fetch(`/db/mySQL/sdl?uri=${URI}`)
-        .then((data) => data.json())
-        .then((data) => {
-          addToSearchHistory();
-          setSchema(data);
-          setDisplayCode(true);
-          console.log('schema: ', schema);
-        })
-        .catch((err) => {
-          console.error(err);
-        });
+      fetch(`/db/mySQL}`, {
+        method: 'POST',
+        headers: { 'Content-Type' : 'application/json' },
+        body: JSON.stringify({ host, user, password, database })
+      })
+      .then((data) => data.json())
+      .then((data) => {
+        addToSearchHistory(),
+        setSchema(data),
+        setDisplayCode(true);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
     }
   };
 
