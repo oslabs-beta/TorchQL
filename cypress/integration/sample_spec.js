@@ -8,13 +8,13 @@ import { isExportDeclaration, createYield } from "typescript"
     // -make an assertion about the web application
 
 describe('My First Test', () => {
-  it('Does not do much', () => {
+  it('Example', () => {
     expect(true).to.equal(true)
   })
   it('Clicks an element', () => {
     cy.visit('http://example.cypress.io')
     // debugging tool to go step by step of next tests in cypress
-    cy.pause();
+    // cy.pause();
     // clicks an element
     cy.contains('type').click()
     // makes an assertion

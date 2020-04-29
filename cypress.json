@@ -1,4 +1,3 @@
 {
-  // automatically prefix cy.visit() & cy.request() commands with this baseUrl
   "baseUrl": "http://localhost:8080"
 }
