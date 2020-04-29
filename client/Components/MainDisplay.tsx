@@ -13,9 +13,15 @@ interface Props {
   database: string;
   searchHistory: Array<string>;
   handleClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-  handleSDLInput: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-  handleProgInput: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-  handleMySQLInput: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  handleSDLInput: (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => void;
+  handleProgInput: (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => void;
+  handleMySQLInput: (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => void;
   handleURI: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleHost: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleUser: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -23,24 +29,33 @@ interface Props {
   handleDatabase: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-
 const MainDisplay: React.FC<Props> = (props) => {
   const [displayStatus, setDisplayStatus] = useState<boolean>(true);
   const [displayMySQL, setDisplayMySQL] = useState<boolean>(true);
   return (
     <div>
-      <button className="main-btn" onClick={() => {setDisplayStatus(true), setDisplayMySQL(false)}}>Postgres SQL</button>
-        {displayStatus && 
+      <button
+        className="main-btn"
+        onClick={() => {
+          setDisplayStatus(true), setDisplayMySQL(false);
+        }}
+      >
+        PostgreSQL
+      </button>
+      {displayStatus && (
         <div className="container">
           {props.displayCode ? (
             <div className="container">
-              <CodeDisplay schema={props.schema} handleClick={props.handleClick} />
+              <CodeDisplay
+                schema={props.schema}
+                handleClick={props.handleClick}
+              />
               <Input
-              URI={props.URI}
-              handleSDLInput={props.handleSDLInput}
-              handleProgInput={props.handleProgInput}
-              handleURI={props.handleURI}
-              searchHistory={props.searchHistory}
+                URI={props.URI}
+                handleSDLInput={props.handleSDLInput}
+                handleProgInput={props.handleProgInput}
+                handleURI={props.handleURI}
+                searchHistory={props.searchHistory}
               />
             </div>
           ) : (
@@ -55,13 +70,23 @@ const MainDisplay: React.FC<Props> = (props) => {
             </div>
           )}
         </div>
-        }
-        <button className="main-btn" onClick={() => {setDisplayStatus(false), setDisplayMySQL(true)}}>MySQL</button>
-        {!displayStatus && displayMySQL &&
+      )}
+      <button
+        className="main-btn"
+        onClick={() => {
+          setDisplayStatus(false), setDisplayMySQL(true);
+        }}
+      >
+        MySQL
+      </button>
+      {!displayStatus && displayMySQL && (
         <div className="container">
           {props.displayCode ? (
             <div className="container">
-              <CodeDisplay schema={props.schema} handleClick={props.handleClick} />
+              <CodeDisplay
+                schema={props.schema}
+                handleClick={props.handleClick}
+              />
               <MySQL
                 host={props.host}
                 user={props.user}
@@ -88,14 +113,13 @@ const MainDisplay: React.FC<Props> = (props) => {
                 handleDatabase={props.handleDatabase}
                 handleMySQLInput={props.handleMySQLInput}
                 searchHistory={props.searchHistory}
-                />
+              />
             </div>
           )}
         </div>
-}
+      )}
     </div>
   );
 };
 
 export default MainDisplay;
-
