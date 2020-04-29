@@ -31,7 +31,7 @@ interface Props {
 const MainDisplay: React.FC<Props> = (props) => {
   return (
     <div>
-      <button className="main-btn" onClick={props.inputToggle} >Postgres SQL</button>
+      <button className="main-btn" onClick={props.inputToggle} >PostgresSQL</button>
       {props.displayInput &&
         <div className="container">
           {props.displayCode ? (
