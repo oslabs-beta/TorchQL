@@ -2,7 +2,6 @@ const { singular } = require('pluralize');
 const { toPascalCase, toCamelCase, getDataType, getPrimaryKeyType } = require('../helpers/helperFunctions');
 const QueryGenerator = {};
 
-
 // RootQuery output to get all tables
 QueryGenerator.allColumns = table => {
   const singleName = singular(table);
@@ -18,8 +17,6 @@ QueryGenerator.allColumns = table => {
     +`      },\n`
     +`    },\n`  
 };
-
-
 
 // RootQuery output to get single table by id
 QueryGenerator.column = (table, primaryKey, columns) => {

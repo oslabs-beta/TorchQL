@@ -1,6 +1,6 @@
 const Generate = require('../generators/queryGenerator');
 
-// Returns all queries 
+// Returns get all root queries as array of strings
 function generateAllQuery(data) {
     const allQuery = [];
     const table = Object.keys(data);
@@ -11,8 +11,7 @@ function generateAllQuery(data) {
     return allQuery;
 };
 
-// Returns one query
-
+// Returns get one root queries as array of strings
 function generateOneQuery(data) {
     const oneQuery = [];
     const table = Object.keys(data);
