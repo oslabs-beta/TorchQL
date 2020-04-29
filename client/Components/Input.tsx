@@ -3,7 +3,8 @@ import HistoryContainer from '../containers/HistoryContainer';
 
 interface Props {
   URI: string;
-  handleInput: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  handleSDLInput: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  handleProgInput: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   handleURI: (event: React.ChangeEvent<HTMLInputElement>) => void;
   searchHistory: Array<string>;
 }
@@ -15,7 +16,7 @@ export const Input: React.FC<Props> = (props) => {
     setHistoryOpen(!historyOpen);
   };
 
-  const { searchHistory, handleInput, handleURI, URI } = props;
+  const { searchHistory, handleSDLInput, handleProgInput, handleURI, URI } = props;
 
   return (
     <div className="input-form">
@@ -27,10 +28,17 @@ export const Input: React.FC<Props> = (props) => {
         <div></div>
         <button
           id="submit-uri"
-          className="main-btn" 
-          onClick={(e) => handleInput(e)}
+          className="main-btn"
+          onClick={(e) => handleSDLInput(e)}
         >
-          Submit
+        SDL Schema
+        </button>
+        <button
+          id="submit-uri"
+          className="main-btn"
+          onClick={(e) => handleProgInput(e)}
+        >
+        Programmatic Schema
         </button>
         <p className="toggle-history-text" onClick={() => toggleHistory()}>
           View Past Searches
