@@ -8,7 +8,7 @@ router.get(
   pgController.assembleSDLSchema,
   (req, res) => {
     console.log(res.locals.SDLSchema);
-    res.status(200).json(res.locals.SDLSchema);
+    res.status(200).json(res.locals.tables);
   }
 );
 
