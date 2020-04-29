@@ -1,12 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Input } from './Input';
 import { CodeDisplay } from './CodeDisplay';
 import { MySQL } from './MySQL';
 
 interface Props {
   displayCode: boolean;
-  displayInput: boolean;
-  displayMySQL: boolean;
   schema: string;
   URI: string;
   host: string;
@@ -23,16 +21,16 @@ interface Props {
   handleUser: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handlePassword: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleDatabase: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  inputToggle: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-  mySQLToggle: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 }
 
 
 const MainDisplay: React.FC<Props> = (props) => {
+  const [displayStatus, setDisplayStatus] = useState<boolean>(true);
+  const [displayMySQL, setDisplayMySQL] = useState<boolean>(true);
   return (
     <div>
-      <button className="main-btn" onClick={props.inputToggle} >PostgresSQL</button>
-      {props.displayInput &&
+      <button className="main-btn" onClick={() => {setDisplayStatus(true), setDisplayMySQL(false)}}>PostgresSQL</button>
+        {displayStatus && 
         <div className="container">
           {props.displayCode ? (
             <div className="container">
@@ -57,9 +55,9 @@ const MainDisplay: React.FC<Props> = (props) => {
             </div>
           )}
         </div>
-      }
-      <button className="main-btn" onClick={props.mySQLToggle} >MySQL</button>
-      {props.displayMySQL && 
+        }
+        <button className="main-btn" onClick={() => {setDisplayStatus(false), setDisplayMySQL(true)}}>MySQL</button>
+        {!displayStatus && displayMySQL &&
         <div className="container">
           {props.displayCode ? (
             <div className="container">
@@ -94,7 +92,7 @@ const MainDisplay: React.FC<Props> = (props) => {
             </div>
           )}
         </div>
-      }
+}
     </div>
   );
 };

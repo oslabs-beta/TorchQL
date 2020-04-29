@@ -1,13 +1,12 @@
 const MutationGenerator = require('../generators/mutationGenerator');
 
-// Outputs entire mutation object as a string
+// Returns all mutations in programmatic schema format as a string
 function generateMutations(data) {
   const allMutations = [];
   const tables = Object.keys(data);
   for (const tableName of tables) {
     const { primaryKey, foreignKeys, columns } = data[tableName];
-    // necessary to skip columns with only primary and foreign keys?
-    // allMutations.push(createMutation(tableName, valueObj, columns));
+    // skip join tables for returning mutations
     if (foreignKeys === null || Object.keys(columns).length !== Object.keys(foreignKeys).length + 1) {
       allMutations.push(createMutation(tableName, primaryKey, foreignKeys, columns));
       allMutations.push(updateMutation(tableName, primaryKey, foreignKeys, columns));
@@ -64,7 +63,7 @@ function formatMutations(mutations) {
   return (
     `const Mutation = new GraphQL ObjectType({\n` +
     `  name: 'Mutation',\n` +
-    `  fields: {\n` +
+    `  fields: {` +
     `${mutations}` +
     `  },\n` +
     `});\n`

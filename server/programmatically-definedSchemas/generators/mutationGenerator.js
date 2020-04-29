@@ -10,7 +10,7 @@ MutationGenerator.createColumn = function createColumn(tableName, primaryKey, fo
 		let needNull = true;
 		this._createValues(primaryKey, foreignKeys, columns);
     return (
-            `    ${toCamelCase(`add_${singular(singleName)}`)}: {\n`
+            `\n    ${toCamelCase(`add_${singular(singleName)}`)}: {\n`
         +   `      type: ${toPascalCase(singleName)}Type,\n`
         +   `      args: {`
         +   `${this._columns(primaryKey, foreignKeys, columns, needNull)}\n`
@@ -36,7 +36,7 @@ MutationGenerator.updateColumn = function updateColumn(tableName, primaryKey, fo
 		let displaySet = '';
     for (let key in this._values) displaySet += `${this._values[key]}=$${key} `;
     return (
-            `    ${toCamelCase(`update_${singular(singleName)}`)}: {\n`
+            `\n    ${toCamelCase(`update_${singular(singleName)}`)}: {\n`
         +   `      type: ${toPascalCase(singleName)}Type,\n`
         +   `      args: {`
         +   `${this._columns(primaryKey, foreignKeys, columns, needNull)}\n`
@@ -52,7 +52,7 @@ MutationGenerator.updateColumn = function updateColumn(tableName, primaryKey, fo
         +   `          throw new Error(err);\n`
         +   `        }\n`
         +   `      },\n`
-        +   `    },\n`
+        +   `    },`
     );
 };
 // composes delete mutation in programmatic schema
@@ -60,7 +60,7 @@ MutationGenerator.destroyColumn = (tableName, primaryKey, columns) => {
     const singleName = singular(tableName);
 		const primaryKeyType = getPrimaryKeyType(primaryKey, columns);
     return(
-            `    ${toCamelCase(`delete_${singleName}`)}: {\n`
+            `\n    ${toCamelCase(`delete_${singleName}`)}: {\n`
         +   `      type: ${toPascalCase(singleName)}Type,\n`
         +   `      args: {\n`
         +   `        ${primaryKey}: { type: newGraphQLNonNull(${primaryKeyType}) },\n`
