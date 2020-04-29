@@ -38,11 +38,7 @@ const App: React.FC = () => {
   };
 
   // Toggle logic to display Postgres or MySQL
-  const inputToggle = () => {
-    console.log('hey')
-    console.log(setDisplayInput(!displayInput))
-    console.log('went throu')
-  }
+  const inputToggle = () => setDisplayInput(!displayInput)
   const mySQLToggle = () => setDisplayMySQL(!displayMySQL)
 
   const handleURI = (e: React.ChangeEvent<HTMLInputElement>) => {
