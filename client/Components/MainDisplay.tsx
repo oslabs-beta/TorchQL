@@ -30,19 +30,26 @@ interface Props {
 }
 
 const MainDisplay: React.FC<Props> = (props) => {
-  const [displayStatus, setDisplayStatus] = useState<boolean>(true);
-  const [displayMySQL, setDisplayMySQL] = useState<boolean>(true);
+  const [displayStatus, setDisplayStatus] = useState<string>('postgresql');
   return (
     <div>
       <button
         className="main-btn"
         onClick={() => {
-          setDisplayStatus(true), setDisplayMySQL(false);
+          setDisplayStatus('postgresql');
         }}
       >
         PostgreSQL
       </button>
-      {displayStatus && (
+      <button
+        className="main-btn"
+        onClick={() => {
+          setDisplayStatus('mysql');
+        }}
+      >
+        MySQL
+      </button>
+      {displayStatus === 'postgresql' && (
         <div className="container">
           {props.displayCode ? (
             <div className="container">
@@ -71,15 +78,7 @@ const MainDisplay: React.FC<Props> = (props) => {
           )}
         </div>
       )}
-      <button
-        className="main-btn"
-        onClick={() => {
-          setDisplayStatus(false), setDisplayMySQL(true);
-        }}
-      >
-        MySQL
-      </button>
-      {!displayStatus && displayMySQL && (
+      {displayStatus === 'mysql' && (
         <div className="container">
           {props.displayCode ? (
             <div className="container">
