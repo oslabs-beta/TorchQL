@@ -72,7 +72,7 @@ mySQLController.getTables = (req, res, next) => {
       }
 
       res.locals.tables = allTables;
-      res.locals.fields = fields;
+      // res.locals.fields = fields;
       return next();
     }
   );
