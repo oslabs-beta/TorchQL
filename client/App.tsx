@@ -87,7 +87,6 @@ const App: React.FC = () => {
   };
 
   // Handles and fetches the MySQL SDL Schema
-  // TODO change fetch to post request intead
   const handleMySQLInput = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
