@@ -1,5 +1,6 @@
 const SchemaGenerator = {};
 
+// assembles entire schema in programmatic format
 SchemaGenerator.assembleProgSchema = function assembleProgSchema(obj) {
   const { types, returnQuery , mutations } = obj;
   return 'const {\n'
