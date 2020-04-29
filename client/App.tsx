@@ -9,8 +9,6 @@ const App: React.FC = () => {
   const [URI, setURI] = useState<string>('');
   const [schema, setSchema] = useState<string>('');
   const [displayCode, setDisplayCode] = useState<boolean>(false);
-  const [displayInput, setDisplayInput] = useState<boolean>(false);
-  const [displayMySQL, setDisplayMySQL] = useState<boolean>(false);
 
   //MySQL 
   const [host, setHost] = useState<string>('');
@@ -36,10 +34,6 @@ const App: React.FC = () => {
     setSearchHistory([...searchHistory, URI]);
     setURI('');
   };
-
-  // Toggle logic to display Postgres or MySQL
-  const inputToggle = () => setDisplayInput(!displayInput)
-  const mySQLToggle = () => setDisplayMySQL(!displayMySQL)
 
   const handleURI = (e: React.ChangeEvent<HTMLInputElement>) => {
     setURI(e.target.value);
@@ -134,11 +128,7 @@ const App: React.FC = () => {
         handleMySQLInput={handleMySQLInput}
         handleURI={handleURI}
         displayCode={displayCode}
-        displayInput={displayInput}
-        displayMySQL={displayMySQL}
         handleClick={handleClick}
-        inputToggle={inputToggle}
-        mySQLToggle={mySQLToggle}
         searchHistory={searchHistory}
       />
     </div>
