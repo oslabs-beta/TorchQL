@@ -56,11 +56,11 @@ const App: React.FC = () => {
           if (data === "error") {
             setURI('');
           } else {
-            addToSearchHistory();
-            setSchema(data);
-            setDisplayCode(true);
-            console.log('schema: ', schema);
-          }
+              addToSearchHistory();
+              setSchema(data);
+              setDisplayCode(true);
+              console.log('schema: ', schema);
+            }
         })
         .catch((err) => {
           console.error(err);
@@ -77,10 +77,14 @@ const App: React.FC = () => {
       fetch(`/db/pg/prog?uri=${URI}`)
         .then((data) => data.json())
         .then((data) => {
-          addToSearchHistory();
-          setSchema(data);
-          setDisplayCode(true);
-          console.log('schema: ', schema);
+          if (data === "error") {
+            setURI('');
+          } else {
+              addToSearchHistory();
+              setSchema(data);
+              setDisplayCode(true);
+              console.log('schema: ', schema);
+            }
         })
         .catch((err) => {
           console.error(err);
@@ -101,12 +105,19 @@ const App: React.FC = () => {
       })
       .then((data) => data.json())
       .then((data) => {
-        setSchema(data),
-        setDisplayCode(true);
-        setHost('');
-        setUser('');
-        setPassword('');
-        setDatabase('');
+        if (data === "error") {
+          setHost('');
+          setUser('');
+          setPassword('');
+          setDatabase('');
+        } else {
+            setSchema(data),
+            setDisplayCode(true);
+            setHost('');
+            setUser('');
+            setPassword('');
+            setDatabase('');
+          }
       })
       .catch((err) => {
         console.error(err);
@@ -127,14 +138,21 @@ const App: React.FC = () => {
       })
       .then((data) => data.json())
       .then((data) => {
-        setSchema(data),
-        setDisplayCode(true);
-        setSchema(data),
-        setDisplayCode(true);
-        setHost('');
-        setUser('');
-        setPassword('');
-        setDatabase('');
+        if (data === "error") {
+          setHost('');
+          setUser('');
+          setPassword('');
+          setDatabase('');
+        } else {
+            setSchema(data),
+            setDisplayCode(true);
+            setSchema(data),
+            setDisplayCode(true);
+            setHost('');
+            setUser('');
+            setPassword('');
+            setDatabase('');
+          }
       })
       .catch((err) => {
         console.error(err);
