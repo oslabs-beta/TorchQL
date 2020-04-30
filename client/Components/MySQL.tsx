@@ -59,11 +59,6 @@ export const MySQL: React.FC<Props> = (props) => {
           onClick={(e) => handleMySQLProgInput(e)}
         > MySQL Programmatic Schema
         </button>
-       
-        <p className="toggle-history-text" onClick={() => toggleHistory()}>
-          View Past Searches
-        </p>
-        {historyOpen && <HistoryContainer searchHistory={searchHistory} />}
       </div>
     </div>
   );
