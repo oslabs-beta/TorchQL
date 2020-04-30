@@ -145,11 +145,11 @@ npm run dev
 We welcome all contributions & pull requests!
 
 ## Authors
-- **Eric Tang** - [@edtang44](https://github.com/edtang44)
-- **Jimmy Chen** - [@jimchn](https://github.com/jimchn)
-- **Mark Fusco** - [@QuestionMark97](https://github.com/QuestionMark97)
-- **Sara Chang** - [@sarachang530](https://github.com/sarachang530)
-- **Zac Haluza** - [@zhaluza](https://github.com/zhaluza)
+- **Eric Tang** - [@edtang44](https://github.com/edtang44) - 
+- **[Jimmy Chen](https://www.linkedin.com/in/jimchn/)** - [@jimchn](https://github.com/jimchn)
+- **[Mark Fusco](https://www.linkedin.com/in/mark-fusco-46165a181/)** - [@QuestionMark97](https://github.com/QuestionMark97)
+- **[Sara Chang](https://www.linkedin.com/in/sara-chang/)** - [@sarachang530](https://github.com/sarachang530)
+- **[Zac Haluza](https://haluza.dev)** - [@zhaluza](https://github.com/zhaluza)
 
 ## License
 This project is licensed under the MIT License
