@@ -26,7 +26,7 @@ export const CodeDisplay: React.FC<Props> = ({ schema, handleClick }) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(data),
-    }).then((res) => console.log('file updated'));
+    });
   }, []);
 
   const handleDownload = () => {
