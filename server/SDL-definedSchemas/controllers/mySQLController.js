@@ -10,7 +10,7 @@ mySQLController.getTables = (req, res, next) => {
     database: req.body.database,
   };
   const connection = mysql.createConnection(config);
-  const queryStr = `
+//   const queryStr = `
 //   SELECT  A.*,
 //     B.TABLE_NAME,
 //     B.COLUMN_NAME,
