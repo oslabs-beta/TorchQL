@@ -53,10 +53,14 @@ const App: React.FC = () => {
       fetch(`/db/pg/sdl?uri=${URI}`)
         .then((data) => data.json())
         .then((data) => {
-          addToSearchHistory();
-          setSchema(data);
-          setDisplayCode(true);
-          console.log('schema: ', schema);
+          if (data === "error") {
+            setURI('');
+          } else {
+            addToSearchHistory();
+            setSchema(data);
+            setDisplayCode(true);
+            console.log('schema: ', schema);
+          }
         })
         .catch((err) => {
           console.error(err);

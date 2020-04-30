@@ -13,12 +13,14 @@ pgController.getPGTables = (req, res, next) => {
       res.locals.tables = data.rows[0].tables;
       return next();
     })
-    .catch((err) =>
-      next({
-        log: err,
-        status: 500,
-        message: { err: 'There was a problem making database query' },
-      })
+    .catch((err) => {
+      res.json("error");
+      // next({
+      //   log: err,
+      //   status: 500,
+      //   message: { err: 'There was a problem making database query' },
+      // })
+    }
     );
 };
 
