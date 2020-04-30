@@ -102,6 +102,28 @@ const App: React.FC = () => {
     }
   };
 
+  // Handles and fetches the MySQL Programmatic Schema
+  const handleMySQLProgInput = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    event.preventDefault();
+    if ((host !== '') && (user !== '') && (password !== '') && (database !== '')){
+      fetch('/db/mySQL/prog', {
+        method: 'POST',
+        headers: { 'Content-Type' : 'application/json' },
+        body: JSON.stringify({ host, user, password, database })
+      })
+      .then((data) => data.json())
+      .then((data) => {
+        setSchema(data),
+        setDisplayCode(true);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+    }
+  };
+
   // for CodeDisplay.jsx/Back button
   const handleClick = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -126,6 +148,7 @@ const App: React.FC = () => {
         handleSDLInput={handleSDLInput}
         handleProgInput={handleProgInput}
         handleMySQLInput={handleMySQLInput}
+        handleMySQLProgInput={handleMySQLProgInput}
         handleURI={handleURI}
         displayCode={displayCode}
         handleClick={handleClick}
