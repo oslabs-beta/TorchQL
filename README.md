@@ -149,7 +149,7 @@ We welcome all contributions & pull requests!
 - **Jimmy Chen** - [@jimchn](https://github.com/jimchn)
 - **Mark Fusco** - [@QuestionMark97](https://github.com/QuestionMark97)
 - **Sara Chang** - [@sarachang530](https://github.com/sarachang530)
-- **Zac Haluza** - [@zhaluza](https://github.com/zhaluza])
+- **Zac Haluza** - [@zhaluza](https://github.com/zhaluza)
 
 ## License
 This project is licensed under the MIT License
