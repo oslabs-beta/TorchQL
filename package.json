@@ -1,5 +1,5 @@
 {
-  "name": "plush",
+  "name": "torchql",
   "version": "1.0.0",
   "description": "A tool to help developers migrate to GraphQL APIs",
   "main": "electron.js",
@@ -63,12 +63,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/oslabs-beta/plush.git"
+    "url": "git+https://github.com/oslabs-beta/torchql.git"
   },
   "author": "Sara Chang, Jimmy Chen, Mark Fusco, Zac Haluza, Eric Tang",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/oslabs-beta/plush/issues"
+    "url": "https://github.com/oslabs-beta/torchql/issues"
   },
-  "homepage": "https://github.com/oslabs-beta/plush#readme"
+  "homepage": "https://github.com/oslabs-beta/torchql#readme"
 }

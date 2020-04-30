@@ -40,7 +40,7 @@ describe('Application launch', function () {
 
   it('Displays the proper title', async () => {
     const title = await app.client.getTitle();
-    assert.equal(title, 'Plush');
+    assert.equal(title, 'TorchQL');
   });
 });
 

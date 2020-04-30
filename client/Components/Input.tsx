@@ -41,7 +41,7 @@ export const Input: React.FC<Props> = (props) => {
         Programmatic Schema
         </button>
         <p className="toggle-history-text" onClick={() => toggleHistory()}>
-          View Past Searches
+        {historyOpen ? <p>Hide Past Searches</p>:<p>View Past Searches</p>}
         </p>
         {historyOpen && <HistoryContainer searchHistory={searchHistory} />}
       </div>
