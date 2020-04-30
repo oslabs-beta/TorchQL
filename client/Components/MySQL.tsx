@@ -7,6 +7,7 @@ interface Props {
   password: string;
   database: string;
   handleMySQLInput: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  handleMySQLProgInput: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   handleHost: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleUser: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handlePassword: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -24,6 +25,7 @@ export const MySQL: React.FC<Props> = (props) => {
   const { 
       searchHistory, 
       handleMySQLInput, 
+      handleMySQLProgInput, 
       handleHost, 
       handleUser, 
       handlePassword, 
@@ -49,9 +51,15 @@ export const MySQL: React.FC<Props> = (props) => {
           id="submit-uri"
           className="main-btn"
           onClick={(e) => handleMySQLInput(e)}
-        >
-        MySQL SDL Schema
+        > MySQL SDL Schema
         </button>
+        <button
+          id="submit-uri"
+          className="main-btn"
+          onClick={(e) => handleMySQLProgInput(e)}
+        > MySQL Programmatic Schema
+        </button>
+       
         <p className="toggle-history-text" onClick={() => toggleHistory()}>
           View Past Searches
         </p>

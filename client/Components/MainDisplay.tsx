@@ -22,6 +22,9 @@ interface Props {
   handleMySQLInput: (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => void;
+  handleMySQLProgInput: (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => void;
   handleURI: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleHost: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleUser: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -96,6 +99,7 @@ const MainDisplay: React.FC<Props> = (props) => {
                 handlePassword={props.handlePassword}
                 handleDatabase={props.handleDatabase}
                 handleMySQLInput={props.handleMySQLInput}
+                handleMySQLProgInput={props.handleMySQLProgInput}
                 searchHistory={props.searchHistory}
               />
             </div>
@@ -111,6 +115,7 @@ const MainDisplay: React.FC<Props> = (props) => {
                 handlePassword={props.handlePassword}
                 handleDatabase={props.handleDatabase}
                 handleMySQLInput={props.handleMySQLInput}
+                handleMySQLProgInput={props.handleMySQLProgInput}
                 searchHistory={props.searchHistory}
               />
             </div>
