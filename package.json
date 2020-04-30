@@ -53,7 +53,6 @@
   },
   "scripts": {
     "start": "nodemon server/server.js",
-    "prestart": "NODE_ENV=production webpack",
     "build": "NODE_ENV=production webpack",
     "ts:build": "tsc -p .",
     "start:dev": "NODE_ENV=development webpack-dev-server --open & nodemon server/server.js ",
