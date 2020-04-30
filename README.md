@@ -16,7 +16,7 @@ A developer tool to generate a GraphQL API from a known relational database.
 exposing a GraphQL API over a relational database. 
 In other words, **you can use it to implement GraphQL in your application!**
 
-This developer tool parses through the metadata of all the tables in an existing PostgreSQL or MySQL database to generate and return GraphQL schema and resolvers that work in a GraphQL API.  The <a href="https://github.com/graphql/graphiql">GraphiQL</a> in-browser Integrated Development Environment (IDE) is used to facilitate interactions with your new GraphQL API.
+This developer tool parses through the metadata of all the tables in an existing PostgreSQL or MySQL database to generate and return GraphQL schema and resolvers that work in a GraphQL API.
 
 ## How It Works
 **TorchQL** uses the metadata extracted from a SQL database to generate GraphQL custom types, queries, mutations, and resolvers.  The schema and resolvers can be returned in either SDL or programmatic format and are downloadable as a single desktop file. For experienced users, **TorchQL** permits the custom editing of schemas and resolvers in the browser prior to download.
@@ -145,7 +145,7 @@ npm run dev
 We welcome all contributions & pull requests!
 
 ## Authors
-- **Eric Tang** - [@edtang44](https://github.com/edtang44) - 
+- **[Eric Tang](https://github.com/edtang44)** - [@edtang44](https://github.com/edtang44)
 - **[Jimmy Chen](https://www.linkedin.com/in/jimchn/)** - [@jimchn](https://github.com/jimchn)
 - **[Mark Fusco](https://www.linkedin.com/in/mark-fusco-46165a181/)** - [@QuestionMark97](https://github.com/QuestionMark97)
 - **[Sara Chang](https://www.linkedin.com/in/sara-chang/)** - [@sarachang530](https://github.com/sarachang530)
