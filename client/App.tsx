@@ -85,8 +85,8 @@ const App: React.FC = () => {
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     event.preventDefault();
-    if (URI !== '') {
-      fetch(`/db/mySQL}`, {
+    if ((host !== '') && (user !== '') && (password !== '') && (database !== '')){
+      fetch('/db/mySQL/sdl', {
         method: 'POST',
         headers: { 'Content-Type' : 'application/json' },
         body: JSON.stringify({ host, user, password, database })
