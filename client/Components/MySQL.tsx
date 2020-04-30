@@ -40,7 +40,7 @@ export const MySQL: React.FC<Props> = (props) => {
     <div className="input-form">
       <div className="input-button-row">
         <h1 className="header">TorchQL</h1>
-        <label htmlFor="uri-input">MySQL to GraphQL Schema and Resolvers</label>
+        <label htmlFor="uri-input">AUTOMATICALLY GENERATES GRAPHQL SCHEMA AND RESOLVERS</label>
         <div></div>
         <input className="input" name="uri-input" value={host} onChange={(e) => handleHost(e)} placeholder="Enter host"/>
         <input className="input" name="uri-input" value={user} onChange={(e) => handleUser(e)} placeholder="Enter user"/>
