@@ -81,7 +81,7 @@ const App: React.FC = () => {
   };
 
   // Handles and fetches the MySQL SDL Schema
-  const handleMySQLInput = (
+  const handleMySQLSDLInput = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     event.preventDefault();
@@ -157,7 +157,7 @@ const App: React.FC = () => {
         handleDatabase={handleDatabase}
         handleSDLInput={handleSDLInput}
         handleProgInput={handleProgInput}
-        handleMySQLInput={handleMySQLInput}
+        handleMySQLInput={handleMySQLSDLInput}
         handleMySQLProgInput={handleMySQLProgInput}
         handleURI={handleURI}
         displayCode={displayCode}
