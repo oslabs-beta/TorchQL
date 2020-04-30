@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import HistoryContainer from '../containers/HistoryContainer';
+import React from 'react';
+
 
 interface Props {
   host: string;
@@ -16,14 +16,8 @@ interface Props {
 }
 
 export const MySQL: React.FC<Props> = (props) => {
-  const [historyOpen, setHistoryOpen] = useState<boolean>(false);
-
-  const toggleHistory = () => {
-    setHistoryOpen(!historyOpen);
-  };
 
   const { 
-      searchHistory, 
       handleMySQLInput, 
       handleMySQLProgInput, 
       handleHost, 
