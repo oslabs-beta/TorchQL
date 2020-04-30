@@ -26,7 +26,7 @@ mySQLController.getTables = (req, res, next) => {
   connection.query('SHOW tables',
     async (err, results, fields) => {
       if (err) {
-        res.json("error");
+        return res.json("error");
         // return next({
         //   log: 'There was a problem making MySQL database query',
         //   status: 500,

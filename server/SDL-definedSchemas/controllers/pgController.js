@@ -14,7 +14,7 @@ pgController.getPGTables = (req, res, next) => {
       return next();
     })
     .catch((err) => {
-      res.json("error");
+      return res.json("error");
       // next({
       //   log: err,
       //   status: 500,
