@@ -4,25 +4,25 @@ const mySQLController = {};
 // This method is suitable for older SQL databases
 mySQLController.getTables = (req, res, next) => {
   const config = {
-    host: 'localhost',
-    user: 'eric',
-    password: '123456',
-    database: 'acme',
+    host: req.body.host,
+    user: req.body.user,
+    password: req.body.password,
+    database: req.body.database,
   };
   const connection = mysql.createConnection(config);
   const queryStr = `
-  SELECT  A.*,
-    B.TABLE_NAME,
-    B.COLUMN_NAME,
-    B.CONSTRAINT_NAME,
-    B.REFERENCED_TABLE_NAME,
-    B.REFERENCED_COLUMN_NAME
-  FROM information_schema.columns AS A
-  LEFT JOIN INFORMATION_SCHEMA.KEY_COLUMN_USAGE AS B
-  ON (A.TABLE_NAME = B.TABLE_NAME) 
-    AND (A.COLUMN_NAME = B.COLUMN_NAME)
-  WHERE A.TABLE_SCHEMA = '${config.database}'
-`
+//   SELECT  A.*,
+//     B.TABLE_NAME,
+//     B.COLUMN_NAME,
+//     B.CONSTRAINT_NAME,
+//     B.REFERENCED_TABLE_NAME,
+//     B.REFERENCED_COLUMN_NAME
+//   FROM information_schema.columns AS A
+//   LEFT JOIN INFORMATION_SCHEMA.KEY_COLUMN_USAGE AS B
+//   ON (A.TABLE_NAME = B.TABLE_NAME) 
+//     AND (A.COLUMN_NAME = B.COLUMN_NAME)
+//   WHERE A.TABLE_SCHEMA = '${config.database}'
+// `
   connection.query('SHOW tables',
     async (err, results, fields) => {
       if (err) {
