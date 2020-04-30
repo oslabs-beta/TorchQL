@@ -95,6 +95,10 @@ const App: React.FC = () => {
       .then((data) => {
         setSchema(data),
         setDisplayCode(true);
+        setHost('');
+        setUser('');
+        setPassword('');
+        setDatabase('');
       })
       .catch((err) => {
         console.error(err);
@@ -117,6 +121,12 @@ const App: React.FC = () => {
       .then((data) => {
         setSchema(data),
         setDisplayCode(true);
+        setSchema(data),
+        setDisplayCode(true);
+        setHost('');
+        setUser('');
+        setPassword('');
+        setDatabase('');
       })
       .catch((err) => {
         console.error(err);
