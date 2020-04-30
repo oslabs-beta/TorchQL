@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const pgRouter = require('./routes/pgRoute');
 const mySQLRouter = require('./routes/mySQLRoute');
+const downloadRouter = require('./routes/downloadRouter');
 const app = express();
 const PORT = 3000;
 
@@ -13,6 +14,7 @@ app.use(express.static(path.resolve(__dirname, '../dist')));
 
 app.use('/db/pg', pgRouter);
 app.use('/db/mySQL', mySQLRouter);
+app.use('/download', downloadRouter);
 
 app.use((err, req, res, next) => {
   const defaultErr = {
