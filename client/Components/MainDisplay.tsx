@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from './node_modules/react';
 import { Input } from './Input';
 import { CodeDisplay } from './CodeDisplay';
 import { MySQL } from './MySQL';
