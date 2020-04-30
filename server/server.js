@@ -4,7 +4,7 @@ const pgRouter = require('./routes/pgRoute');
 const mySQLRouter = require('./routes/mySQLRoute');
 const downloadRouter = require('./routes/downloadRouter');
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 /* Express logic/handler */
 app.use(express.json());
@@ -27,6 +27,6 @@ app.use((err, req, res, next) => {
   res.status(errObj.status).json(errObj.message);
 });
 
-app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
+app.listen(PORT, () => console.log(`Listening on port ${PORT}`)); 
 
 module.exports = app;
