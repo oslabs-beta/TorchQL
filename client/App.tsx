@@ -81,12 +81,12 @@ const App: React.FC = () => {
   };
 
   // Handles and fetches the MySQL SDL Schema
-  const handleMySQLInput = (
+  const handleMySQLSDLInput = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     event.preventDefault();
-    if (URI !== '') {
-      fetch(`/db/mySQL}`, {
+    if ((host !== '') && (user !== '') && (password !== '') && (database !== '')){
+      fetch('/db/mySQL/sdl', {
         method: 'POST',
         headers: { 'Content-Type' : 'application/json' },
         body: JSON.stringify({ host, user, password, database })
@@ -95,6 +95,38 @@ const App: React.FC = () => {
       .then((data) => {
         setSchema(data),
         setDisplayCode(true);
+        setHost('');
+        setUser('');
+        setPassword('');
+        setDatabase('');
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+    }
+  };
+
+  // Handles and fetches the MySQL Programmatic Schema
+  const handleMySQLProgInput = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    event.preventDefault();
+    if ((host !== '') && (user !== '') && (password !== '') && (database !== '')){
+      fetch('/db/mySQL/prog', {
+        method: 'POST',
+        headers: { 'Content-Type' : 'application/json' },
+        body: JSON.stringify({ host, user, password, database })
+      })
+      .then((data) => data.json())
+      .then((data) => {
+        setSchema(data),
+        setDisplayCode(true);
+        setSchema(data),
+        setDisplayCode(true);
+        setHost('');
+        setUser('');
+        setPassword('');
+        setDatabase('');
       })
       .catch((err) => {
         console.error(err);
@@ -125,7 +157,8 @@ const App: React.FC = () => {
         handleDatabase={handleDatabase}
         handleSDLInput={handleSDLInput}
         handleProgInput={handleProgInput}
-        handleMySQLInput={handleMySQLInput}
+        handleMySQLInput={handleMySQLSDLInput}
+        handleMySQLProgInput={handleMySQLProgInput}
         handleURI={handleURI}
         displayCode={displayCode}
         handleClick={handleClick}

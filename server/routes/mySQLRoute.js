@@ -3,7 +3,7 @@ const mySQLController = require('../SDL-definedSchemas/controllers/mySQLControll
 const pgController = require('../SDL-definedSchemas/controllers/pgController');
 const pgProgController = require('../programmatically-definedSchemas/controllers-prog/pg-progController');
 
-router.get('/sdl', 
+router.post('/sdl', 
   mySQLController.getTables, 
   pgController.assembleSDLSchema,
   (req, res) => {
@@ -12,7 +12,7 @@ router.get('/sdl',
   }
 );
 
-router.get('/prog',
+router.post('/prog',
   mySQLController.getTables, 
   pgProgController.generateCustomTypes,
   pgProgController.assembleCustomTypes,
