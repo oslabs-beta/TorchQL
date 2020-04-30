@@ -7,8 +7,6 @@ import '../../node_modules/codemirror/theme/dracula.css';
 interface Props {
   schema: string;
   handleClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-  saveToFile: () => void;
-  handleDownload: () => void;
 }
 
 export const CodeDisplay: React.FC<Props> = ({ schema, handleClick }) => {
