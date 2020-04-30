@@ -1,4 +1,4 @@
-import React, { useState } from './node_modules/react';
+import React, { useState } from 'react';
 import HistoryContainer from '../containers/HistoryContainer';
 
 interface Props {
