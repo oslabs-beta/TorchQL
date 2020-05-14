@@ -3,6 +3,8 @@ import { UnControlled as CodeMirror } from '../../node_modules/react-codemirror2
 import '../../node_modules/codemirror/mode/javascript/javascript';
 import '../../node_modules/codemirror/lib/codemirror.css';
 import '../../node_modules/codemirror/theme/dracula.css';
+const { packagejsonCreator } = require("../templateFunctions/packagejsonCreator");
+const { serverCreator } = require("../templateFunctions/serverCreator");
 const JSZip = require("jszip");
 var FileSaver = require('file-saver');
 
@@ -31,8 +33,9 @@ export const CodeDisplay: React.FC<Props> = ({ schema, handleClick }) => {
 
   const handleDownload = () => {
     const zip = new JSZip();
-    zip.file("Hello.txt", "Hello World\n");
-     
+    zip.folder('torchql').file("package.json", packagejsonCreator());
+    // zip.file("Hello.txt", "Hello World\n");
+    zip.folder('torchql').folder('server').file("server.js", serverCreator());
     zip.generateAsync({type:"blob"}).then(function(content:any) {
         FileSaver.saveAs(content, "example.zip");
     });
