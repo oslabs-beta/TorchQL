@@ -1,5 +1,10 @@
 import React, { useState } from 'react';
 import MainDisplay from './components/MainDisplay';
+const { packagejsonCreator } = require("./templateFunctions/packagejsonCreator");
+const { serverCreator } = require("./templateFunctions/serverCreator");
+const { dbconnectCreator } = require("./templateFunctions/dbconnectCreator");
+const JSZip = require("jszip");
+const FileSaver = require('file-saver');
 
 import './styles.scss';
 import { json } from 'body-parser';
@@ -168,6 +173,21 @@ const App: React.FC = () => {
     setDisplayCode(false);
   };
 
+  const handleDownload = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    event.preventDefault();
+    console.log('URI :', URI)
+    const zip = new JSZip();
+    zip.folder('torchql').file("package.json", packagejsonCreator());
+    // zip.file("Hello.txt", "Hello World\n");
+    zip.folder('torchql').folder('server').file("server.js", serverCreator());
+    zip.folder('torchql').folder('server').file("dbConnect.js", dbconnectCreator(URI));
+    zip.generateAsync({type:"blob"}).then(function(content:any) {
+        FileSaver.saveAs(content, "example.zip");
+    });
+  };
+
   return (
     <div className="parent">
       <MainDisplay
@@ -189,6 +209,7 @@ const App: React.FC = () => {
         displayCode={displayCode}
         handleClick={handleClick}
         searchHistory={searchHistory}
+        handleDownload={handleDownload}
       />
     </div>
   );

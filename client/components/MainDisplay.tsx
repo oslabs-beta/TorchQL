@@ -30,6 +30,7 @@ interface Props {
   handleUser: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handlePassword: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleDatabase: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleDownload: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 }
 
 const MainDisplay: React.FC<Props> = (props) => {
@@ -59,6 +60,7 @@ const MainDisplay: React.FC<Props> = (props) => {
               <CodeDisplay
                 schema={props.schema}
                 handleClick={props.handleClick}
+                handleDownload={props.handleDownload}
               />
               <Input
                 URI={props.URI}
@@ -88,6 +90,7 @@ const MainDisplay: React.FC<Props> = (props) => {
               <CodeDisplay
                 schema={props.schema}
                 handleClick={props.handleClick}
+                handleDownload={props.handleDownload}
               />
               <MySQL
                 host={props.host}
