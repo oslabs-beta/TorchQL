@@ -1,16 +1,16 @@
 import React from 'react';
 import { HistoryItem } from '../components/HistoryItem';
 
-interface Props {
-  searchHistory: string[];
-}
+// interface Props {
+//   searchHistory: string[];
+// }
 
-const HistoryContainer: React.FC<Props> = (props) => {
+const HistoryContainer: React.FC = (props) => {
   return (
     <div className="history-container">
-      {props.searchHistory.map((uri: string, idx: number) => (
+      {/* {props.searchHistory.map((uri: string, idx: number) => (
         <HistoryItem key={`${uri}-${idx}`} uri={uri} />
-      ))}
+      ))} */}
     </div>
   );
 };

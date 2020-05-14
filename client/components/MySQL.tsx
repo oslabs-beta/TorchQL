@@ -12,7 +12,7 @@ interface Props {
   handleUser: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handlePassword: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleDatabase: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  searchHistory: Array<string>;
+  // searchHistory: Array<string>;
 }
 
 export const MySQL: React.FC<Props> = (props) => {

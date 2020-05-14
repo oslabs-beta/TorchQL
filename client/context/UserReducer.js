@@ -4,6 +4,14 @@ export default function reducer (state, action) {
       return {
         ...state, uri: action.payload
       };
+    case "ADD_DISPLAYCODE":
+      return {
+        ...state, displayCode: action.payload
+      };
+    case "ADD_SCHEMA":
+      return {
+        ...state, schema: action.payload
+      };
   default:
       return state;
   }

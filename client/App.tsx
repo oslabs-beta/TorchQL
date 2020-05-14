@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import MainDisplay from './components/MainDisplay';
 const { UserContextProvider } = require("./context/UserContext");
 
@@ -6,9 +6,9 @@ import './styles.scss';
 import { json } from 'body-parser';
 
 const App: React.FC = () => {
-  const [searchHistory, setSearchHistory] = useState<string[]>([]);
-  const [URI, setURI] = useState<string>('');
-  const [schema, setSchema] = useState<string>('');
+  // const [searchHistory, setSearchHistory] = useState<string[]>([]);
+  // const [URI, setURI] = useState<string>('');
+
   const [displayCode, setDisplayCode] = useState<boolean>(false);
 
   //MySQL 
@@ -31,67 +31,15 @@ const App: React.FC = () => {
   };
 
   // Add inputted URI to search history
-  const addToSearchHistory = () => {
-    if (searchHistory.length < 3) {
-      setSearchHistory([...searchHistory, URI]);
-    } else {
-        setSearchHistory([...[...searchHistory].splice(1), URI]);
-      }
-    setURI('');
-  };
+  // const addToSearchHistory = () => {
+  //   if (searchHistory.length < 3) {
+  //     setSearchHistory([...searchHistory, URI]);
+  //   } else {
+  //       setSearchHistory([...[...searchHistory].splice(1), URI]);
+  //     }
+  //   setURI('');
+  // };
 
-  const handleURI = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setURI(e.target.value);
-  };
-
-
-  // Fetches and returns the Postgres SDL Schema
-  const handleSDLInput = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    event.preventDefault();
-    if (URI !== '') {
-      fetch(`/db/pg/sdl?uri=${URI}`)
-        .then((data) => data.json())
-        .then((data) => {
-          if (data === "error") {
-            setURI('');
-          } else {
-              addToSearchHistory();
-              setSchema(data);
-              setDisplayCode(true);
-              console.log('schema: ', schema);
-            }
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-    }
-  };
-
-  // Fetches and returns the Postgres Programmatic Schema
-  const handleProgInput = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    event.preventDefault();
-    if (URI !== '') {
-      fetch(`/db/pg/prog?uri=${URI}`)
-        .then((data) => data.json())
-        .then((data) => {
-          if (data === "error") {
-            setURI('');
-          } else {
-              addToSearchHistory();
-              setSchema(data);
-              setDisplayCode(true);
-              console.log('schema: ', schema);
-            }
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-    }
-  };
 
   // Handles and fetches the MySQL SDL Schema
   const handleMySQLSDLInput = (
@@ -112,7 +60,6 @@ const App: React.FC = () => {
           setPassword('');
           setDatabase('');
         } else {
-            setSchema(data),
             setDisplayCode(true);
             setHost('');
             setUser('');
@@ -145,9 +92,9 @@ const App: React.FC = () => {
           setPassword('');
           setDatabase('');
         } else {
-            setSchema(data),
+
             setDisplayCode(true);
-            setSchema(data),
+
             setDisplayCode(true);
             setHost('');
             setUser('');
@@ -161,21 +108,13 @@ const App: React.FC = () => {
     }
   };
 
-  // for CodeDisplay.jsx/Back button
-  const handleClick = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    event.preventDefault();
-    setDisplayCode(false);
-  };
+
 
 
   return (
     <UserContextProvider>
       <div className="parent">
         <MainDisplay
-          schema={schema}
-          URI={URI}
           host={host}
           handleHost={handleHost}
           user={user}
@@ -184,14 +123,12 @@ const App: React.FC = () => {
           handlePassword={handlePassword}
           database={database}
           handleDatabase={handleDatabase}
-          handleSDLInput={handleSDLInput}
-          handleProgInput={handleProgInput}
+
           handleMySQLInput={handleMySQLSDLInput}
           handleMySQLProgInput={handleMySQLProgInput}
-          handleURI={handleURI}
+
           displayCode={displayCode}
-          handleClick={handleClick}
-          searchHistory={searchHistory}
+          // searchHistory={searchHistory}
         />
       </div>
     </UserContextProvider>

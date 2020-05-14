@@ -1,31 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Input } from './Input';
 import { CodeDisplay } from './CodeDisplay';
 import { MySQL } from './MySQL';
+const { UserContext } = require("../context/UserContext");
 
 interface Props {
   displayCode: boolean;
-  schema: string;
-  URI: string;
+  // schema: string;
+  // URI: string;
   host: string;
   user: string;
   password: string;
   database: string;
-  searchHistory: Array<string>;
-  handleClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-  handleSDLInput: (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => void;
-  handleProgInput: (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => void;
+  // searchHistory: Array<string>;
+  // handleSDLInput: (
+  //   event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  // ) => void;
+  // handleProgInput: (
+  //   event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  // ) => void;
   handleMySQLInput: (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => void;
   handleMySQLProgInput: (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => void;
-  handleURI: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  // handleURI: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleHost: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleUser: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handlePassword: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -33,6 +33,7 @@ interface Props {
 }
 
 const MainDisplay: React.FC<Props> = (props) => {
+  const { displayCode, setDisplayCode } = useContext(UserContext);
   const [displayStatus, setDisplayStatus] = useState<string>('postgresql');
   return (
     <div>
@@ -54,28 +55,27 @@ const MainDisplay: React.FC<Props> = (props) => {
       </button>
       {displayStatus === 'postgresql' && (
         <div className="container">
-          {props.displayCode ? (
+          {displayCode ? (
             <div className="container">
               <CodeDisplay
-                schema={props.schema}
-                handleClick={props.handleClick}
+                // schema={props.schema}
               />
               <Input
-                URI={props.URI}
-                handleSDLInput={props.handleSDLInput}
-                handleProgInput={props.handleProgInput}
-                handleURI={props.handleURI}
-                searchHistory={props.searchHistory}
+                // URI={props.URI}
+                // handleSDLInput={props.handleSDLInput}
+                // handleProgInput={props.handleProgInput}
+                // handleURI={props.handleURI}
+                // searchHistory={props.searchHistory}
               />
             </div>
           ) : (
             <div className="container">
               <Input
-                URI={props.URI}
-                handleSDLInput={props.handleSDLInput}
-                handleProgInput={props.handleProgInput}
-                handleURI={props.handleURI}
-                searchHistory={props.searchHistory}
+                // URI={props.URI}
+                // handleSDLInput={props.handleSDLInput}
+                // handleProgInput={props.handleProgInput}
+                // handleURI={props.handleURI}
+                // searchHistory={props.searchHistory}
               />
             </div>
           )}
@@ -83,11 +83,10 @@ const MainDisplay: React.FC<Props> = (props) => {
       )}
       {displayStatus === 'mysql' && (
         <div className="container">
-          {props.displayCode ? (
+          {displayCode ? (
             <div className="container">
               <CodeDisplay
-                schema={props.schema}
-                handleClick={props.handleClick}
+                // schema={props.schema}
               />
               <MySQL
                 host={props.host}
@@ -100,7 +99,7 @@ const MainDisplay: React.FC<Props> = (props) => {
                 handleDatabase={props.handleDatabase}
                 handleMySQLInput={props.handleMySQLInput}
                 handleMySQLProgInput={props.handleMySQLProgInput}
-                searchHistory={props.searchHistory}
+                // searchHistory={props.searchHistory}
               />
             </div>
           ) : (
@@ -116,7 +115,7 @@ const MainDisplay: React.FC<Props> = (props) => {
                 handleDatabase={props.handleDatabase}
                 handleMySQLInput={props.handleMySQLInput}
                 handleMySQLProgInput={props.handleMySQLProgInput}
-                searchHistory={props.searchHistory}
+                // searchHistory={props.searchHistory}
               />
             </div>
           )}

@@ -11,18 +11,17 @@ const JSZip = require("jszip");
 const FileSaver = require('file-saver');
 const { UserContext } = require("../context/UserContext");
 
-interface Props {
-  schema: string;
-  handleClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-}
+// interface Props {
+//   schema: string;
+// }
 
-export const CodeDisplay: React.FC<Props> = ({ schema, handleClick }) => {
+export const CodeDisplay: React.FC = (props) => {
   // For use with Electron
   // useScript('../client/fileSave.js');
   const invisStyle = {
     display: 'none',
   };
-  const { uri } = useContext(UserContext);
+  const { uri, schema, setDisplayCode, setSchema } = useContext(UserContext);
 
   // useEffect(() => {
   //   const data = { schema };
@@ -46,6 +45,14 @@ export const CodeDisplay: React.FC<Props> = ({ schema, handleClick }) => {
   //       FileSaver.saveAs(content, "example.zip");
   //   });
   // };
+    // for CodeDisplay.jsx/Back button
+  const handleClick = (
+      event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    ) => {
+      event.preventDefault();
+      setDisplayCode(false);
+    };
+
   const handleDownload = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {

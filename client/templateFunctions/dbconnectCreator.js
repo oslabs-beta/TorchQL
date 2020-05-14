@@ -1,7 +1,7 @@
 function dbconnectCreator(uri) {
   const fileContent = `
     const { Pool } = require('pg');
-    const PG_URI = ${uri};
+    const PG_URI = '${uri}';
     const pool = new Pool({ connectionString: PG_URI });
 
     module.exports = {
