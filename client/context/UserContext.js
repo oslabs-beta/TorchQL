@@ -9,7 +9,8 @@ const initialState = {
   host: '',
   user: '',
   password: '', 
-  database: ''
+  database: '',
+  searchHistory: []
 }
 
 export const UserContextProvider = props => {
@@ -61,6 +62,12 @@ export const UserContextProvider = props => {
       payload: id
     });
   }
+  function addSearchHistory(id) {
+    dispatch({
+      type: 'ADD_SEARCHHISTORY',
+      payload: id
+    });
+  }
   return (
     <UserContext.Provider value={{
       uri: state.uri,
@@ -70,13 +77,15 @@ export const UserContextProvider = props => {
       user: state.user,
       password: state.password,
       database: state.database,
+      searchHistory: state.searchHistory,
       addURI,
       setDisplayCode,
       setSchema,
       setHost,
       setUser,
       setPassword,
-      setDatabase
+      setDatabase,
+      addSearchHistory
     }}>
       {props.children}
     </UserContext.Provider>

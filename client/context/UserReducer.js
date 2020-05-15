@@ -28,6 +28,14 @@ export default function reducer (state, action) {
       return {
         ...state, database: action.payload
       };
+    case "ADD_SEARCHHISTORY":
+        if (state.searchHistory.length < 3) {
+          return {
+            ...state, searchHistory: [...state.searchHistory, action.payload]
+          }
+        } else return {
+                  ...state, searchHistory: [...[...state.searchHistory].splice(1), action.payload]
+               } 
   default:
       return state;
   }

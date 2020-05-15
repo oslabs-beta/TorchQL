@@ -1,16 +1,18 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { HistoryItem } from '../components/HistoryItem';
+const { UserContext } = require("../context/UserContext");
 
 // interface Props {
 //   searchHistory: string[];
 // }
 
 const HistoryContainer: React.FC = (props) => {
+  const { searchHistory, uri } = useContext(UserContext);
   return (
     <div className="history-container">
-      {/* {props.searchHistory.map((uri: string, idx: number) => (
+      {searchHistory.map((uri: string, idx: number) => (
         <HistoryItem key={`${uri}-${idx}`} uri={uri} />
-      ))} */}
+      ))}
     </div>
   );
 };
