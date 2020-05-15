@@ -28,6 +28,17 @@ export const CodeDisplay: React.FC = (props) => {
       setDisplayCode(false);
     };
 
+  const handleSchemaDownload = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    event.preventDefault();
+    console.log('URI :', uri)
+    const zip = new JSZip();
+    zip.folder('torchql').file('yourSchema.js', schema);
+    zip.generateAsync({type:"blob"}).then(function(content:any) {
+        FileSaver.saveAs(content, "torchql.zip");
+    });
+  };
   // download zip file containing all files for testing schema and resolvers
   const handleDownload = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -40,7 +51,7 @@ export const CodeDisplay: React.FC = (props) => {
     zip.folder('torchql').folder('server').file("dbConnect.js", dbconnectCreator(uri));
     zip.folder('torchql').folder('server').folder('sdlSchema').file('schema.js', schemaCreator(schema));
     zip.generateAsync({type:"blob"}).then(function(content:any) {
-        FileSaver.saveAs(content, "example.zip");
+        FileSaver.saveAs(content, "torchql.zip");
     });
   };
 
@@ -62,9 +73,16 @@ export const CodeDisplay: React.FC = (props) => {
       <button
         className="main-btn"
         id="save-file"
+        onClick={(e) => handleSchemaDownload(e)}
+      >
+        Save Schema
+      </button>
+      <button
+        className="main-btn"
+        id="save-file"
         onClick={(e) => handleDownload(e)}
       >
-        Save File
+        Test Schema
       </button>
       <p id="invisible" style={invisStyle}>
         {schema}
