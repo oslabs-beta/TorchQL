@@ -12,41 +12,15 @@ const JSZip = require("jszip");
 const FileSaver = require('file-saver');
 const { UserContext } = require("../context/UserContext");
 
-// interface Props {
-//   schema: string;
-// }
-
 export const CodeDisplay: React.FC = (props) => {
   // For use with Electron
   // useScript('../client/fileSave.js');
   const invisStyle = {
     display: 'none',
   };
-  const { uri, schema, setDisplayCode, setSchema } = useContext(UserContext);
+  const { uri, schema, setDisplayCode } = useContext(UserContext);
 
-  // useEffect(() => {
-  //   const data = { schema };
-  //   fetch('/download', {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //     body: JSON.stringify(data),
-  //   });
-  // }, []);
-
-  // const handleDownload = () => {
-  //   console.log('URI :', URI)
-  //   const zip = new JSZip();
-  //   zip.folder('torchql').file("package.json", packagejsonCreator());
-  //   // zip.file("Hello.txt", "Hello World\n");
-  //   zip.folder('torchql').folder('server').file("server.js", serverCreator());
-  //   zip.folder('torchql').folder('server').file("dbConnect.js", dbconnectCreator(URI));
-  //   zip.generateAsync({type:"blob"}).then(function(content:any) {
-  //       FileSaver.saveAs(content, "example.zip");
-  //   });
-  // };
-    // for CodeDisplay.jsx/Back button
+  // for CodeDisplay.jsx/Back button
   const handleClick = (
       event: React.MouseEvent<HTMLButtonElement, MouseEvent>
     ) => {
@@ -61,7 +35,6 @@ export const CodeDisplay: React.FC = (props) => {
     console.log('URI :', uri)
     const zip = new JSZip();
     zip.folder('torchql').file("package.json", packagejsonCreator());
-    // zip.file("Hello.txt", "Hello World\n");
     zip.folder('torchql').folder('server').file("server.js", serverCreator());
     zip.folder('torchql').folder('server').file("dbConnect.js", dbconnectCreator(uri));
     zip.folder('torchql').folder('server').folder('sdlSchema').file('schema.js', schemaCreator(schema));
