@@ -1,16 +1,8 @@
 import React, { useState, useContext } from 'react';
 import HistoryContainer from '../containers/HistoryContainer';
 const { UserContext } = require("../context/UserContext");
-// interface Props {
-//   URI: string;
-//   handleSDLInput: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-//   handleProgInput: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-//   handleURI: (event: React.ChangeEvent<HTMLInputElement>) => void;
-//   // searchHistory: Array<string>;
-// }
 
 export const Input: React.FC = (props) => {
-  // const [schema, setSchema] = useState<string>('');
   const [historyOpen, setHistoryOpen] = useState<boolean>(false);
   const { uri, addURI, schema, displayCode, setDisplayCode, setSchema } = useContext(UserContext);
 
@@ -18,11 +10,9 @@ export const Input: React.FC = (props) => {
     setHistoryOpen(!historyOpen);
   };
 
-  // const { handleSDLInput, handleProgInput, handleURI, URI } = props;
   const handleURI = (e: React.ChangeEvent<HTMLInputElement>) => {
     addURI(e.target.value);
   };
-
 
   // Fetches and returns the Postgres SDL Schema
   const handleSDLInput = (

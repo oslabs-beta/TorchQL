@@ -12,6 +12,22 @@ export default function reducer (state, action) {
       return {
         ...state, schema: action.payload
       };
+    case "ADD_HOST":
+      return {
+        ...state, host: action.payload
+      };
+    case "ADD_USER":
+      return {
+        ...state, user: action.payload
+      };
+    case "ADD_PASSWORD":
+      return {
+        ...state, password: action.payload
+      };
+    case "ADD_DATABASE":
+      return {
+        ...state, database: action.payload
+      };
   default:
       return state;
   }

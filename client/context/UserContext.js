@@ -3,9 +3,13 @@ import UserReducer from './UserReducer';
 export const UserContext = createContext(initialState);
 
 const initialState = {
-  uri: 'hey',
+  uri: '',
   displayCode: false, 
-  schema: ''
+  schema: '',
+  host: '',
+  user: '',
+  password: '', 
+  database: ''
 }
 
 export const UserContextProvider = props => {
@@ -32,14 +36,47 @@ export const UserContextProvider = props => {
       payload: id
     });
   }
+
+  function setHost(id) {
+    dispatch({
+      type: 'ADD_HOST',
+      payload: id
+    });
+  }
+  function setUser(id) {
+    dispatch({
+      type: 'ADD_USER',
+      payload: id
+    });
+  }
+  function setPassword(id) {
+    dispatch({
+      type: 'ADD_PASSWORD',
+      payload: id
+    });
+  }
+  function setDatabase(id) {
+    dispatch({
+      type: 'ADD_DATABASE',
+      payload: id
+    });
+  }
   return (
     <UserContext.Provider value={{
       uri: state.uri,
       displayCode: state.displayCode,
       schema: state.schema,
+      host: state.host,
+      user: state.user,
+      password: state.password,
+      database: state.database,
       addURI,
       setDisplayCode,
-      setSchema
+      setSchema,
+      setHost,
+      setUser,
+      setPassword,
+      setDatabase
     }}>
       {props.children}
     </UserContext.Provider>
