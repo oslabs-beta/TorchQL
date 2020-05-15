@@ -7,6 +7,7 @@ import e from 'express';
 const { packagejsonCreator } = require("../templateFunctions/packagejsonCreator");
 const { serverCreator } = require("../templateFunctions/serverCreator");
 const { dbconnectCreator } = require("../templateFunctions/dbconnectCreator");
+const { schemaCreator } = require("../templateFunctions/schemaCreator");
 const JSZip = require("jszip");
 const FileSaver = require('file-saver');
 const { UserContext } = require("../context/UserContext");
@@ -63,6 +64,7 @@ export const CodeDisplay: React.FC = (props) => {
     // zip.file("Hello.txt", "Hello World\n");
     zip.folder('torchql').folder('server').file("server.js", serverCreator());
     zip.folder('torchql').folder('server').file("dbConnect.js", dbconnectCreator(uri));
+    zip.folder('torchql').folder('server').folder('sdlSchema').file('schema.js', schemaCreator(schema));
     zip.generateAsync({type:"blob"}).then(function(content:any) {
         FileSaver.saveAs(content, "example.zip");
     });
