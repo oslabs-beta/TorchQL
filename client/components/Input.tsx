@@ -3,6 +3,7 @@ import HistoryContainer from '../containers/HistoryContainer';
 const { UserContext } = require("../context/UserContext");
 
 export const Input: React.FC = (props) => {
+  const [URI, setURI] = useState<string>('');
   const [historyOpen, setHistoryOpen] = useState<boolean>(false);
   const { uri, addURI, schema, displayCode, setDisplayCode, setSchema, addSearchHistory } = useContext(UserContext);
 
@@ -11,7 +12,7 @@ export const Input: React.FC = (props) => {
   };
 
   const handleURI = (e: React.ChangeEvent<HTMLInputElement>) => {
-    addURI(e.target.value);
+    setURI(e.target.value);
   };
 
   // Fetches and returns the Postgres SDL Schema
@@ -19,15 +20,16 @@ export const Input: React.FC = (props) => {
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     event.preventDefault();
-    if (uri !== '') {
-      fetch(`/db/pg/sdl?uri=${uri}`)
+    if (URI !== '') {
+      fetch(`/db/pg/sdl?uri=${URI}`)
         .then((data) => data.json())
         .then((data) => {
           if (data === "error") {
-            addURI('');
+            setURI('');
           } else {
-              addSearchHistory(uri);
-              addURI('');
+              addURI(URI);
+              addSearchHistory(URI);
+              setURI('');
               setSchema(data);
               setDisplayCode(true);
               console.log('schema: ', schema);
@@ -70,7 +72,7 @@ export const Input: React.FC = (props) => {
         <h1 className="header">TorchQL</h1>
         <label htmlFor="uri-input">AUTOMATICALLY GENERATES GRAPHQL SCHEMA AND RESOLVERS</label>
         <div></div>
-        <input type='text' autoFocus className="input" name="uri-input" value={uri} onChange={(e) => handleURI(e)} placeholder="Enter Your PostgreSQL Database URI Here"/>
+        <input type='text' autoFocus className="input" name="uri-input" value={URI} onChange={(e) => handleURI(e)} placeholder="Enter Your PostgreSQL Database URI Here"/>
         <div></div>
         <button
           id="submit-uri"
