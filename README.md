@@ -118,12 +118,14 @@ const PersonType = new GraphQLObjectType({
 });
 ```
 
-Click on the **Save File** button to save your formatted schema and resolvers to the desktop.
+Click on the **Save Schema** button to save your formatted schema and resolvers to the desktop.
 
-## How to Run TorchQL:
+Click on the **Test Schema** button to save your formatted schema and resolvers as a GraphQL server file in a folder on the desktop.
 
-- **Fork** and **Clone** repository.
-- open project directory
+## How to Test Your Schema and Resolvers:
+
+- **Unzip** package after downloading 
+- **Open** project directory
 - **Install** dependencies
 
 ```bash
@@ -135,12 +137,9 @@ npm install
 ```bash
 npm start
 ```
+- A local host should now launch in the browser using GraphiQL
+- You can now write queries against your database!
 
-- for development mode
-
-```bash
-npm run dev
-```
 ## Contributing
 We welcome all contributions & pull requests!
 
