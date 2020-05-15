@@ -11,7 +11,7 @@ TypeGenerator.queries = function queries(tableName, tableData) {
     let byID = toCamelCase(nameSingular);
     if (nameSingular === tableName) byID += 'ByID';
     return `    ${toCamelCase(tableName)}: [${toPascalCase(nameSingular)}!]!\n`
-      + `    ${byID}(${toCamelCase(primaryKey)}: ${primaryKeyType}!): ${toPascalCase(nameSingular)}!\n`;
+      + `    ${byID}(${primaryKey}: ${primaryKeyType}!): ${toPascalCase(nameSingular)}!\n`;
   }
   return '';
 };
