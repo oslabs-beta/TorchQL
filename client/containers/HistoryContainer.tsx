@@ -6,8 +6,8 @@ const { UserContext } = require("../context/UserContext");
 //   searchHistory: string[];
 // }
 
-const HistoryContainer: React.FC = (props) => {
-  const { searchHistory, uri } = useContext(UserContext);
+const HistoryContainer: React.FC = () => {
+  const { searchHistory } = useContext(UserContext);
   return (
     <div className="history-container">
       {searchHistory.map((uri: string, idx: number) => (

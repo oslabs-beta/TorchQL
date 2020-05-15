@@ -5,7 +5,7 @@ import { MySQL } from './MySQL';
 const { UserContext } = require("../context/UserContext");
 
 const MainDisplay: React.FC = (props) => {
-  const { displayCode, setDisplayCode } = useContext(UserContext);
+  const { displayCode } = useContext(UserContext);
   const [displayStatus, setDisplayStatus] = useState<string>('postgresql');
   return (
     <div>

@@ -28,6 +28,7 @@ export const CodeDisplay: React.FC = (props) => {
       setDisplayCode(false);
     };
 
+  // download zip file containing all files for testing schema and resolvers
   const handleDownload = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {

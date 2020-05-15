@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 const { UserContext } = require("../context/UserContext");
 
-export const MySQL: React.FC = (props) => {
-    const { host, user, password, database, displayCode, setDisplayCode, setHost, setUser, setPassword, setDatabase } = useContext(UserContext);
+export const MySQL: React.FC = () => {
+    const { host, user, password, database, setDisplayCode, setHost, setUser, setPassword, setDatabase } = useContext(UserContext);
     const handleHost = (e: React.ChangeEvent<HTMLInputElement>) => {
       setHost(e.target.value);
     };
@@ -65,7 +65,6 @@ export const MySQL: React.FC = (props) => {
             setPassword('');
             setDatabase('');
           } else {
-              setDisplayCode(true);
               setDisplayCode(true);
               setHost('');
               setUser('');
