@@ -17,7 +17,7 @@ function serverCreator() {
   );
 
   app.listen(PORT, () => {
-    console.log('Server listening on 3000');
+    console.log("console.log('Welcome to TorchQL! To query your database using your new schemas, please go to http://localhost:3000/graphql');");
   });
   `;
   return fileContent;
