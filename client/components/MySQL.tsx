@@ -2,18 +2,18 @@ import React, { useContext } from 'react';
 const { UserContext } = require("../context/UserContext");
 
 export const MySQL: React.FC = () => {
-    const { host, user, password, database, setDisplayCode, setHost, setUser, setPassword, setDatabase } = useContext(UserContext);
+    const { host, user, password, database, addDisplayCode, addHost, addUser, addPassword, addDatabase } = useContext(UserContext);
     const handleHost = (e: React.ChangeEvent<HTMLInputElement>) => {
-      setHost(e.target.value);
+      addHost(e.target.value);
     };
     const handleUser = (e: React.ChangeEvent<HTMLInputElement>) => {
-      setUser(e.target.value);
+      addUser(e.target.value);
     };
     const handlePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
-      setPassword(e.target.value);
+      addPassword(e.target.value);
     };
     const handleDatabase = (e: React.ChangeEvent<HTMLInputElement>) => {
-      setDatabase(e.target.value);
+      addDatabase(e.target.value);
     };
     const handleMySQLSDLInput = (
       event: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -28,16 +28,16 @@ export const MySQL: React.FC = () => {
         .then((data) => data.json())
         .then((data) => {
           if (data === "error") {
-            setHost('');
-            setUser('');
-            setPassword('');
-            setDatabase('');
+            addHost('');
+            addUser('');
+            addPassword('');
+            addDatabase('');
           } else {
-              setDisplayCode(true);
-              setHost('');
-              setUser('');
-              setPassword('');
-              setDatabase('');
+              addDisplayCode(true);
+              addHost('');
+              addUser('');
+              addPassword('');
+              addDatabase('');
             }
         })
         .catch((err) => {
@@ -60,16 +60,16 @@ export const MySQL: React.FC = () => {
         .then((data) => data.json())
         .then((data) => {
           if (data === "error") {
-            setHost('');
-            setUser('');
-            setPassword('');
-            setDatabase('');
+            addHost('');
+            addUser('');
+            addPassword('');
+            addDatabase('');
           } else {
-              setDisplayCode(true);
-              setHost('');
-              setUser('');
-              setPassword('');
-              setDatabase('');
+              addDisplayCode(true);
+              addHost('');
+              addUser('');
+              addPassword('');
+              addDatabase('');
             }
         })
         .catch((err) => {

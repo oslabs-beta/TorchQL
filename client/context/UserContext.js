@@ -24,39 +24,39 @@ export const UserContextProvider = props => {
     });
   }
 
-  function setDisplayCode(id) {
+  function addDisplayCode(id) {
     dispatch({
       type: 'ADD_DISPLAYCODE',
       payload: id
     });
   }
 
-  function setSchema(id) {
+  function addSchema(id) {
     dispatch({
       type: 'ADD_SCHEMA',
       payload: id
     });
   }
 
-  function setHost(id) {
+  function addHost(id) {
     dispatch({
       type: 'ADD_HOST',
       payload: id
     });
   }
-  function setUser(id) {
+  function addUser(id) {
     dispatch({
       type: 'ADD_USER',
       payload: id
     });
   }
-  function setPassword(id) {
+  function addPassword(id) {
     dispatch({
       type: 'ADD_PASSWORD',
       payload: id
     });
   }
-  function setDatabase(id) {
+  function addDatabase(id) {
     dispatch({
       type: 'ADD_DATABASE',
       payload: id
@@ -79,12 +79,12 @@ export const UserContextProvider = props => {
       database: state.database,
       searchHistory: state.searchHistory,
       addURI,
-      setDisplayCode,
-      setSchema,
-      setHost,
-      setUser,
-      setPassword,
-      setDatabase,
+      addDisplayCode,
+      addSchema,
+      addHost,
+      addUser,
+      addPassword,
+      addDatabase,
       addSearchHistory
     }}>
       {props.children}

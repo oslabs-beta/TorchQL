@@ -18,14 +18,14 @@ export const CodeDisplay: React.FC = (props) => {
   const invisStyle = {
     display: 'none',
   };
-  const { uri, schema, setDisplayCode } = useContext(UserContext);
+  const { uri, schema, addDisplayCode } = useContext(UserContext);
 
   // for CodeDisplay.jsx/Back button
   const handleClick = (
       event: React.MouseEvent<HTMLButtonElement, MouseEvent>
     ) => {
       event.preventDefault();
-      setDisplayCode(false);
+      addDisplayCode(false);
     };
 
   const handleSchemaDownload = (

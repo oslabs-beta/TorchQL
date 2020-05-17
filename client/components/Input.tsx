@@ -5,7 +5,7 @@ const { UserContext } = require("../context/UserContext");
 export const Input: React.FC = (props) => {
   const [URI, setURI] = useState<string>('');
   const [historyOpen, setHistoryOpen] = useState<boolean>(false);
-  const { uri, addURI, schema, displayCode, setDisplayCode, setSchema, addSearchHistory } = useContext(UserContext);
+  const { uri, addURI, schema, displayCode, addDisplayCode, addSchema, addSearchHistory } = useContext(UserContext);
 
   const toggleHistory = () => {
     setHistoryOpen(!historyOpen);
@@ -30,8 +30,8 @@ export const Input: React.FC = (props) => {
               addURI(URI);
               addSearchHistory(URI);
               setURI('');
-              setSchema(data);
-              setDisplayCode(true);
+              addSchema(data);
+              addDisplayCode(true);
               console.log('schema: ', schema);
             }
         })
@@ -55,8 +55,8 @@ export const Input: React.FC = (props) => {
           } else {
               addSearchHistory(uri);
               addURI('');
-              setSchema(data);
-              setDisplayCode(true);
+              addSchema(data);
+              addDisplayCode(true);
               console.log('schema: ', schema);
             }
         })
