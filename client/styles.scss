@@ -8,13 +8,6 @@ $dark-purple: #6265fc;
 $purple-border: #4648f7;
 $purple-shadow: #8385fa;
 
-// Phoenix Colors
-$dark-red: #cb2127;
-$red: #ee2224;
-$yellow: #ffcc00;
-$orange: #f26722;
-$black: #202020;
-
 * {
   box-sizing: border-box;
   &::before,
@@ -58,7 +51,6 @@ button {
   &.main-btn {
     font-weight: 600;
     color: $text;
-    // text-transform: uppercase;
     padding: 1.25em 2em;
     background: $purple;
     border: 2px solid $purple-border;
@@ -105,7 +97,6 @@ button {
 .input {
   display: flex;
   box-sizing: border-box;
-  // align-self: flex-end;
   align-items: flex-end;
   justify-content: center;
   box-shadow: 0 0 0 2px $purple-border, 0 0.625em 0 0 $purple-shadow;
@@ -117,7 +108,6 @@ button {
   min-width: 100%;
   background: $bg;
   color: $text;
-  // text-transform: uppercase;
   padding: 1.25em 2em;
   background: $light-purple;
   border: 2px solid $purple-border;
@@ -132,10 +122,9 @@ button {
   line-height: 1.5;
   margin: 0;
   min-height: 50vh;
-  max-width: 100vh;
+  width: 100vh;
   background: $bg;
   color: $text;
-  // text-transform: uppercase;
   padding: 1.25em 2em;
   background: $light-purple;
   border: 2px solid $purple-border;
