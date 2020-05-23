@@ -1,8 +1,10 @@
 import React, { useState, useContext } from 'react';
 import HistoryContainer from '../containers/HistoryContainer';
 const { UserContext } = require("../context/UserContext");
+import {useSpring, animated} from 'react-spring'
 
 export const Input: React.FC = (props) => {
+  const fade = useSpring({opacity: 1, from: {opacity: 0}})
   const [URI, setURI] = useState<string>('');
   const [historyOpen, setHistoryOpen] = useState<boolean>(false);
   const { uri, addURI, schema, displayCode, addDisplayCode, addSchema, addSearchHistory } = useContext(UserContext);
@@ -69,7 +71,9 @@ export const Input: React.FC = (props) => {
   return (
     <div className="input-form">
       <div className="input-button-row">
-        <h1 className="header"><img className="logo" src="https://i.ibb.co/SdWYTxq/torchql.png" />TorchQL<img className="logo" src="https://i.ibb.co/SdWYTxq/torchql.png" /></h1>
+        <animated.div style={fade}>
+          <h1 className="header"><img className="logo" src="https://i.ibb.co/SdWYTxq/torchql.png" />TorchQL<img className="logo" src="https://i.ibb.co/SdWYTxq/torchql.png" /></h1>
+        </animated.div>
         <label htmlFor="uri-input">AUTOMATICALLY GENERATES GRAPHQL SCHEMA AND RESOLVERS</label>
         <div></div>
         <input type='text' autoFocus className="input" name="uri-input" value={URI} onChange={(e) => handleURI(e)} placeholder="Enter Your PostgreSQL Database URI Here"/>
