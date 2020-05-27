@@ -13,10 +13,9 @@ A developer tool to generate a GraphQL API from a known relational database.
 
 ## What Is TorchQL?
 **TorchQL** is an open-source tool to assist developers in the migration from REST APIs to GraphQL.  It facilitates the task of 
-exposing a GraphQL API over a relational database. 
-In other words, **you can use it to implement GraphQL in your application!**
+exposing a GraphQL API over a relational database. In other words, **you can use it to implement GraphQL in your application!** Just visit our website [here](http://torchql.herokuapp.com/).
 
-This developer tool parses through the metadata of all the tables in an existing PostgreSQL or MySQL database to generate and return GraphQL schema and resolvers that work in a GraphQL API.
+Our developer tool introspects an existing PostgreSQL or MySQL database and generates and returns GraphQL schema and resolvers.  You can download these schema and resolvers to the desktop or let TorchQL assemble them in a lightweight zip package in the context of a real GraphQL API.  After running your unzipped application, you can use <a href="https://github.com/graphql/graphiql">GraphiQL</a>, a built-in graphical interactive in-browser GraphQL IDE, to begin querying your database!
 
 ## How It Works
 **TorchQL** uses the metadata extracted from a SQL database to generate GraphQL custom types, queries, mutations, and resolvers.  The schema and resolvers can be returned in either SDL or programmatic format and are downloadable as a single desktop file. For experienced users, **TorchQL** permits the custom editing of schemas and resolvers in the browser prior to download.
@@ -25,122 +24,34 @@ Enter your database address in the input box and select either of the following 
 - As Schema Definition Language or **SDL**
 - As GraphQLSchema object or **Programmatic**
 
-
 After entering your information, a new screen should appear displaying all your schema and resolvers properly formatted in a text editor.
 
-**SDL example:**
-``` js
-const typeDefs = `
-  type Query {
-    people: [Person!]!
-    person(id: Int!): Person!
-    films: [Film!]!
-    film(id: Int!): Film!
-    planets: [Planet!]!
-    planet(id: Int!): Planet!
-    species: [Species!]!
-    speciesByID(id: Int!): Species!
-    vessels: [Vessel!]!
-    vessel(id: Int!): Vessel!
-    starshipSpecs: [StarshipSpec!]!
-    starshipSpec(id: Int!): StarshipSpec!
-  }
+![demo1](./demo1.gif)
 
-  type Mutation {
-    createPerson(
-      gender: String,
-      height: Int,
-      mass: String,
-      hair_color: String,
-      skin_color: String,
-      eye_color: String,
-      name: String!,
-      birth_year: String,
-    ): Person!
-    updatePerson(
-      gender: String,
-      height: Int,
-      mass: String,
-      hair_color: String,
-      skin_color: String,
-      eye_color: String,
-      name: String!,
-      birth_year: String,
-    ): Person!
-    deletePerson(id: ID!): Person!
-```
-**Programmatic example:**
-``` js
-const {
-  GraphQLObjectType,
-  GraphQLString,
-  GraphQLList,
-  GraphQLSchema,
-  GraphQLNonNull,
-} = require('graphql');
-const db = require('../dbConnect');
+Click on the **Save Schema** button to save your formatted schema and resolvers to the desktop.
 
-const PersonType = new GraphQLObjectType({
-  name: 'Person',
-  fields: () => ({
-    id: { type: GraphQLInt },
-    gender: { type: GraphQLString },
-    height: { type: GraphQLInt },
-    mass: { type: GraphQLString },
-    hairColor: { type: GraphQLString },
-    skinColor: { type: GraphQLString },
-    eyeColor: { type: GraphQLString },
-    name: { type: GraphQLString },
-    birthYear: { type: GraphQLString },
-    pilot: {
-      type: PilotType,
-      resolve(parent, args) => {
-        try {
-          const query = 'SELECT * FROM pilots WHERE _id = $1';
-          const values = [args._id]
-          return db.query(query).then((res) => res.rows)
-        } catch (err) {
-          throw new Error(err);
-        }
-      },
-    peopleInFilm: {
-      type: PeopleInFilmType,
-      resolve(parent, args) => {
-        try {
-          const query = 'SELECT * FROM people_in_films WHERE _id = $1';
-          const values = [args._id]
-          return db.query(query).then((res) => res.rows)
-        } catch (err) {
-          throw new Error(err);
-        }
-      },
-  }),
-});
-```
+Click on the **Test Schema** button to save your formatted schema and resolvers as a GraphQL server file in a folder on the desktop.
 
-Click on the **Save File** button to save your formatted schema and resolvers to the desktop.
+## How to Test Your Schema and Resolvers:
 
-## How to Run TorchQL:
-
-- **Fork** and **Clone** repository.
-- open project directory
+- **Unzip** package
+- **Open** directory
 - **Install** dependencies
 
 ```bash
 npm install
 ```
 
-- run application
+- **Run** application
 
 ```bash
 npm start
 ```
 
-- for development mode
+Just follow the instructions in the console or enter localhost:3000/<a href="https://github.com/graphql/graphiql">graphiql</a> in your browser, and now you can begin querying your database!
 
-```bash
-npm run dev
-```
+![demo2](./demo2.gif)
+
 ## Contributing
 We welcome all contributions & pull requests!
 
