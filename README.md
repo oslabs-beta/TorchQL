@@ -53,7 +53,7 @@ Just follow the instructions in the console or enter localhost:3000/<a href="htt
 ![demo2](./demo2.gif)
 
 ## Contributing
-We welcome all contributions & pull requests!
+TorchQL is currently in beta release.  We welcome all contributions & pull requests!
 
 ## Authors
 - **[Eric Tang](https://github.com/edtang44)** - [@edtang44](https://github.com/edtang44)
