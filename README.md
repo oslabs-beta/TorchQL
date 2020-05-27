@@ -26,7 +26,9 @@ Enter your database address in the input box and select either of the following 
 
 After entering your information, a new screen should appear displaying all your schema and resolvers properly formatted in a text editor.
 
-![demo1](./demo1.gif)
+<p align="center">
+<img src="./demo1.gif" width="500" display=block margin=auto>
+</p>
 
 Click on the **Save Schema** button to save your formatted schema and resolvers to the desktop.
 
@@ -50,7 +52,9 @@ npm start
 
 Just follow the instructions in the console or enter localhost:3000/<a href="https://github.com/graphql/graphiql">graphiql</a> in your browser, and now you can begin querying your database!
 
-![demo2](./demo2.gif)
+<p align="center">
+<img src="./demo2.gif" width="500" display=block margin=auto>
+</p>
 
 ## Contributing
 TorchQL is currently in beta release.  We welcome all contributions & pull requests!
