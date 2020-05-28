@@ -17,6 +17,10 @@ exposing a GraphQL API over a relational database. In other words, **you can use
 
 Our developer tool introspects an existing PostgreSQL or MySQL database and generates and returns GraphQL schema and resolvers.  You can download these schema and resolvers to the desktop or let TorchQL assemble them in a lightweight zip package in the context of a real GraphQL API.  After running your unzipped application, you can use <a href="https://github.com/graphql/graphiql">GraphiQL</a>, a built-in graphical interactive in-browser GraphQL IDE, to begin querying your database!
 
+<p align="center">
+<img src="https://github.com/oslabs-beta/TorchQL/blob/dev/screenshot1.png?raw=true" align="center" height="400">
+</p>
+
 ## How It Works
 **TorchQL** uses the metadata extracted from a SQL database to generate GraphQL custom types, queries, mutations, and resolvers.  The schema and resolvers can be returned in either SDL or programmatic format and are downloadable as a single desktop file. For experienced users, **TorchQL** permits the custom editing of schemas and resolvers in the browser prior to download.
 
@@ -25,9 +29,20 @@ Enter your database address in the input box and select either of the following 
 - As GraphQLSchema object or **Programmatic**
 
 After entering your information, a new screen should appear displaying all your schema and resolvers properly formatted in a text editor.
+<br/><br/>
+**SDL**&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; **Programmatic**
+<div display="flex">
+<div>
+<img src="https://github.com/oslabs-beta/TorchQL/blob/dev/screenshot2.png?raw=true" align="center" height="400">
+</div>
+<div>
+<img src="https://github.com/oslabs-beta/TorchQL/blob/dev/screenshot3.png?raw=true" align="center" height="400">
+</div>
+</div>
+<br/><br/>
 
 <p align="center">
-<img src="./demo1.gif" width="500" display=block margin=auto>
+<img src="./demo4.gif" width="500" display=block margin=auto>
 </p>
 
 Click on the **Save Schema** button to save your formatted schema and resolvers to the desktop.
