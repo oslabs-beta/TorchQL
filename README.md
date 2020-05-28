@@ -31,15 +31,15 @@ Enter your database address in the input box and select either of the following 
 After entering your information, a new screen should appear displaying all your schema and resolvers properly formatted in a text editor.
 <br/><br/>
 **SDL**&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; **Programmatic**
-<div display="flex">
+
 <div>
-<img src="https://github.com/oslabs-beta/TorchQL/blob/dev/screenshot2.png?raw=true" align="center" height="400">
+<img src="https://github.com/oslabs-beta/TorchQL/blob/dev/screenshot2.png?raw=true" align="center" height="350">
 </div>
 <div>
-<img src="https://github.com/oslabs-beta/TorchQL/blob/dev/screenshot3.png?raw=true" align="center" height="400">
+<img src="https://github.com/oslabs-beta/TorchQL/blob/dev/screenshot3.png?raw=true" align="center" height="350">
 </div>
 </div>
-<br/><br/>
+
 
 <p align="center">
 <img src="./demo4.gif" width="500" display=block margin=auto>
