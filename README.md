@@ -24,7 +24,7 @@ Our developer tool introspects an existing PostgreSQL or MySQL database and gene
 ## How It Works
 **TorchQL** uses the metadata extracted from a SQL database to generate GraphQL custom types, queries, mutations, and resolvers.  The schema and resolvers can be returned in either SDL or programmatic format and are downloadable as a single desktop file. For experienced users, **TorchQL** permits the custom editing of schemas and resolvers in the browser prior to download.
 
-Enter your database address in the input box and select either of the following formats for your GraphQL schema and resolvers:
+For a PostgreSQL database, enter your database address in the input box. For a MySQL database, enter your host, user, password, and database information. Then select either of the following formats for your GraphQL schema and resolvers:
 - As Schema Definition Language or **SDL**
 - As GraphQLSchema object or **Programmatic**
 
