@@ -35,7 +35,7 @@ After entering your information, a new screen should appear displaying all your 
 </p>
 &nbsp; &nbsp; &nbsp; <strong>SDL</strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <strong>Programmatic</strong>
 <p align="center">
-<img src="https://github.com/oslabs-beta/TorchQL/blob/dev/screenshot4.png?raw=true" height="400" display=block margin=auto>
+<img src="https://github.com/oslabs-beta/TorchQL/blob/dev/screenshot5.png?raw=true" height="400" display=block margin=auto>
 </p>
 
 Click on the **Save Schema** button to save your formatted schema and resolvers to the desktop.
