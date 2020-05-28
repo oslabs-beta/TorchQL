@@ -30,14 +30,12 @@ Enter your database address in the input box and select either of the following 
 
 After entering your information, a new screen should appear displaying all your schema and resolvers properly formatted in a text editor.
 <br/><br/>
-**SDL**&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; **Programmatic**
-
+<p align="center">
+<img src="./demo4.gif" width="600" display=block margin=auto>
+</p>
+&nbsp; &nbsp; &nbsp; **SDL**&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; **Programmatic**
 <p align="center">
 <img src="https://github.com/oslabs-beta/TorchQL/blob/dev/screenshot4.png?raw=true" height="400" display=block margin=auto>
-</p>
-<br/><br/>
-<p align="center">
-<img src="./demo4.gif" width="500" display=block margin=auto>
 </p>
 
 Click on the **Save Schema** button to save your formatted schema and resolvers to the desktop.
