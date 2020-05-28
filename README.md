@@ -31,7 +31,7 @@ For a PostgreSQL database, enter your database address in the input box. For a M
 After entering your information, a new screen should appear displaying all your schema and resolvers properly formatted in a text editor.
 
 <p align="center">
-<img src="./demo4.gif" width="600" display=block margin=auto>
+<img src="./demo5.gif" width="600" display=block margin=auto>
 </p>
 &nbsp; &nbsp; <strong>SDL</strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp  <strong>Programmatic</strong>
 <p align="center">
