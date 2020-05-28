@@ -32,15 +32,10 @@ After entering your information, a new screen should appear displaying all your 
 <br/><br/>
 **SDL**&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; **Programmatic**
 
-<div>
-<img src="https://github.com/oslabs-beta/TorchQL/blob/dev/screenshot2.png?raw=true" align="center" height="350">
-</div>
-<div>
-<img src="https://github.com/oslabs-beta/TorchQL/blob/dev/screenshot3.png?raw=true" align="center" height="350">
-</div>
-</div>
-
-
+<p align="center">
+<img src="https://github.com/oslabs-beta/TorchQL/blob/dev/screenshot4.png?raw=true" height="400" display=block margin=auto>
+</p>
+<br/><br/>
 <p align="center">
 <img src="./demo4.gif" width="500" display=block margin=auto>
 </p>
