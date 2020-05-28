@@ -29,11 +29,11 @@ Enter your database address in the input box and select either of the following 
 - As GraphQLSchema object or **Programmatic**
 
 After entering your information, a new screen should appear displaying all your schema and resolvers properly formatted in a text editor.
-<br/><br/>
+
 <p align="center">
 <img src="./demo4.gif" width="600" display=block margin=auto>
 </p>
-&nbsp; &nbsp; &nbsp; **SDL**&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; **Programmatic**
+&nbsp; &nbsp; &nbsp; <strong>SDL</strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <strong>Programmatic</strong>
 <p align="center">
 <img src="https://github.com/oslabs-beta/TorchQL/blob/dev/screenshot4.png?raw=true" height="400" display=block margin=auto>
 </p>
