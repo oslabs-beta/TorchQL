@@ -68,7 +68,7 @@ Just follow the instructions in the console or enter localhost:3000/<a href="htt
 TorchQL is currently in beta release.  We welcome all contributions & pull requests!
 
 ## Authors
-- **[Eric Tang](https://github.com/edtang44)** - [@edtang44](https://github.com/edtang44)
+- **[Eric Tang](https://www.linkedin.com/in/erictang44)** - [@edtang44](https://github.com/edtang44)
 - **[Jimmy Chen](https://www.linkedin.com/in/jimchn/)** - [@jimchn](https://github.com/jimchn)
 - **[Mark Fusco](https://www.linkedin.com/in/mark-fusco-46165a181/)** - [@QuestionMark97](https://github.com/QuestionMark97)
 - **[Sara Chang](https://www.linkedin.com/in/sara-chang/)** - [@sarachang530](https://github.com/sarachang530)
