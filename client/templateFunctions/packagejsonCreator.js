@@ -15,6 +15,7 @@ function packagejsonCreator() {
       "express": "^4.17.1",
       "express-graphql": "^0.9.0",
       "graphql": "^15.0.0",
+      "graphql-playground-middleware-express": "^1.7.15",
       "graphql-tools": "^4.0.7",
       "pg": "^8.0.0"
     },
