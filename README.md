@@ -61,7 +61,7 @@ npm start
 Just follow the instructions in the console or enter localhost:3000/<a href="https://github.com/prisma-labs/graphql-playground">playground</a> in your browser, and now you can begin querying your database!
 
 <p align="center">
-<img src="./demo7.gif" width="500" display=block margin=auto>
+<img src="./demo7.gif" width="600" display=block margin=auto>
 </p>
 
 ## Contributing
