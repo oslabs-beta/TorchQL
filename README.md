@@ -70,7 +70,7 @@ TorchQL is currently in beta release.  We welcome all contributions & pull reque
 ## Authors
 - **[Eric Tang](https://www.linkedin.com/in/erictang44)** - [@edtang44](https://github.com/edtang44)
 - **[Jimmy Chen](https://www.linkedin.com/in/jimchn/)** - [@jimchn](https://github.com/jimchn)
-- **[Mark Fusco](https://www.linkedin.com/in/mark-fusco-46165a181/)** - [@QuestionMark97](https://github.com/QuestionMark97)
+- **[Mark Fusco](https://www.linkedin.com/in/marklfusco/)** - [@QuestionMark3](https://github.com/QuestionMark3)
 - **[Sara Chang](https://www.linkedin.com/in/sara-chang/)** - [@sarachang530](https://github.com/sarachang530)
 - **[Zac Haluza](https://haluza.dev)** - [@zhaluza](https://github.com/zhaluza)
 
