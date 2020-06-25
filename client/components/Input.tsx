@@ -1,4 +1,4 @@
-import React, { useState, useContext, useRef } from 'react';
+import React, { useState, useContext, useEffect, useRef } from 'react';
 import HistoryContainer from '../containers/HistoryContainer';
 const { UserContext } = require("../context/UserContext");
 import {useSpring, animated} from 'react-spring'
@@ -9,6 +9,10 @@ export const Input: React.FC = (props) => {
   const [URI, setURI] = useState<string>('');
   const [historyOpen, setHistoryOpen] = useState<boolean>(false);
   const { uri, addURI, schema, displayCode, addDisplayCode, addSchema, addSearchHistory } = useContext(UserContext);
+
+  useEffect(()=>{
+    uriRef.current.focus();
+  }, []);
 
   const toggleHistory = () => {
     setHistoryOpen(!historyOpen);
