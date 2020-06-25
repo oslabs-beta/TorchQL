@@ -1,13 +1,18 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect, useRef } from 'react';
 import HistoryContainer from '../containers/HistoryContainer';
 const { UserContext } = require("../context/UserContext");
 import {useSpring, animated} from 'react-spring'
 
 export const Input: React.FC = (props) => {
+  const uriRef = useRef(null);
   const fade = useSpring({opacity: 1, from: {opacity: 0}})
   const [URI, setURI] = useState<string>('');
   const [historyOpen, setHistoryOpen] = useState<boolean>(false);
   const { uri, addURI, schema, displayCode, addDisplayCode, addSchema, addSearchHistory } = useContext(UserContext);
+
+  useEffect(()=>{
+    uriRef.current.focus();
+  }, []);
 
   const toggleHistory = () => {
     setHistoryOpen(!historyOpen);
@@ -28,6 +33,7 @@ export const Input: React.FC = (props) => {
         .then((data) => {
           if (data === "error") {
             setURI('');
+            uriRef.current.focus();
           } else {
               addURI(URI);
               addSearchHistory(URI);
@@ -48,25 +54,27 @@ export const Input: React.FC = (props) => {
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     event.preventDefault();
-    if (uri !== '') {
-      fetch(`/db/pg/prog?uri=${uri}`)
-        .then((data) => data.json())
-        .then((data) => {
-          if (data === "error") {
-            addURI('');
-          } else {
-              addSearchHistory(uri);
-              addURI('');
-              addSchema(data);
-              addDisplayCode(true);
-              console.log('schema: ', schema);
-            }
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-    }
-  };
+    if (URI !== '') {
+      fetch(`/db/pg/prog?uri=${URI}`)
+      .then((data) => data.json())
+      .then((data) => {
+        if (data === "error") {
+          setURI('');
+          uriRef.current.focus();
+        } else {
+            addURI(URI);
+            addSearchHistory(URI);
+            setURI('');
+            addSchema(data);
+            addDisplayCode(true);
+            console.log('schema: ', schema);
+          }
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }
+};
 
   return (
     <div className="input-form">
@@ -74,9 +82,17 @@ export const Input: React.FC = (props) => {
         <animated.div style={fade}>
           <h1 className="header"><img className="logo" src="https://i.ibb.co/SdWYTxq/torchql.png" />TorchQL<img className="logo" src="https://i.ibb.co/SdWYTxq/torchql.png" /></h1>
         </animated.div>
-        <label htmlFor="uri-input">AUTOMATICALLY GENERATES GRAPHQL SCHEMA AND RESOLVERS</label>
+        <label htmlFor="uri-input">AUTOGENERATES GRAPHQL SCHEMA AND RESOLVERS</label>
         <div></div>
-        <input type='text' autoFocus className="input" name="uri-input" value={URI} onChange={(e) => handleURI(e)} placeholder="Enter Your PostgreSQL Database URI Here"/>
+        <input 
+          type='text'
+          ref={uriRef}
+          className="input"
+          name="uri-input"
+          value={URI}
+          onChange={(e) => handleURI(e)}
+          placeholder="Enter Your PostgreSQL Database URI Here"
+        />
         <div></div>
         <button
           id="submit-uri"
