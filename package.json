@@ -8,6 +8,8 @@
     "codemirror": "^5.52.2",
     "cypress": "^4.4.1",
     "express": "^4.17.1",
+    "file-saver": "^2.0.2",
+    "jszip": "^3.4.0",
     "mongodb": "^3.5.6",
     "mongoose": "^5.9.9",
     "mysql2": "^2.1.0",
@@ -15,7 +17,8 @@
     "pluralize": "^8.0.0",
     "react": "^16.13.1",
     "react-codemirror2": "^7.1.0",
-    "react-dom": "^16.13.1"
+    "react-dom": "^16.13.1",
+    "react-spring": "^8.0.27"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",

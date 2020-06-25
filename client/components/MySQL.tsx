@@ -1,35 +1,83 @@
-import React from 'react';
+import React, { useContext } from 'react';
+const { UserContext } = require("../context/UserContext");
 
-
-interface Props {
-  host: string;
-  user: string;
-  password: string;
-  database: string;
-  handleMySQLInput: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-  handleMySQLProgInput: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-  handleHost: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  handleUser: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  handlePassword: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  handleDatabase: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  searchHistory: Array<string>;
-}
-
-export const MySQL: React.FC<Props> = (props) => {
-
-  const { 
-      handleMySQLInput, 
-      handleMySQLProgInput, 
-      handleHost, 
-      handleUser, 
-      handlePassword, 
-      handleDatabase, 
-      host,
-      user,
-      password,
-      database
-    } = props;
-
+export const MySQL: React.FC = () => {
+    const { host, user, password, database, addDisplayCode, addHost, addUser, addPassword, addDatabase } = useContext(UserContext);
+    const handleHost = (e: React.ChangeEvent<HTMLInputElement>) => {
+      addHost(e.target.value);
+    };
+    const handleUser = (e: React.ChangeEvent<HTMLInputElement>) => {
+      addUser(e.target.value);
+    };
+    const handlePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
+      addPassword(e.target.value);
+    };
+    const handleDatabase = (e: React.ChangeEvent<HTMLInputElement>) => {
+      addDatabase(e.target.value);
+    };
+    const handleMySQLSDLInput = (
+      event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    ) => {
+      event.preventDefault();
+      if ((host !== '') && (user !== '') && (password !== '') && (database !== '')){
+        fetch('/db/mySQL/sdl', {
+          method: 'POST',
+          headers: { 'Content-Type' : 'application/json' },
+          body: JSON.stringify({ host, user, password, database })
+        })
+        .then((data) => data.json())
+        .then((data) => {
+          if (data === "error") {
+            addHost('');
+            addUser('');
+            addPassword('');
+            addDatabase('');
+          } else {
+              addDisplayCode(true);
+              addHost('');
+              addUser('');
+              addPassword('');
+              addDatabase('');
+            }
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+      }
+    };
+  
+    // Handles and fetches the MySQL Programmatic Schema
+    const handleMySQLProgInput = (
+      event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    ) => {
+      event.preventDefault();
+      if ((host !== '') && (user !== '') && (password !== '') && (database !== '')){
+        fetch('/db/mySQL/prog', {
+          method: 'POST',
+          headers: { 'Content-Type' : 'application/json' },
+          body: JSON.stringify({ host, user, password, database })
+        })
+        .then((data) => data.json())
+        .then((data) => {
+          if (data === "error") {
+            addHost('');
+            addUser('');
+            addPassword('');
+            addDatabase('');
+          } else {
+              addDisplayCode(true);
+              addHost('');
+              addUser('');
+              addPassword('');
+              addDatabase('');
+            }
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+      }
+    };
+  
   return (
     <div className="input-form">
       <div className="input-button-row">
@@ -44,7 +92,7 @@ export const MySQL: React.FC<Props> = (props) => {
         <button
           id="submit-uri"
           className="main-btn"
-          onClick={(e) => handleMySQLInput(e)}
+          onClick={(e) => handleMySQLSDLInput(e)}
         > MySQL SDL Schema
         </button>
         <button

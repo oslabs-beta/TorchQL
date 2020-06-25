@@ -1,19 +1,12 @@
 @import url('https://fonts.googleapis.com/css?family=Rubik:700&display=swap');
 
-$bg: #fff;
+$bg: rgb(253, 236, 205);
 $text: #382b22;
-$light-pink: #fff0f0;
-$pink: #ffe9e9;
-$dark-pink: #f9c4d2;
-$pink-border: #b18597;
-$pink-shadow: #ffe3e2;
-
-// Phoenix Colors
-$dark-red: #cb2127;
-$red: #ee2224;
-$yellow: #ffcc00;
-$orange: #f26722;
-$black: #202020;
+$light-grey: rgb(230, 230, 230);
+$grey: rgb(218, 218, 218);
+$dark-grey: rgb(189, 189, 189);
+$grey-border: grey;
+$grey-shadow: rgb(218, 218, 218);
 
 * {
   box-sizing: border-box;
@@ -58,10 +51,9 @@ button {
   &.main-btn {
     font-weight: 600;
     color: $text;
-    // text-transform: uppercase;
     padding: 1.25em 2em;
-    background: $pink;
-    border: 2px solid $pink-border;
+    background: $grey;
+    border: 2px solid $grey-border;
     border-radius: 0.75em;
     transform-style: preserve-3d;
     display: inline-block;
@@ -76,26 +68,26 @@ button {
       left: 0;
       right: 0;
       bottom: 0;
-      background: $dark-pink;
+      background: $dark-grey;
       border-radius: inherit;
-      box-shadow: 0 0 0 2px $pink-border, 0 0.625em 0 0 $pink-shadow;
+      box-shadow: 0 0 0 2px $grey-border, 0 0.625em 0 0 $grey-shadow;
       transform: translate3d(0, 0.75em, -1em);
       transition: transform 150ms cubic-bezier(0, 0, 0.58, 1),
         box-shadow 150ms cubic-bezier(0, 0, 0.58, 1);
     }
     &:hover {
-      background: $pink;
+      background: $grey;
       transform: translate(0, 0.25em);
       &::before {
-        box-shadow: 0 0 0 2px $pink-border, 0 0.5em 0 0 $pink-shadow;
+        box-shadow: 0 0 0 2px $grey-border, 0 0.5em 0 0 $grey-shadow;
         transform: translate3d(0, 0.5em, -1em);
       }
     }
     &:active {
-      background: $pink;
+      background: $grey;
       transform: translate(0em, 0.75em);
       &::before {
-        box-shadow: 0 0 0 2px $pink-border, 0 0 $pink-shadow;
+        box-shadow: 0 0 0 2px $grey-border, 0 0 $grey-shadow;
         transform: translate3d(0, 0, -1em);
       }
     }
@@ -105,10 +97,9 @@ button {
 .input {
   display: flex;
   box-sizing: border-box;
-  // align-self: flex-end;
   align-items: flex-end;
   justify-content: center;
-  box-shadow: 0 0 0 2px $pink-border, 0 0.625em 0 0 $pink-shadow;
+  box-shadow: 0 0 0 2px $grey-border, 0 0.625em 0 0 $grey-shadow;
   font-family: 'Rubik', sans-serif;
   font-size: 1rem;
   line-height: 1.5;
@@ -117,28 +108,26 @@ button {
   min-width: 100%;
   background: $bg;
   color: $text;
-  // text-transform: uppercase;
   padding: 1.25em 2em;
-  background: $light-pink;
-  border: 2px solid $pink-border;
+  background: $light-grey;
+  border: 2px solid $grey-border;
   border-radius: 0.75em;
   display: inline-block;
 }
 
 .input-form {
-  box-shadow: 0 0 0 2px $pink-border, 0 0.625em 0 0 $pink-shadow;
+  box-shadow: 0 0 0 2px $grey-border, 0 0.625em 0 0 $grey-shadow;
   font-family: 'Rubik', sans-serif;
   font-size: 1rem;
   line-height: 1.5;
   margin: 0;
   min-height: 50vh;
-  max-width: 100vh;
+  width: 100vh;
   background: $bg;
   color: $text;
-  // text-transform: uppercase;
   padding: 1.25em 2em;
-  background: $light-pink;
-  border: 2px solid $pink-border;
+  background: $light-grey;
+  border: 2px solid $grey-border;
   border-width: 1px;
   border-radius: 0.75em;
   display: inline-block;
@@ -152,10 +141,18 @@ button {
   align-items: center;
   justify-content: center;
   margin: 0;
-  background: $light-pink;
+  background: $light-grey;
   text-overflow: clip;
 }
 
 .toggle-history-text {
   cursor: pointer;
+}
+
+.logo {
+  height: 120px;
+  width: 40px;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-bottom: 40px;
 }
