@@ -79,7 +79,14 @@ export const Input: React.FC = (props) => {
         <label htmlFor="uri-input">AUTOGENERATES GRAPHQL SCHEMA AND RESOLVERS</label>
         <div></div>
         <input 
-          type='text' ref={uriRef} className="input" name="uri-input" value={URI} onChange={(e) => handleURI(e)} placeholder="Enter Your PostgreSQL Database URI Here"/>
+          type='text'
+          ref={uriRef}
+          className="input"
+          name="uri-input"
+          value={URI}
+          onChange={(e) => handleURI(e)}
+          placeholder="Enter Your PostgreSQL Database URI Here"
+        />
         <div></div>
         <button
           id="submit-uri"
