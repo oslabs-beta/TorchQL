@@ -51,11 +51,11 @@ After entering your information, a new screen should appear displaying all your
 schema and resolvers properly formatted in a text editor.
 
 <p align="center">
-<img src="./demo5.gif" width="600" display=block margin=auto>
+<img src="./demo1.gif" width="600" display=block margin=auto>
 </p>
 &nbsp; &nbsp; <strong>SDL Example</strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp  <strong>Programmatic Example</strong>
 <p align="center">
-<img src="https://github.com/oslabs-beta/TorchQL/blob/dev/screenshot5.png?raw=true" height="400" display=block margin=auto>
+<img src="https://github.com/oslabs-beta/TorchQL/blob/dev/screenshot2.png?raw=true" height="400" display=block margin=auto>
 </p>
 
 Click on the **Save Schema** button to save your formatted schema and resolvers
@@ -85,7 +85,7 @@ localhost:3000/<a href="https://github.com/prisma-labs/graphql-playground">playg
 in your browser, and now you can begin querying your database!
 
 <p align="center">
-<img src="./demo7.gif" width="600" display=block margin=auto>
+<img src="./demo2.gif" width="600" display=block margin=auto>
 </p>
 
 ## Contributing
