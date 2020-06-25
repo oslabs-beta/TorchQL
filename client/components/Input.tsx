@@ -48,25 +48,26 @@ export const Input: React.FC = (props) => {
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     event.preventDefault();
-    if (uri !== '') {
-      fetch(`/db/pg/prog?uri=${uri}`)
-        .then((data) => data.json())
-        .then((data) => {
-          if (data === "error") {
-            addURI('');
-          } else {
-              addSearchHistory(uri);
-              addURI('');
-              addSchema(data);
-              addDisplayCode(true);
-              console.log('schema: ', schema);
-            }
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-    }
-  };
+    if (URI !== '') {
+      fetch(`/db/pg/prog?uri=${URI}`)
+      .then((data) => data.json())
+      .then((data) => {
+        if (data === "error") {
+          setURI('');
+        } else {
+            addURI(URI);
+            addSearchHistory(URI);
+            setURI('');
+            addSchema(data);
+            addDisplayCode(true);
+            console.log('schema: ', schema);
+          }
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }
+};
 
   return (
     <div className="input-form">
