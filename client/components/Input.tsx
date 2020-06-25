@@ -74,7 +74,7 @@ export const Input: React.FC = (props) => {
         <animated.div style={fade}>
           <h1 className="header"><img className="logo" src="https://i.ibb.co/SdWYTxq/torchql.png" />TorchQL<img className="logo" src="https://i.ibb.co/SdWYTxq/torchql.png" /></h1>
         </animated.div>
-        <label htmlFor="uri-input">AUTOMATICALLY GENERATES GRAPHQL SCHEMA AND RESOLVERS</label>
+        <label htmlFor="uri-input">AUTOGENERATES GRAPHQL SCHEMA AND RESOLVERS</label>
         <div></div>
         <input type='text' autoFocus className="input" name="uri-input" value={URI} onChange={(e) => handleURI(e)} placeholder="Enter Your PostgreSQL Database URI Here"/>
         <div></div>
