@@ -33,6 +33,7 @@ export const Input: React.FC = (props) => {
         .then((data) => {
           if (data === "error") {
             setURI('');
+            uriRef.current.focus();
           } else {
               addURI(URI);
               addSearchHistory(URI);
@@ -59,6 +60,7 @@ export const Input: React.FC = (props) => {
       .then((data) => {
         if (data === "error") {
           setURI('');
+          uriRef.current.focus();
         } else {
             addURI(URI);
             addSearchHistory(URI);
