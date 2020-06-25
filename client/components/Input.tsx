@@ -1,9 +1,10 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useRef } from 'react';
 import HistoryContainer from '../containers/HistoryContainer';
 const { UserContext } = require("../context/UserContext");
 import {useSpring, animated} from 'react-spring'
 
 export const Input: React.FC = (props) => {
+  const uriRef = useRef(null);
   const fade = useSpring({opacity: 1, from: {opacity: 0}})
   const [URI, setURI] = useState<string>('');
   const [historyOpen, setHistoryOpen] = useState<boolean>(false);
@@ -77,7 +78,8 @@ export const Input: React.FC = (props) => {
         </animated.div>
         <label htmlFor="uri-input">AUTOGENERATES GRAPHQL SCHEMA AND RESOLVERS</label>
         <div></div>
-        <input type='text' autoFocus className="input" name="uri-input" value={URI} onChange={(e) => handleURI(e)} placeholder="Enter Your PostgreSQL Database URI Here"/>
+        <input 
+          type='text' ref={uriRef} className="input" name="uri-input" value={URI} onChange={(e) => handleURI(e)} placeholder="Enter Your PostgreSQL Database URI Here"/>
         <div></div>
         <button
           id="submit-uri"
