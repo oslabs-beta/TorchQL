@@ -1,7 +1,9 @@
 import React, { useContext } from 'react';
 const { UserContext } = require("../context/UserContext");
+import {useSpring, animated} from 'react-spring'
 
 export const MySQL: React.FC = () => {
+    const fade = useSpring({opacity: 1, from: {opacity: 0}})
     const { host, user, password, database, addDisplayCode, addHost, addUser, addPassword, addDatabase } = useContext(UserContext);
     const handleHost = (e: React.ChangeEvent<HTMLInputElement>) => {
       addHost(e.target.value);
@@ -81,7 +83,9 @@ export const MySQL: React.FC = () => {
   return (
     <div className="input-form">
       <div className="input-button-row">
-        <h1 className="header">TorchQL</h1>
+        <animated.div style={fade}>
+          <h1 className="header"><img className="logo" src="https://i.ibb.co/SdWYTxq/torchql.png" />TorchQL<img className="logo" src="https://i.ibb.co/SdWYTxq/torchql.png" /></h1>
+        </animated.div>
         <label htmlFor="uri-input">AUTOMATICALLY GENERATES GRAPHQL SCHEMA AND RESOLVERS</label>
         <div></div>
         <input className="input" name="uri-input" value={host} onChange={(e) => handleHost(e)} placeholder="Enter host"/>
@@ -93,13 +97,13 @@ export const MySQL: React.FC = () => {
           id="submit-uri"
           className="main-btn"
           onClick={(e) => handleMySQLSDLInput(e)}
-        > MySQL SDL Schema
+        > SDL Schema
         </button>
         <button
           id="submit-uri"
           className="main-btn"
           onClick={(e) => handleMySQLProgInput(e)}
-        > MySQL Programmatic Schema
+        > Programmatic Schema
         </button>
       </div>
     </div>
