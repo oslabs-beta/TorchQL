@@ -1,12 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Rubik:700&display=swap');
-
-$bg: rgb(253, 236, 205);
-$text: #382b22;
-$light-grey: rgb(230, 230, 230);
-$grey: rgb(218, 218, 218);
-$dark-grey: rgb(189, 189, 189);
-$grey-border: grey;
-$grey-shadow: rgb(218, 218, 218);
+@import './colors';
 
 * {
   box-sizing: border-box;
@@ -48,12 +41,13 @@ button {
   text-decoration: none;
   font-size: inherit;
   font-family: inherit;
+  margin: 0.2rem 0.5rem;
   &.main-btn {
     font-weight: 600;
     color: $text;
     padding: 1.25em 2em;
     background: $grey;
-    border: 2px solid $grey-border;
+    border: 2px solid $border;
     border-radius: 0.75em;
     transform-style: preserve-3d;
     display: inline-block;
@@ -70,7 +64,7 @@ button {
       bottom: 0;
       background: $dark-grey;
       border-radius: inherit;
-      box-shadow: 0 0 0 2px $grey-border, 0 0.625em 0 0 $grey-shadow;
+      box-shadow: 0 0 0 2px $border, 0 0.625em 0 0 $grey-shadow;
       transform: translate3d(0, 0.75em, -1em);
       transition: transform 150ms cubic-bezier(0, 0, 0.58, 1),
         box-shadow 150ms cubic-bezier(0, 0, 0.58, 1);
@@ -79,7 +73,7 @@ button {
       background: $grey;
       transform: translate(0, 0.25em);
       &::before {
-        box-shadow: 0 0 0 2px $grey-border, 0 0.5em 0 0 $grey-shadow;
+        box-shadow: 0 0 0 2px $border, 0 0.5em 0 0 $grey-shadow;
         transform: translate3d(0, 0.5em, -1em);
       }
     }
@@ -87,7 +81,7 @@ button {
       background: $grey;
       transform: translate(0em, 0.75em);
       &::before {
-        box-shadow: 0 0 0 2px $grey-border, 0 0 $grey-shadow;
+        box-shadow: 0 0 0 2px $border, 0 0 $grey-shadow;
         transform: translate3d(0, 0, -1em);
       }
     }
@@ -99,24 +93,23 @@ button {
   box-sizing: border-box;
   align-items: flex-end;
   justify-content: center;
-  box-shadow: 0 0 0 2px $grey-border, 0 0.625em 0 0 $grey-shadow;
+  box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.2);
   font-family: 'Rubik', sans-serif;
   font-size: 1rem;
   line-height: 1.5;
-  margin: 0;
+  margin: 0.5rem 0;
   min-height: 10vh;
   min-width: 100%;
-  background: $bg;
   color: $text;
   padding: 1.25em 2em;
   background: $light-grey;
-  border: 2px solid $grey-border;
+  border: none;
   border-radius: 0.75em;
   display: inline-block;
 }
 
 .input-form {
-  box-shadow: 0 0 0 2px $grey-border, 0 0.625em 0 0 $grey-shadow;
+  box-shadow: 0 0 0 2px $border, 0 0.625em 0 0 $grey-shadow;
   font-family: 'Rubik', sans-serif;
   font-size: 1rem;
   line-height: 1.5;
@@ -127,10 +120,19 @@ button {
   color: $text;
   padding: 1.25em 2em;
   background: $light-grey;
-  border: 2px solid $grey-border;
+  border: 2px solid $border;
   border-width: 1px;
   border-radius: 0.75em;
   display: inline-block;
+  .header-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    img {
+      margin: 0;
+      margin-right: 1rem;
+    }
+  }
 }
 
 .header {

@@ -1,16 +1,24 @@
 import React, { useState, useContext, useEffect, useRef } from 'react';
 import HistoryContainer from '../containers/HistoryContainer';
-const { UserContext } = require("../context/UserContext");
-import {useSpring, animated} from 'react-spring'
+const { UserContext } = require('../context/UserContext');
+import { useSpring, animated } from 'react-spring';
 
 export const Input: React.FC = (props) => {
   const uriRef = useRef(null);
-  const fade = useSpring({opacity: 1, from: {opacity: 0}})
+  const fade = useSpring({ opacity: 1, from: { opacity: 0 } });
   const [URI, setURI] = useState<string>('');
   const [historyOpen, setHistoryOpen] = useState<boolean>(false);
-  const { uri, addURI, schema, displayCode, addDisplayCode, addSchema, addSearchHistory } = useContext(UserContext);
+  const {
+    uri,
+    addURI,
+    schema,
+    displayCode,
+    addDisplayCode,
+    addSchema,
+    addSearchHistory,
+  } = useContext(UserContext);
 
-  useEffect(()=>{
+  useEffect(() => {
     uriRef.current.focus();
   }, []);
 
@@ -31,17 +39,17 @@ export const Input: React.FC = (props) => {
       fetch(`/db/pg/sdl?uri=${URI}`)
         .then((data) => data.json())
         .then((data) => {
-          if (data === "error") {
+          if (data === 'error') {
             setURI('');
             uriRef.current.focus();
           } else {
-              addURI(URI);
-              addSearchHistory(URI);
-              setURI('');
-              addSchema(data);
-              addDisplayCode(true);
-              console.log('schema: ', schema);
-            }
+            addURI(URI);
+            addSearchHistory(URI);
+            setURI('');
+            addSchema(data);
+            addDisplayCode(true);
+            console.log('schema: ', schema);
+          }
         })
         .catch((err) => {
           console.error(err);
@@ -56,12 +64,12 @@ export const Input: React.FC = (props) => {
     event.preventDefault();
     if (URI !== '') {
       fetch(`/db/pg/prog?uri=${URI}`)
-      .then((data) => data.json())
-      .then((data) => {
-        if (data === "error") {
-          setURI('');
-          uriRef.current.focus();
-        } else {
+        .then((data) => data.json())
+        .then((data) => {
+          if (data === 'error') {
+            setURI('');
+            uriRef.current.focus();
+          } else {
             addURI(URI);
             addSearchHistory(URI);
             setURI('');
@@ -69,23 +77,25 @@ export const Input: React.FC = (props) => {
             addDisplayCode(true);
             console.log('schema: ', schema);
           }
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  }
-};
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
+  };
 
   return (
     <div className="input-form">
       <div className="input-button-row">
-        <animated.div style={fade}>
-          <h1 className="header"><img className="logo" src="https://i.ibb.co/SdWYTxq/torchql.png" />TorchQL<img className="logo" src="https://i.ibb.co/SdWYTxq/torchql.png" /></h1>
+        <animated.div style={fade} className="header-container">
+          <img className="logo" src="https://i.ibb.co/SdWYTxq/torchql.png" />
+          <h1 className="header">TorchQL</h1>
         </animated.div>
-        <label htmlFor="uri-input">AUTOGENERATES GRAPHQL SCHEMA AND RESOLVERS</label>
-        <div></div>
-        <input 
-          type='text'
+        <label htmlFor="uri-input">
+          AUTOGENERATES GRAPHQL SCHEMA AND RESOLVERS
+        </label>
+        <input
+          type="text"
           ref={uriRef}
           className="input"
           name="uri-input"
@@ -99,17 +109,17 @@ export const Input: React.FC = (props) => {
           className="main-btn"
           onClick={(e) => handleSDLInput(e)}
         >
-        SDL Schema
+          SDL Schema
         </button>
         <button
           id="submit-uri"
           className="main-btn"
           onClick={(e) => handleProgInput(e)}
         >
-        Programmatic Schema
+          Programmatic Schema
         </button>
         <p className="toggle-history-text" onClick={() => toggleHistory()}>
-        {historyOpen ? <p>Hide Past Searches</p>:<p>View Past Searches</p>}
+          {historyOpen ? <p>Hide Past Searches</p> : <p>View Past Searches</p>}
         </p>
         {historyOpen && <HistoryContainer />}
       </div>

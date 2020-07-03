@@ -1,12 +1,11 @@
-import React, { useState, useContext } from 'react';
+import React from 'react';
 import MainDisplay from './components/MainDisplay';
-const { UserContextProvider } = require("./context/UserContext");
+const { UserContextProvider } = require('./context/UserContext');
 
-import './styles.scss';
+import './scss/styles.scss';
 import { json } from 'body-parser';
 
 const App: React.FC = () => {
-
   return (
     <UserContextProvider>
       <div className="parent">
