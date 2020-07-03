@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React from 'react';
 import MainDisplay from './components/MainDisplay';
 const { UserContextProvider } = require('./context/UserContext');
 
