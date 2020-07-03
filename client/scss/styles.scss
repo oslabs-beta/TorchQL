@@ -1,12 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Rubik:700&display=swap');
-
-$bg: rgb(253, 236, 205);
-$text: #382b22;
-$light-grey: rgb(230, 230, 230);
-$grey: rgb(218, 218, 218);
-$dark-grey: rgb(189, 189, 189);
-$grey-border: grey;
-$grey-shadow: rgb(218, 218, 218);
+@import './colors';
 
 * {
   box-sizing: border-box;
