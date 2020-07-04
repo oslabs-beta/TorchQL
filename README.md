@@ -29,7 +29,7 @@ Playground</a>, a built-in graphical interactive in-browser GraphQL IDE, to
 begin querying your database!
 
 <p align="center">
-<img src="https://github.com/oslabs-beta/TorchQL/blob/dev/screenshot1.png?raw=true" align="center" height="400">
+<img src="https://github.com/oslabs-beta/TorchQL/blob/dev/assetsscreenshot_main.png?raw=true" align="center" height="400">
 </p>
 
 ## How It Works
@@ -50,12 +50,14 @@ select either of the following formats for your GraphQL schema and resolvers:
 After entering your information, a new screen should appear displaying all your
 schema and resolvers properly formatted in a text editor.
 
+&nbsp; &nbsp; <strong>SDL Example</strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp <strong>Programmatic Example</strong>
+
 <p align="center">
-<img src="./demo1.gif" width="600" display=block margin=auto>
-</p>
-&nbsp; &nbsp; <strong>SDL Example</strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp  <strong>Programmatic Example</strong>
-<p align="center">
-<img src="https://github.com/oslabs-beta/TorchQL/blob/dev/screenshot2.png?raw=true" height="400" display=block margin=auto>
+<img src="https://github.com/oslabs-beta/TorchQL/blob/dev/assets/screenshot_side-by-side.png?raw=true" height="400" display=block margin=auto>
 </p>
 
 Click on the **Save Schema** button to save your formatted schema and resolvers
