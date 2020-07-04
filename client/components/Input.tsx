@@ -92,7 +92,7 @@ export const Input: React.FC = (props) => {
           <h1 className="header">TorchQL</h1>
         </animated.div>
         <label htmlFor="uri-input">
-          AUTOGENERATES GRAPHQL SCHEMA AND RESOLVERS
+          AUTOMATICALLY GENERATES GRAPHQL SCHEMA AND RESOLVERS
         </label>
         <input
           type="text"
