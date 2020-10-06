@@ -33,7 +33,7 @@
     "babel-loader": "^8.1.0",
     "chai": "^4.2.0",
     "css-loader": "^3.5.1",
-    "electron": "^8.2.4",
+    "electron": "^8.5.2",
     "electron-chromedriver": "^8.0.0",
     "enzyme": "^3.11.0",
     "html-loader": "^1.1.0",
