@@ -16,7 +16,7 @@ A developer tool to generate a GraphQL API from a known relational database.
 **TorchQL** is an open-source tool to assist developers in the migration from REST APIs to GraphQL.
 It facilitates the task of exposing a GraphQL API over a relational database. In other words, **you
 can use it to implement GraphQL in your application!** Just visit our website
-[here](https://www.torchql.dev/).
+[here](https://www.torchql.com/).
 
 Our developer tool introspects an existing PostgreSQL or MySQL database and generates and returns
 GraphQL schema and resolvers. You can download these schema and resolvers to the desktop or let
