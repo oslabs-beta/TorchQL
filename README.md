@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="50" src="https://github.com/oslabs-beta/TorchQL/blob/dev/torchql.png?raw=true">
+  <img width="50" src="./torchql-head.png?raw=true">
   <h1 align="center">TorchQL</h1>
 </p>
 
@@ -27,7 +27,7 @@ running your unzipped application, you can use
 graphical interactive in-browser GraphQL IDE, to begin querying your database!
 
 <p align="center">
-<img src="https://github.com/oslabs-beta/TorchQL/blob/dev/assets/screenshot_main.png?raw=true" align="center" height="400">
+<img src="./torchql-front.png?raw=true" align="center" height="400">
 </p>
 
 ## How It Works
