@@ -1,6 +1,5 @@
 <p align="center">
-  <img width="50" src="./torchql-head.png?raw=true">
-  <h1 align="center">TorchQL</h1>
+  <img width="200" src="./torchql-head.png?raw=true">
 </p>
 
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/team-reactype/ReacType/pulls)
@@ -27,7 +26,7 @@ running your unzipped application, you can use
 graphical interactive in-browser GraphQL IDE, to begin querying your database!
 
 <p align="center">
-<img src="./torchql-front.png?raw=true" align="center" height="400">
+<img src="./torchql.gif" align="center" height="400">
 </p>
 
 ## How It Works
