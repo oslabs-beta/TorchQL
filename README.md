@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="200" src="./torchql-head.png?raw=true">
+  <img width="400" src="./torchql-head.png?raw=true">
 </p>
 
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/team-reactype/ReacType/pulls)
