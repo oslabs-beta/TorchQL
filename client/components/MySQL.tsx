@@ -1,20 +1,24 @@
 import React, { useContext } from 'react';
 const { UserContext } = require('../context/UserContext');
-import { useSpring, animated } from 'react-spring';
+import { Header } from './Header';
+const { demoDataCreator } = require("../templateFunctions/demoDataCreator");
 
 export const MySQL: React.FC = () => {
-  const fade = useSpring({ opacity: 1, from: { opacity: 0 } });
   const {
     host,
+    schema,
     user,
     password,
     database,
     addDisplayCode,
+    addDisplayStatus,
     addHost,
     addUser,
+    addSchema,
     addPassword,
     addDatabase,
   } = useContext(UserContext);
+  const demoData = demoDataCreator();
   const handleHost = (e: React.ChangeEvent<HTMLInputElement>) => {
     addHost(e.target.value);
   };
@@ -90,32 +94,46 @@ export const MySQL: React.FC = () => {
     }
   };
 
+  const handleSampleInput = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    event.preventDefault();
+    addSchema(demoData);
+    addDisplayCode(true);
+    console.log('schema: ', schema);
+  }
+
   return (
     <div className="input-form">
+      <button
+        className="small-btn"
+        onClick={() => {
+          addDisplayStatus('postgresql');
+        }}
+      >
+        Use PostgresQL Database
+      </button>
       <div className="input-button-row">
-        <animated.div style={fade} className="header-container">
-          <img className="logo" src="https://i.ibb.co/SdWYTxq/torchql.png" />
-          <h1 className="header">TorchQL</h1>
-        </animated.div>
+        <Header />
         <label htmlFor="uri-input">
           AUTOMATICALLY GENERATES GRAPHQL SCHEMA AND RESOLVERS
         </label>
         <input
-          className="input"
+          className="input-mysql"
           name="uri-input"
           value={host}
           onChange={(e) => handleHost(e)}
           placeholder="Enter host"
         />
         <input
-          className="input"
+          className="input-mysql"
           name="uri-input"
           value={user}
           onChange={(e) => handleUser(e)}
           placeholder="Enter user"
         />
         <input
-          className="input"
+          className="input-mysql"
           name="uri-input"
           type="password"
           value={password}
@@ -123,13 +141,20 @@ export const MySQL: React.FC = () => {
           placeholder="Enter password"
         />
         <input
-          className="input"
+          className="input-mysql"
           name="uri-input"
           value={database}
           onChange={(e) => handleDatabase(e)}
           placeholder="Enter database"
         />
         <div></div>
+        <button
+          id="submit-uri"
+          className="main-btn"
+          onClick={(e) => handleSampleInput(e)}
+        >
+          Demo
+        </button>
         <button
           id="submit-uri"
           className="main-btn"
