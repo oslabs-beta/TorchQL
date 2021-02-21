@@ -1,30 +1,31 @@
 import React, { useState, useContext, useEffect, useRef } from 'react';
-import HistoryContainer from '../containers/HistoryContainer';
+// import HistoryContainer from '../containers/HistoryContainer';
 const { UserContext } = require('../context/UserContext');
-import { useSpring, animated } from 'react-spring';
+import { Header } from './Header';
+const { demoDataCreator } = require("../templateFunctions/demoDataCreator");
 
 export const Input: React.FC = (props) => {
   const uriRef = useRef(null);
-  const fade = useSpring({ opacity: 1, from: { opacity: 0 } });
   const [URI, setURI] = useState<string>('');
-  const [historyOpen, setHistoryOpen] = useState<boolean>(false);
+  // const [historyOpen, setHistoryOpen] = useState<boolean>(false);
   const {
-    uri,
     addURI,
     schema,
-    displayCode,
     addDisplayCode,
+    addDisplayStatus,
     addSchema,
-    addSearchHistory,
+    // addSearchHistory,
   } = useContext(UserContext);
+
+  const demoData = demoDataCreator();
 
   useEffect(() => {
     uriRef.current.focus();
   }, []);
 
-  const toggleHistory = () => {
-    setHistoryOpen(!historyOpen);
-  };
+  // const toggleHistory = () => {
+  //   setHistoryOpen(!historyOpen);
+  // };
 
   const handleURI = (e: React.ChangeEvent<HTMLInputElement>) => {
     setURI(e.target.value);
@@ -44,7 +45,7 @@ export const Input: React.FC = (props) => {
             uriRef.current.focus();
           } else {
             addURI(URI);
-            addSearchHistory(URI);
+            // addSearchHistory(URI);
             setURI('');
             addSchema(data);
             addDisplayCode(true);
@@ -71,7 +72,7 @@ export const Input: React.FC = (props) => {
             uriRef.current.focus();
           } else {
             addURI(URI);
-            addSearchHistory(URI);
+            // addSearchHistory(URI);
             setURI('');
             addSchema(data);
             addDisplayCode(true);
@@ -84,13 +85,27 @@ export const Input: React.FC = (props) => {
     }
   };
 
+  const handleSampleInput = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    event.preventDefault();
+    addSchema(demoData);
+    addDisplayCode(true);
+    console.log('schema: ', schema);
+  }
+
   return (
     <div className="input-form">
+      <button
+        className="small-btn"
+        onClick={() => {
+          addDisplayStatus('mysql');
+        }}
+      >
+        Use MySQL Database
+      </button>
       <div className="input-button-row">
-        <animated.div style={fade} className="header-container">
-          <img className="logo" src="https://i.ibb.co/SdWYTxq/torchql.png" />
-          <h1 className="header">TorchQL</h1>
-        </animated.div>
+        <Header />
         <label htmlFor="uri-input">
           AUTOMATICALLY GENERATES GRAPHQL SCHEMA AND RESOLVERS
         </label>
@@ -107,6 +122,13 @@ export const Input: React.FC = (props) => {
         <button
           id="submit-uri"
           className="main-btn"
+          onClick={(e) => handleSampleInput(e)}
+        >
+          Demo
+        </button>
+        <button
+          id="submit-uri"
+          className="main-btn"
           onClick={(e) => handleSDLInput(e)}
         >
           SDL Schema
@@ -118,10 +140,10 @@ export const Input: React.FC = (props) => {
         >
           Programmatic Schema
         </button>
-        <p className="toggle-history-text" onClick={() => toggleHistory()}>
+        {/* <p className="toggle-history-text" onClick={() => toggleHistory()}>
           {historyOpen ? <p>Hide Past Searches</p> : <p>View Past Searches</p>}
         </p>
-        {historyOpen && <HistoryContainer />}
+        {historyOpen && <HistoryContainer />} */}
       </div>
     </div>
   );
