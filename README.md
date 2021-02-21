@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="400" src="./torchql-head.png?raw=true">
+  <img width="400" src=".assets/torchql-head.png?raw=true">
 </p>
 
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/team-reactype/ReacType/pulls)
@@ -26,7 +26,7 @@ running your unzipped application, you can use
 graphical interactive in-browser GraphQL IDE, to begin querying your database!
 
 <p align="center">
-<img src="./torchql.gif" align="center" height="400">
+<img src="./assets/torchql.gif" align="center" height="400">
 </p>
 
 ## How It Works
@@ -52,7 +52,7 @@ properly formatted in a text editor.
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <strong>Programmatic Example</strong>
 
 <p align="center">
-<img src="./torchql-schema.jpg?raw=true" height="400" display=block margin=auto>
+<img src=".assets/torchql-schema.jpg?raw=true" height="400" display=block margin=auto>
 </p>
 
 Click on the **Save Schema** button to save your formatted schema and resolvers to the desktop.
@@ -81,7 +81,7 @@ localhost:3000/<a href="https://github.com/prisma-labs/graphql-playground">playg
 browser, and now you can begin querying your database!
 
 <p align="center">
-<img src="./demo2.gif" width="600" display=block margin=auto>
+<img src=".assets/download-demo.gif" width="600" display=block margin=auto>
 </p>
 
 ## Contributing
