@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="400" src=".assets/torchql-head.png?raw=true">
+  <img width="400" src="./assets/torchql-head.png?raw=true">
 </p>
 
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/team-reactype/ReacType/pulls)
@@ -52,7 +52,7 @@ properly formatted in a text editor.
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <strong>Programmatic Example</strong>
 
 <p align="center">
-<img src=".assets/torchql-schema.jpg?raw=true" height="400" display=block margin=auto>
+<img src="./assets/torchql-schema.jpg?raw=true" height="400" display=block margin=auto>
 </p>
 
 Click on the **Save Schema** button to save your formatted schema and resolvers to the desktop.
