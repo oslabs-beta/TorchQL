@@ -124,26 +124,38 @@ button {
   }
 } 
 
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .header {
-  font-family: 'Rubik', sans-serif;
+  font-family: "Rubik", sans-serif;
   font-size: 5rem;
   line-height: 1.5;
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 0;
-  background: $light-grey;
+  background: $bg;
   text-overflow: clip;
 }
 
-.toggle-history-text {
-  cursor: pointer;
-}
+// .toggle-history-text {
+//   cursor: pointer;
+// }
 
 .logo {
   height: 120px;
-  width: 40px;
+  width: 400px;
   margin-left: 20px;
   margin-right: 20px;
-  margin-bottom: 40px;
+  margin-bottom: 10px;
+}
+
+.CodeMirror {
+  width: 80vw;
+  height: 60vh;
+  overflow: hidden;
 }
