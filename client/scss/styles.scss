@@ -1,5 +1,5 @@
-@import url('https://fonts.googleapis.com/css?family=Rubik:700&display=swap');
-@import './colors';
+@import url("https://fonts.googleapis.com/css?family=Rubik:700&display=swap");
+@import "./colors";
 
 * {
   box-sizing: border-box;
@@ -10,7 +10,7 @@
 }
 
 body {
-  font-family: 'Rubik', sans-serif;
+  font-family: "Rubik", sans-serif;
   font-size: 1rem;
   line-height: 1.5;
   display: flex;
@@ -19,16 +19,13 @@ body {
   justify-content: center;
   margin: 0;
   min-height: 100vh;
-  background: $bg;
+  background: $light-grey;
 }
 .container {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  .codemirror {
-    width: 80vw;
-  }
 }
 
 button {
@@ -41,50 +38,25 @@ button {
   text-decoration: none;
   font-size: inherit;
   font-family: inherit;
-  margin: 0.2rem 0.5rem;
+  &.small-btn {
+    left: -20px;
+    top: -10px;
+    font-weight: 600;
+    color: $text;
+    border: 1px solid $border;
+    border-radius: 0.3em;
+    background: $grey;
+    display: inline-block;
+  }
   &.main-btn {
     font-weight: 600;
     color: $text;
     padding: 1.25em 2em;
     background: $grey;
     border: 2px solid $border;
-    border-radius: 0.75em;
+    border-radius: 0.3em;
     transform-style: preserve-3d;
     display: inline-block;
-    transition: transform 150ms cubic-bezier(0, 0, 0.58, 1),
-      background 150ms cubic-bezier(0, 0, 0.58, 1);
-    &::before {
-      position: absolute;
-      content: '';
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: $dark-grey;
-      border-radius: inherit;
-      box-shadow: 0 0 0 2px $border, 0 0.625em 0 0 $grey-shadow;
-      transform: translate3d(0, 0.75em, -1em);
-      transition: transform 150ms cubic-bezier(0, 0, 0.58, 1),
-        box-shadow 150ms cubic-bezier(0, 0, 0.58, 1);
-    }
-    &:hover {
-      background: $grey;
-      transform: translate(0, 0.25em);
-      &::before {
-        box-shadow: 0 0 0 2px $border, 0 0.5em 0 0 $grey-shadow;
-        transform: translate3d(0, 0.5em, -1em);
-      }
-    }
-    &:active {
-      background: $grey;
-      transform: translate(0em, 0.75em);
-      &::before {
-        box-shadow: 0 0 0 2px $border, 0 0 $grey-shadow;
-        transform: translate3d(0, 0, -1em);
-      }
-    }
   }
 }
 
