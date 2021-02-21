@@ -81,7 +81,7 @@ localhost:3000/<a href="https://github.com/prisma-labs/graphql-playground">playg
 browser, and now you can begin querying your database!
 
 <p align="center">
-<img src=".assets/download-demo.gif" width="600" display=block margin=auto>
+<img src="./assets/download-demo.gif" width="600" display=block margin=auto>
 </p>
 
 ## Contributing
