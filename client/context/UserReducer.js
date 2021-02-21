@@ -8,6 +8,10 @@ export default function reducer (state, action) {
       return {
         ...state, displayCode: action.payload
       };
+    case "ADD_DISPLAYSTATUS":
+      return {
+        ...state, displayStatus: action.payload
+      };
     case "ADD_SCHEMA":
       return {
         ...state, schema: action.payload
