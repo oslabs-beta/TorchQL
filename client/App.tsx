@@ -3,7 +3,6 @@ import MainDisplay from './components/MainDisplay';
 const { UserContextProvider } = require('./context/UserContext');
 
 import './scss/styles.scss';
-import { json } from 'body-parser';
 
 const App: React.FC = () => {
   return (
