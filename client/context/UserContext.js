@@ -5,6 +5,7 @@ export const UserContext = createContext(initialState);
 const initialState = {
   uri: '',
   displayCode: false, 
+  displayStatus: 'postgresql',
   schema: '',
   host: '',
   user: '',
@@ -27,6 +28,13 @@ export const UserContextProvider = props => {
   function addDisplayCode(id) {
     dispatch({
       type: 'ADD_DISPLAYCODE',
+      payload: id
+    });
+  }
+
+  function addDisplayStatus(id) {
+    dispatch({
+      type: 'ADD_DISPLAYSTATUS',
       payload: id
     });
   }
@@ -72,6 +80,7 @@ export const UserContextProvider = props => {
     <UserContext.Provider value={{
       uri: state.uri,
       displayCode: state.displayCode,
+      displayStatus: state.displayStatus,
       schema: state.schema,
       host: state.host,
       user: state.user,
@@ -80,6 +89,7 @@ export const UserContextProvider = props => {
       searchHistory: state.searchHistory,
       addURI,
       addDisplayCode,
+      addDisplayStatus,
       addSchema,
       addHost,
       addUser,

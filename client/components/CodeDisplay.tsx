@@ -4,6 +4,7 @@ import '../../node_modules/codemirror/mode/javascript/javascript';
 import '../../node_modules/codemirror/lib/codemirror.css';
 import '../../node_modules/codemirror/theme/dracula.css';
 import e from 'express';
+import { Header } from './Header';
 const { packagejsonCreator } = require("../templateFunctions/packagejsonCreator");
 const { serverCreator } = require("../templateFunctions/serverCreator");
 const { dbconnectCreator } = require("../templateFunctions/dbconnectCreator");
@@ -57,6 +58,7 @@ export const CodeDisplay: React.FC = (props) => {
 
   return (
     <div id="codemirror-div">
+      <Header />
       <CodeMirror
         className="codemirror"
         value={schema}
