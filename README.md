@@ -52,7 +52,7 @@ properly formatted in a text editor.
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <strong>Programmatic Example</strong>
 
 <p align="center">
-<img src="https://github.com/oslabs-beta/TorchQL/blob/dev/assets/screenshot_side-by-side.png?raw=true" height="400" display=block margin=auto>
+<img src="./torchql-schema.jpg?raw=true" height="400" display=block margin=auto>
 </p>
 
 Click on the **Save Schema** button to save your formatted schema and resolvers to the desktop.
