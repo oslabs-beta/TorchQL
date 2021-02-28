@@ -57,9 +57,14 @@ TypeGenerator._getRelationships = function getRelationships(tableName, tables) {
   const relationsAdded = [];
   for (let refTableName in tables[tableName].referencedBy) {
     const { referencedBy: foreignRefBy, foreignKeys: foreignFKeys, columns: foreignColumns } = tables[refTableName];
-    const refTableType = toPascalCase(singular(refTableName));
     // One-to-one
-    if (foreignRefBy && foreignRefBy[tableName]) relationships += `\n    ${toCamelCase(singular(reftableName))}: ${refTableType}`;
+    if (foreignRefBy && foreignRefBy[tableName]) {
+      if (!relationsAdded.includes(refTableName)) {
+        relationsAdded.push(refTableName);
+        const refTableType = toPascalCase(singular(refTableName));
+        relationships += `\n    ${toCamelCase(singular(reftableName))}: ${refTableType}`;
+      }
+    }
     // One-to-many
     else if (Object.keys(foreignColumns).length !== Object.keys(foreignFKeys).length + 1) relationships += `\n    ${toCamelCase(refTableName)}: [${refTableType}]`;
     // Many-to-many
