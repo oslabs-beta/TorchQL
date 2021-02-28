@@ -1,0 +1,161 @@
+@import url("https://fonts.googleapis.com/css?family=Rubik:700&display=swap");
+@import "./colors";
+
+* {
+  box-sizing: border-box;
+  &::before,
+  &::after {
+    box-sizing: border-box;
+  }
+}
+
+body {
+  font-family: "Rubik", sans-serif;
+  font-size: 1rem;
+  line-height: 1.5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  min-height: 100vh;
+  background: $light-grey;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+button {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  outline: none;
+  border: 0;
+  vertical-align: middle;
+  text-decoration: none;
+  font-size: inherit;
+  font-family: inherit;
+  &.small-btn {
+    left: -20px;
+    top: -10px;
+    font-weight: 600;
+    color: $text;
+    border: 1px solid $border;
+    border-radius: 0.3em;
+    background: $grey;
+    display: inline-block;
+  }
+  &.main-btn {
+    font-weight: 600;
+    color: $text;
+    padding: 1.25em 2em;
+    background: $grey;
+    border: 2px solid $border;
+    border-radius: 0.3em;
+    transform-style: preserve-3d;
+    display: inline-block;
+  }
+}
+
+.input,
+.input-mysql {
+  display: flex;
+  box-sizing: border-box;
+  align-items: flex-end;
+  justify-content: center;
+  box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.2);
+  font-family: "Rubik", sans-serif;
+  font-size: 1rem;
+  line-height: 1.5;
+  margin: 0.5rem 0;
+  min-width: 100%;
+  color: $text;
+  padding: 1.25em 2em;
+  background: $light-grey;
+  border: none;
+  border-radius: 0.75em;
+  display: inline-block;
+}
+
+.input-mysql {
+  max-height: 2vh;
+}
+
+@media (min-width: 1025px) and (max-width: 1280px){
+  .input-form {
+    box-shadow: 0 0 0 2px $border, 0 0.625em 0 0 $grey-shadow;
+    font-family: "Rubik", sans-serif;
+    font-size: 1rem;
+    line-height: 1.5;
+    margin: 0;
+    min-height: 20vh;
+    width: 600px;
+    background: $bg;
+    color: $text;
+    padding: 1.25em 2em;
+    background: $bg;
+    border: 2px solid $border;
+    border-width: 1px;
+    border-radius: 0.75em;
+    display: inline-block;
+  }
+}
+
+@media (max-width : 1024px){
+  .input-form {
+    box-shadow: 0 0 0 2px $border, 0 0.625em 0 0 $grey-shadow;
+    font-family: "Rubik", sans-serif;
+    font-size: 1rem;
+    line-height: 1.5;
+    margin: 0;
+    min-height: 20vh;
+    width: 610px;
+    background: $bg;
+    color: $text;
+    padding: 1.25em 2em;
+    background: $bg;
+    border: 2px solid $border;
+    border-width: 1px;
+    border-radius: 0.75em;
+    display: inline-block;
+  }
+} 
+
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header {
+  font-family: "Rubik", sans-serif;
+  font-size: 5rem;
+  line-height: 1.5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  background: $bg;
+  text-overflow: clip;
+}
+
+// .toggle-history-text {
+//   cursor: pointer;
+// }
+
+.logo {
+  height: 120px;
+  width: 400px;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-bottom: 10px;
+}
+
+.CodeMirror {
+  width: 80vw;
+  height: 60vh;
+  overflow: hidden;
+}
