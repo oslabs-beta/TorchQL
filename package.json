@@ -75,7 +75,7 @@
     "url": "git+https://github.com/oslabs-beta/torchql.git"
   },
   "author": "Sara Chang, Jimmy Chen, Mark Fusco, Zac Haluza, Eric Tang",
-  "license": "ISC",
+  "license": "NIH",
   "bugs": {
     "url": "https://github.com/oslabs-beta/torchql/issues"
   },
