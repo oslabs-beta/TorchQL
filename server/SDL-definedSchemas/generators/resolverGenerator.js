@@ -40,6 +40,13 @@ ResolverGenerator.getRelationships = function getRelationships(tableName, tables
         relationships += this._manyToMany(tableName, primaryKey, refTableName, refKey, manyRefKey, manyToManyTable, manyPrimaryKey);
       }
     }
+    for (const fkTableName in tables[tableName].foreignKeys) {
+      const object = tables[tableName].foreignKeys[fkTableName];
+      const refTableName = object.referenceTable;
+      const refKey = object.referenceKey;
+      const newQuery = this._fkTable(tableName, primaryKey, tableName, refKey, fkTableName, refTableName, primaryKey)
+      if (!relationships.includes(newQuery)) relationships += newQuery 
+    }
   }
   relationships += '  },\n'
   return relationships;
@@ -80,6 +87,19 @@ ResolverGenerator._manyToMany = function manyToMany(tableName, primaryKey, joinT
     + '        throw new Error(err)\n'
     + '      }\n'
     + '    },\n';
+};
+
+ResolverGenerator._fkTable = function fkTable(tableName, primaryKey, joinTableName, refKey, manyRefKey, manyTableName, manyPrimaryKey) {
+  const camTableName = toCamelCase(tableName);
+  return `    ${toCamelCase(manyTableName)}: (${camTableName}) => {\n` +
+    '      try {\n' +
+    `        const query = \'SELECT ${manyTableName}.* FROM ${manyTableName} LEFT OUTER JOIN ${joinTableName} ON ${manyTableName}.${manyPrimaryKey} = ${joinTableName}.${manyRefKey} WHERE ${joinTableName}.${refKey} = $1\';\n` +
+    `        const values = [${camTableName}.${primaryKey}]\n` +
+    '        return db.query(query, values).then((res) => res.rows);\n' +
+    '      } catch (err) {\n' +
+    '        throw new Error(err)\n' +
+    '      }\n' +
+    '    },\n';
 };
 
 ResolverGenerator._createValues = function values(primaryKey, foreignKeys, columns) {
