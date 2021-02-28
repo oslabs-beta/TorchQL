@@ -84,6 +84,14 @@ TypeGenerator._getRelationships = function getRelationships(tableName, tables) {
       }
     }
   }
+  for (const fkTableName in tables[tableName].foreignKeys) {
+    const object = tables[tableName].foreignKeys[fkTableName];
+    const refTableName = object.referenceTable;
+    if (refTableName) {
+      const refTableType = toPascalCase(singular(refTableName));
+      relationships += `\n    ${toCamelCase(refTableName)}: [${refTableType}]`;
+    }
+  }
   return relationships;
 };
 
