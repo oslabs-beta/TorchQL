@@ -25,7 +25,6 @@ ResolverGenerator.getRelationships = function getRelationships(tableName, tables
   let relationships = `\n  ${toPascalCase(singular(tableName))}: {\n`;
   for (let refTableName in referencedBy) {
     const { referencedBy: foreignRefBy, foreignKeys: foreignFKeys, columns: foreignColumns } = tables[refTableName];
-    const refTableType = toPascalCase(singular(refTableName));
     // One-to-one
     if (foreignRefBy && foreignRefBy[tableName]) relationships += this._oneToOne(tableName, primaryKey, refTableName, referencedBy[refTableName]);
     // One-to-many
