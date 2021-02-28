@@ -6,6 +6,7 @@ const ResolverGenerator = {
 };
 
 ResolverGenerator.queries = function queries(tableName, { primaryKey }) {
+  this._values = {};
   return `\n${this._columnQuery(tableName, primaryKey)}`
     + `\n${this._allColumnQuery(tableName)}`;
 };
@@ -24,7 +25,6 @@ ResolverGenerator.getRelationships = function getRelationships(tableName, tables
   let relationships = `\n  ${toPascalCase(singular(tableName))}: {\n`;
   for (let refTableName in referencedBy) {
     const { referencedBy: foreignRefBy, foreignKeys: foreignFKeys, columns: foreignColumns } = tables[refTableName];
-    const refTableType = toPascalCase(singular(refTableName));
     // One-to-one
     if (foreignRefBy && foreignRefBy[tableName]) relationships += this._oneToOne(tableName, primaryKey, refTableName, referencedBy[refTableName]);
     // One-to-many
@@ -39,46 +39,66 @@ ResolverGenerator.getRelationships = function getRelationships(tableName, tables
         relationships += this._manyToMany(tableName, primaryKey, refTableName, refKey, manyRefKey, manyToManyTable, manyPrimaryKey);
       }
     }
+    for (const fkTableName in tables[tableName].foreignKeys) {
+      const object = tables[tableName].foreignKeys[fkTableName];
+      const refTableName = object.referenceTable;
+      const refKey = object.referenceKey;
+      const newQuery = this._fkTable(tableName, primaryKey, tableName, refKey, fkTableName, refTableName, primaryKey)
+      if (!relationships.includes(newQuery)) relationships += newQuery 
+    }
   }
   relationships += '  },\n'
   return relationships;
 };
 
 ResolverGenerator._oneToOne = function oneToOne(tableName, primaryKey, refTableName, refKey) {
-  return `    ${toCamelCase(refTableName)}: (${toCamelCase(tableName)}) => {\n`
+  return `    ${toCamelCase(refTableName)}: async (${toCamelCase(tableName)}) => {\n`
     + '      try {\n'
     + `        const query = \'SELECT * FROM ${refTableName} WHERE ${refKey} = $1\';\n`
     + `        const values = [${primaryKey}]\n`
-    + '        return db.query(query, values).then((res) => res.rows[0]);\n'
+    + '        return await db.query(query, values).then((res) => res.rows[0]);\n'
     + '      } catch (err) {\n'
-    + '        throw new Error(err)\n'
+    + '\n'
     + '      }\n'
     + '    },\n';
 };
 
 ResolverGenerator._oneToMany = function oneToMany(tableName, primaryKey, refTableName, refKey) {
-  return `    ${toCamelCase(refTableName)}: (${toCamelCase(tableName)}) => {\n`
+  return `    ${toCamelCase(refTableName)}: async (${toCamelCase(tableName)}) => {\n`
     + '      try {\n'
     + `        const query = \'SELECT * FROM ${refTableName} WHERE ${refKey} = $1\';\n`
-    + `        const values = [${primaryKey}]\n`
-    + '        return db.query(query, values).then((res) => res.rows);\n'
+    + `        const values = [${tableName}.${primaryKey}]\n`
+    + '        return await db.query(query, values).then((res) => res.rows);\n'
     + '      } catch (err) {\n'
-    + '        throw new Error(err)\n'
+    + '\n'
     + '      }\n'
     + '    },\n';
 };
 
 ResolverGenerator._manyToMany = function manyToMany(tableName, primaryKey, joinTableName, refKey, manyRefKey, manyTableName, manyPrimaryKey) {
   const camTableName = toCamelCase(tableName);
-  return `    ${toCamelCase(manyTableName)}: (${camTableName}) => {\n`
+  return `    ${toCamelCase(manyTableName)}: async (${camTableName}) => {\n`
     + '      try {\n'
     + `        const query = \'SELECT * FROM ${manyTableName} LEFT OUTER JOIN ${joinTableName} ON ${manyTableName}.${manyPrimaryKey} = ${joinTableName}.${manyRefKey} WHERE ${joinTableName}.${refKey} = $1\';\n`
     + `        const values = [${camTableName}.${primaryKey}]\n`
-    + '        return db.query(query, values).then((res) => res.rows);\n'
+    + '        return await db.query(query, values).then((res) => res.rows);\n'
     + '      } catch (err) {\n'
-    + '        throw new Error(err)\n'
+    + '\n'
     + '      }\n'
     + '    },\n';
+};
+
+ResolverGenerator._fkTable = function fkTable(tableName, primaryKey, joinTableName, refKey, manyRefKey, manyTableName, manyPrimaryKey) {
+  const camTableName = toCamelCase(tableName);
+  return `    ${toCamelCase(manyTableName)}: async (${camTableName}) => {\n` +
+    '      try {\n' +
+    `        const query = \'SELECT ${manyTableName}.* FROM ${manyTableName} LEFT OUTER JOIN ${joinTableName} ON ${manyTableName}.${manyPrimaryKey} = ${joinTableName}.${manyRefKey} WHERE ${joinTableName}.${refKey} = $1\';\n` +
+    `        const values = [${camTableName}.${primaryKey}]\n` +
+    '        return await db.query(query, values).then((res) => res.rows);\n' +
+    '      } catch (err) {\n' +
+    '\n' +
+    '      }\n' +
+    '    },\n';
 };
 
 ResolverGenerator._createValues = function values(primaryKey, foreignKeys, columns) {

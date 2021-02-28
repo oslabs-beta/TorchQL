@@ -9,7 +9,7 @@ function packagejsonCreator() {
       "start": "nodemon server/server.js"
     },
     "author": "Sara Chang, Jimmy Chen, Mark Fusco, Zac Haluza, Eric Tang",
-    "license": "ISC",
+    "license": "NIH",
     "dependencies": {
       "dotenv": "^8.2.0",
       "express": "^4.17.1",

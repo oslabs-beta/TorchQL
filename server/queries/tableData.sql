@@ -38,7 +38,7 @@ LEFT OUTER JOIN (                                                            -- 
   ) AS referenced_by
   FROM pg_constraint
   WHERE  contype = 'f' AND connamespace = 'public'::regnamespace
-  GROUP BY pg_get_constraintdef(oid)
+  GROUP BY table_name
 ---------------------------------------------------------------------------------------------------
 ) AS rd
 ON pk.table_name::regclass = rd.table_name::regclass

@@ -7,7 +7,7 @@ router.get(
   pgController.getPGTables,
   pgController.assembleSDLSchema,
   (req, res) => {
-    console.log(res.locals.SDLSchema);
+    // console.log(res.locals.SDLSchema);
     res.status(200).json(res.locals.SDLSchema);
   }
 );
@@ -23,7 +23,7 @@ router.get('/prog',
   pgProgController.formatMutations,
   pgProgController.assembleProgSchema,
   (req, res) => {
-    console.log(res.locals.progSchema);
+    // console.log(res.locals.progSchema);
     res.status(200).json(res.locals.progSchema);
   }
 );
