@@ -6,6 +6,7 @@ const ResolverGenerator = {
 };
 
 ResolverGenerator.queries = function queries(tableName, { primaryKey }) {
+  this._values = {};
   return `\n${this._columnQuery(tableName, primaryKey)}`
     + `\n${this._allColumnQuery(tableName)}`;
 };
