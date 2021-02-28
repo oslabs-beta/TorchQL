@@ -54,6 +54,7 @@ TypeGenerator._columns = function columns(primaryKey, foreignKeys, columns) {
 // Get table relationships
 TypeGenerator._getRelationships = function getRelationships(tableName, tables) {
   let relationships = '';
+  const relationsAdded = [];
   for (let refTableName in tables[tableName].referencedBy) {
     const { referencedBy: foreignRefBy, foreignKeys: foreignFKeys, columns: foreignColumns } = tables[refTableName];
     const refTableType = toPascalCase(singular(refTableName));
