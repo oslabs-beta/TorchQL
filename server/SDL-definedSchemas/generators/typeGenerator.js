@@ -76,8 +76,11 @@ TypeGenerator._getRelationships = function getRelationships(tableName, tables) {
     // Many-to-many
     for (let foreignFKey in foreignFKeys) {
       if (tableName !== foreignFKeys[foreignFKey].referenceTable) { // Do not include original table in output
-        const manyToManyTable = toCamelCase(foreignFKeys[foreignFKey].referenceTable);
-        relationships += `\n    ${manyToManyTable}: [${toPascalCase(singular(manyToManyTable))}]`;
+        if (!relationsAdded.includes(refTableName)) {
+          relationsAdded.push(refTableName);
+          const manyToManyTable = toCamelCase(foreignFKeys[foreignFKey].referenceTable);
+          relationships += `\n    ${manyToManyTable}: [${toPascalCase(singular(manyToManyTable))}]`;
+        }
       }
     }
   }
