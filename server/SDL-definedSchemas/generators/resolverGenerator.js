@@ -59,7 +59,7 @@ ResolverGenerator._oneToOne = function oneToOne(tableName, primaryKey, refTableN
     + `        const values = [${primaryKey}]\n`
     + '        return await db.query(query, values).then((res) => res.rows[0]);\n'
     + '      } catch (err) {\n'
-    + '        throw new Error(err)\n'
+    + '\n'
     + '      }\n'
     + '    },\n';
 };
@@ -71,7 +71,7 @@ ResolverGenerator._oneToMany = function oneToMany(tableName, primaryKey, refTabl
     + `        const values = [${primaryKey}]\n`
     + '        return await db.query(query, values).then((res) => res.rows);\n'
     + '      } catch (err) {\n'
-    + '        throw new Error(err)\n'
+    + '\n'
     + '      }\n'
     + '    },\n';
 };
@@ -84,7 +84,7 @@ ResolverGenerator._manyToMany = function manyToMany(tableName, primaryKey, joinT
     + `        const values = [${camTableName}.${primaryKey}]\n`
     + '        return await db.query(query, values).then((res) => res.rows);\n'
     + '      } catch (err) {\n'
-    + '        throw new Error(err)\n'
+    + '\n'
     + '      }\n'
     + '    },\n';
 };
@@ -97,7 +97,7 @@ ResolverGenerator._fkTable = function fkTable(tableName, primaryKey, joinTableNa
     `        const values = [${camTableName}.${primaryKey}]\n` +
     '        return await db.query(query, values).then((res) => res.rows);\n' +
     '      } catch (err) {\n' +
-    '        throw new Error(err)\n' +
+    '\n' +
     '      }\n' +
     '    },\n';
 };
