@@ -68,7 +68,7 @@ ResolverGenerator._oneToMany = function oneToMany(tableName, primaryKey, refTabl
   return `    ${toCamelCase(refTableName)}: async (${toCamelCase(tableName)}) => {\n`
     + '      try {\n'
     + `        const query = \'SELECT * FROM ${refTableName} WHERE ${refKey} = $1\';\n`
-    + `        const values = [${primaryKey}]\n`
+    + `        const values = [${tableName}.${primaryKey}]\n`
     + '        return await db.query(query, values).then((res) => res.rows);\n'
     + '      } catch (err) {\n'
     + '\n'
