@@ -66,7 +66,13 @@ TypeGenerator._getRelationships = function getRelationships(tableName, tables) {
       }
     }
     // One-to-many
-    else if (Object.keys(foreignColumns).length !== Object.keys(foreignFKeys).length + 1) relationships += `\n    ${toCamelCase(refTableName)}: [${refTableType}]`;
+    else if (Object.keys(foreignColumns).length !== Object.keys(foreignFKeys).length + 1) {
+      if (!relationsAdded.includes(refTableName)) {
+        relationsAdded.push(refTableName);
+        const refTableType = toPascalCase(singular(refTableName));
+        relationships += `\n    ${toCamelCase(refTableName)}: [${refTableType}]`;
+      }
+    }
     // Many-to-many
     for (let foreignFKey in foreignFKeys) {
       if (tableName !== foreignFKeys[foreignFKey].referenceTable) { // Do not include original table in output
