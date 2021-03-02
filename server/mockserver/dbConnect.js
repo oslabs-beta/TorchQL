@@ -1,7 +1,5 @@
-function dbconnectCreator(uri) {
-  const fileContent =
-  `const { Pool } = require('pg');
-const PG_URI = '${uri}';
+const { Pool } = require('pg');
+const PG_URI = 'postgres://imvgunqg:NZ7GfBlp74-04PTho1XetRNgaOPgTDXi@drona.db.elephantsql.com:5432/imvgunqg';
 const pool = new Pool({ connectionString: PG_URI });
 
 module.exports = {
@@ -10,12 +8,3 @@ module.exports = {
     return pool.query(text, params, callback);
   },
 };
-`;
-return fileContent;
-}
-
-module.exports = {
-  dbconnectCreator
-};
-
-

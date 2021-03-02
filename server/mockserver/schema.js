@@ -1,17 +1,19 @@
+const { makeExecutableSchema } = require('graphql-tools');
+const db = require('./dbConnect');
 const typeDefs = `
   type Query {
     people: [Person!]!
-    person(id: Int!): Person!
+    person(_id: Int!): Person!
     films: [Film!]!
-    film(id: Int!): Film!
+    film(_id: Int!): Film!
     planets: [Planet!]!
-    planet(id: Int!): Planet!
+    planet(_id: Int!): Planet!
     species: [Species!]!
-    speciesByID(id: Int!): Species!
+    speciesByID(_id: Int!): Species!
     vessels: [Vessel!]!
-    vessel(id: Int!): Vessel!
+    vessel(_id: Int!): Vessel!
     starshipSpecs: [StarshipSpec!]!
-    starshipSpec(id: Int!): StarshipSpec!
+    starshipSpec(_id: Int!): StarshipSpec!
   }
 
   type Mutation {
@@ -159,8 +161,10 @@ const typeDefs = `
     eye_color: String
     name: String!
     birth_year: String
-    vessels: [Vessel]
     films: [Film]
+    vessels: [Vessel]
+    species: [Species]
+    planets: [Planet]
   }
 
   type Film {
@@ -172,8 +176,8 @@ const typeDefs = `
     release_date: String!
     producer: String!
     planets: [Planet]
-    vessels: [Vessel]
     people: [Person]
+    vessels: [Vessel]
     species: [Species]
   }
 
@@ -189,6 +193,8 @@ const typeDefs = `
     rotation_period: Int
     diameter: Int
     films: [Film]
+    species: [Species]
+    people: [Person]
   }
 
   type Species {
@@ -202,8 +208,8 @@ const typeDefs = `
     eye_colors: String
     language: String
     people: [Person]
-    planets: [Planet]
     films: [Film]
+    planets: [Planet]
   }
 
   type Vessel {
@@ -229,6 +235,7 @@ const typeDefs = `
     _id: Int!
     MGLT: String
     hyperdrive_rating: String
+    vessels: [Vessel]
   }
 
 `;
@@ -369,8 +376,8 @@ const resolvers = {
     },
 
     createFilm: (parent, args) => {
-      const query = 'INSERT INTO films(director, opening_crawl, episode_id, title, release_date, producer, name, birth_year) VALUES($1, $2, $3, $4, $5, $6, $7, $8)';
-      const values = [args.director, args.opening_crawl, args.episode_id, args.title, args.release_date, args.producer, args.name, args.birth_year];
+      const query = 'INSERT INTO films(director, opening_crawl, episode_id, title, release_date, producer) VALUES($1, $2, $3, $4, $5, $6)';
+      const values = [args.director, args.opening_crawl, args.episode_id, args.title, args.release_date, args.producer];
       try {
         return db.query(query, values);
       } catch (err) {
@@ -379,8 +386,8 @@ const resolvers = {
     },
     updateFilm: (parent, args) => {
       try {
-        const query = 'UPDATE films SET director=$1 opening_crawl=$2 episode_id=$3 title=$4 release_date=$5 producer=$6 name=$7 birth_year=$8  WHERE _id = $9';
-        const values = [args.director, args.opening_crawl, args.episode_id, args.title, args.release_date, args.producer, args.name, args.birth_year, args._id];
+        const query = 'UPDATE films SET director=$1 opening_crawl=$2 episode_id=$3 title=$4 release_date=$5 producer=$6  WHERE _id = $7';
+        const values = [args.director, args.opening_crawl, args.episode_id, args.title, args.release_date, args.producer, args._id];
         return db.query(query).then((res) => res.rows);
       } catch (err) {
         throw new Error(err);
@@ -425,8 +432,8 @@ const resolvers = {
     },
 
     createSpecies: (parent, args) => {
-      const query = 'INSERT INTO species(hair_colors, name, classification, average_height, average_lifespan, skin_colors, eye_colors, language, diameter) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)';
-      const values = [args.hair_colors, args.name, args.classification, args.average_height, args.average_lifespan, args.skin_colors, args.eye_colors, args.language, args.diameter];
+      const query = 'INSERT INTO species(hair_colors, name, classification, average_height, average_lifespan, skin_colors, eye_colors, language) VALUES($1, $2, $3, $4, $5, $6, $7, $8)';
+      const values = [args.hair_colors, args.name, args.classification, args.average_height, args.average_lifespan, args.skin_colors, args.eye_colors, args.language];
       try {
         return db.query(query, values);
       } catch (err) {
@@ -435,8 +442,8 @@ const resolvers = {
     },
     updateSpecies: (parent, args) => {
       try {
-        const query = 'UPDATE species SET hair_colors=$1 name=$2 classification=$3 average_height=$4 average_lifespan=$5 skin_colors=$6 eye_colors=$7 language=$8 diameter=$9  WHERE _id = $10';
-        const values = [args.hair_colors, args.name, args.classification, args.average_height, args.average_lifespan, args.skin_colors, args.eye_colors, args.language, args.diameter, args._id];
+        const query = 'UPDATE species SET hair_colors=$1 name=$2 classification=$3 average_height=$4 average_lifespan=$5 skin_colors=$6 eye_colors=$7 language=$8  WHERE _id = $9';
+        const values = [args.hair_colors, args.name, args.classification, args.average_height, args.average_lifespan, args.skin_colors, args.eye_colors, args.language, args._id];
         return db.query(query).then((res) => res.rows);
       } catch (err) {
         throw new Error(err);
@@ -481,8 +488,8 @@ const resolvers = {
     },
 
     createStarshipSpec: (parent, args) => {
-      const query = 'INSERT INTO starship_specs(MGLT, hyperdrive_rating, vessel_type, model, manufacturer, name, vessel_class, max_atmosphering_speed, crew, passengers, cargo_capacity, consumables) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)';
-      const values = [args.MGLT, args.hyperdrive_rating, args.vessel_type, args.model, args.manufacturer, args.name, args.vessel_class, args.max_atmosphering_speed, args.crew, args.passengers, args.cargo_capacity, args.consumables];
+      const query = 'INSERT INTO starship_specs(MGLT, hyperdrive_rating) VALUES($1, $2)';
+      const values = [args.MGLT, args.hyperdrive_rating];
       try {
         return db.query(query, values);
       } catch (err) {
@@ -491,8 +498,8 @@ const resolvers = {
     },
     updateStarshipSpec: (parent, args) => {
       try {
-        const query = 'UPDATE starship_specs SET MGLT=$1 hyperdrive_rating=$2 vessel_type=$3 model=$4 manufacturer=$5 name=$6 vessel_class=$7 max_atmosphering_speed=$8 crew=$9 passengers=$10 cargo_capacity=$11 consumables=$12  WHERE _id = $13';
-        const values = [args.MGLT, args.hyperdrive_rating, args.vessel_type, args.model, args.manufacturer, args.name, args.vessel_class, args.max_atmosphering_speed, args.crew, args.passengers, args.cargo_capacity, args.consumables, args._id];
+        const query = 'UPDATE starship_specs SET MGLT=$1 hyperdrive_rating=$2  WHERE _id = $3';
+        const values = [args.MGLT, args.hyperdrive_rating, args._id];
         return db.query(query).then((res) => res.rows);
       } catch (err) {
         throw new Error(err);
@@ -511,133 +518,187 @@ const resolvers = {
   },
 
   Person: {
-    vessels: (people) => {
-      try {
-        const query = 'SELECT * FROM vessels LEFT OUTER JOIN pilots ON vessels._id = pilots.vessel_id WHERE pilots.person_id = $1';
-        const values = [people._id]
-        return db.query(query, values).then((res) => res.rows);
-      } catch (err) {
-        throw new Error(err)
-      }
-    },
-    films: (people) => {
+    films: async (people) => {
       try {
         const query = 'SELECT * FROM films LEFT OUTER JOIN people_in_films ON films._id = people_in_films.film_id WHERE people_in_films.person_id = $1';
         const values = [people._id]
-        return db.query(query, values).then((res) => res.rows);
+        return await db.query(query, values).then((res) => res.rows);
       } catch (err) {
-        throw new Error(err)
+
+      }
+    },
+    species: async (people) => {
+      try {
+        const query = 'SELECT species.* FROM species LEFT OUTER JOIN people ON species._id = people.species_id WHERE people._id = $1';
+        const values = [people._id]
+        return await db.query(query, values).then((res) => res.rows);
+      } catch (err) {
+
+      }
+    },
+    planets: async (people) => {
+      try {
+        const query = 'SELECT planets.* FROM planets LEFT OUTER JOIN people ON planets._id = people.homeworld_id WHERE people._id = $1';
+        const values = [people._id]
+        return await db.query(query, values).then((res) => res.rows);
+      } catch (err) {
+
+      }
+    },
+    vessels: async (people) => {
+      try {
+        const query = 'SELECT * FROM vessels LEFT OUTER JOIN pilots ON vessels._id = pilots.vessel_id WHERE pilots.person_id = $1';
+        const values = [people._id]
+        return await db.query(query, values).then((res) => res.rows);
+      } catch (err) {
+
       }
     },
   },
 
   Film: {
-    planets: (films) => {
+    planets: async (films) => {
       try {
         const query = 'SELECT * FROM planets LEFT OUTER JOIN planets_in_films ON planets._id = planets_in_films.planet_id WHERE planets_in_films.film_id = $1';
         const values = [films._id]
-        return db.query(query, values).then((res) => res.rows);
+        return await db.query(query, values).then((res) => res.rows);
       } catch (err) {
-        throw new Error(err)
+
       }
     },
-    vessels: (films) => {
-      try {
-        const query = 'SELECT * FROM vessels LEFT OUTER JOIN vessels_in_films ON vessels._id = vessels_in_films.vessel_id WHERE vessels_in_films.film_id = $1';
-        const values = [films._id]
-        return db.query(query, values).then((res) => res.rows);
-      } catch (err) {
-        throw new Error(err)
-      }
-    },
-    people: (films) => {
+    people: async (films) => {
       try {
         const query = 'SELECT * FROM people LEFT OUTER JOIN people_in_films ON people._id = people_in_films.person_id WHERE people_in_films.film_id = $1';
         const values = [films._id]
-        return db.query(query, values).then((res) => res.rows);
+        return await db.query(query, values).then((res) => res.rows);
       } catch (err) {
-        throw new Error(err)
+
       }
     },
-    species: (films) => {
+    vessels: async (films) => {
+      try {
+        const query = 'SELECT * FROM vessels LEFT OUTER JOIN vessels_in_films ON vessels._id = vessels_in_films.vessel_id WHERE vessels_in_films.film_id = $1';
+        const values = [films._id]
+        return await db.query(query, values).then((res) => res.rows);
+      } catch (err) {
+
+      }
+    },
+    species: async (films) => {
       try {
         const query = 'SELECT * FROM species LEFT OUTER JOIN species_in_films ON species._id = species_in_films.species_id WHERE species_in_films.film_id = $1';
         const values = [films._id]
-        return db.query(query, values).then((res) => res.rows);
+        return await db.query(query, values).then((res) => res.rows);
       } catch (err) {
-        throw new Error(err)
+
       }
     },
   },
 
   Planet: {
-    films: (planets) => {
+    films: async (planets) => {
       try {
         const query = 'SELECT * FROM films LEFT OUTER JOIN planets_in_films ON films._id = planets_in_films.film_id WHERE planets_in_films.planet_id = $1';
         const values = [planets._id]
-        return db.query(query, values).then((res) => res.rows);
+        return await db.query(query, values).then((res) => res.rows);
       } catch (err) {
-        throw new Error(err)
+
+      }
+    },
+    species: async (planets) => {
+      try {
+        const query = 'SELECT * FROM species WHERE homeworld_id = $1';
+        const values = [planets._id]
+        return await db.query(query, values).then((res) => res.rows);
+      } catch (err) {
+
+      }
+    },
+    people: async (planets) => {
+      try {
+        const query = 'SELECT * FROM people WHERE homeworld_id = $1';
+        const values = [planets._id]
+        return await db.query(query, values).then((res) => res.rows);
+      } catch (err) {
+
+      }
+    },
+    species: async (planets) => {
+      try {
+        const query = 'SELECT * FROM species LEFT OUTER JOIN people ON species._id = people.species_id WHERE people.homeworld_id = $1';
+        const values = [planets._id]
+        return await db.query(query, values).then((res) => res.rows);
+      } catch (err) {
+
       }
     },
   },
 
   Species: {
-    people: (species) => {
+    people: async (species) => {
       try {
         const query = 'SELECT * FROM people WHERE species_id = $1';
-        const values = [_id]
-        return db.query(query, values).then((res) => res.rows);
-      } catch (err) {
-        throw new Error(err)
-      }
-    },
-    planets: (species) => {
-      try {
-        const query = 'SELECT * FROM planets LEFT OUTER JOIN people ON planets._id = people.undefined WHERE people.species_id = $1';
         const values = [species._id]
-        return db.query(query, values).then((res) => res.rows);
+        return await db.query(query, values).then((res) => res.rows);
       } catch (err) {
-        throw new Error(err)
+
       }
     },
-    films: (species) => {
+    planets: async (species) => {
+      try {
+        const query = 'SELECT * FROM planets LEFT OUTER JOIN people ON planets._id = people.homeworld_id WHERE people.species_id = $1';
+        const values = [species._id]
+        return await db.query(query, values).then((res) => res.rows);
+      } catch (err) {
+
+      }
+    },
+    planets: async (species) => {
+      try {
+        const query = 'SELECT planets.* FROM planets LEFT OUTER JOIN species ON planets._id = species.homeworld_id WHERE species._id = $1';
+        const values = [species._id]
+        return await db.query(query, values).then((res) => res.rows);
+      } catch (err) {
+
+      }
+    },
+    films: async (species) => {
       try {
         const query = 'SELECT * FROM films LEFT OUTER JOIN species_in_films ON films._id = species_in_films.film_id WHERE species_in_films.species_id = $1';
         const values = [species._id]
-        return db.query(query, values).then((res) => res.rows);
+        return await db.query(query, values).then((res) => res.rows);
       } catch (err) {
-        throw new Error(err)
+
       }
     },
   },
 
   Vessel: {
-    films: (vessels) => {
+    films: async (vessels) => {
       try {
         const query = 'SELECT * FROM films LEFT OUTER JOIN vessels_in_films ON films._id = vessels_in_films.film_id WHERE vessels_in_films.vessel_id = $1';
         const values = [vessels._id]
-        return db.query(query, values).then((res) => res.rows);
+        return await db.query(query, values).then((res) => res.rows);
       } catch (err) {
-        throw new Error(err)
+
       }
     },
-    people: (vessels) => {
+    people: async (vessels) => {
       try {
         const query = 'SELECT * FROM people LEFT OUTER JOIN pilots ON people._id = pilots.person_id WHERE pilots.vessel_id = $1';
         const values = [vessels._id]
-        return db.query(query, values).then((res) => res.rows);
+        return await db.query(query, values).then((res) => res.rows);
       } catch (err) {
-        throw new Error(err)
+
       }
     },
-    starshipSpecs: (vessels) => {
+    starshipSpecs: async (vessels) => {
       try {
         const query = 'SELECT * FROM starship_specs WHERE vessel_id = $1';
-        const values = [_id]
-        return db.query(query, values).then((res) => res.rows);
+        const values = [vessels._id]
+        return await db.query(query, values).then((res) => res.rows);
       } catch (err) {
-        throw new Error(err)
+
       }
     },
   },

@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
 const { UserContext } = require('../context/UserContext');
 import { Header } from './Header';
-const { demoDataCreator } = require("../templateFunctions/demoDataCreator");
 
 export const MySQL: React.FC = () => {
   const {
     host,
+    addURI,
     schema,
     user,
     password,
@@ -18,7 +18,7 @@ export const MySQL: React.FC = () => {
     addPassword,
     addDatabase,
   } = useContext(UserContext);
-  const demoData = demoDataCreator();
+  
   const handleHost = (e: React.ChangeEvent<HTMLInputElement>) => {
     addHost(e.target.value);
   };
@@ -98,10 +98,24 @@ export const MySQL: React.FC = () => {
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     event.preventDefault();
-    addSchema(demoData);
-    addDisplayCode(true);
-    console.log('schema: ', schema);
-  }
+    const demoURI = 'postgres://imvgunqg:NZ7GfBlp74-04PTho1XetRNgaOPgTDXi@drona.db.elephantsql.com:5432/imvgunqg';
+    fetch(`/db/pg/sdl?uri=${demoURI}`)
+      .then((data) => data.json())
+      .then((data) => {
+        if (data === 'error') {
+          console.log('error');
+        } else {
+          addURI(demoURI);
+          addSchema(data);
+          addDisplayCode(true);
+          console.log('schema: ', schema);
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+    
+  };
 
   return (
     <div className="input-form">

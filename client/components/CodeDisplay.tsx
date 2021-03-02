@@ -1,9 +1,8 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useContext } from 'react';
 import { UnControlled as CodeMirror } from '../../node_modules/react-codemirror2';
 import '../../node_modules/codemirror/mode/javascript/javascript';
 import '../../node_modules/codemirror/lib/codemirror.css';
 import '../../node_modules/codemirror/theme/dracula.css';
-import e from 'express';
 import { Header } from './Header';
 const { packagejsonCreator } = require("../templateFunctions/packagejsonCreator");
 const { serverCreator } = require("../templateFunctions/serverCreator");
@@ -16,9 +15,6 @@ const { UserContext } = require("../context/UserContext");
 export const CodeDisplay: React.FC = (props) => {
   // For use with Electron
   // useScript('../client/fileSave.js');
-  const invisStyle = {
-    display: 'none',
-  };
   const { uri, schema, addDisplayCode } = useContext(UserContext);
 
   // for CodeDisplay.jsx/Back button
@@ -50,10 +46,24 @@ export const CodeDisplay: React.FC = (props) => {
     zip.folder('torchql').file("package.json", packagejsonCreator());
     zip.folder('torchql').folder('server').file("server.js", serverCreator());
     zip.folder('torchql').folder('server').file("dbConnect.js", dbconnectCreator(uri));
-    zip.folder('torchql').folder('server').folder('sdlSchema').file('schema.js', schemaCreator(schema));
+    zip.folder('torchql').folder('server').file('schema.js', schemaCreator(schema));
     zip.generateAsync({type:"blob"}).then(function(content:any) {
         FileSaver.saveAs(content, "torchql.zip");
     });
+  };
+
+  const handleWriteMockserver = (
+    link: string, text: string
+  ) => {
+    const options = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ db: dbconnectCreator(link), schema: schemaCreator(text) }),
+    };
+  
+    fetch('/db/pg/writefiles', options)
+      .then((res) => res.json())
+      .then((data) => console.log(data));
   };
 
   return (
@@ -77,18 +87,26 @@ export const CodeDisplay: React.FC = (props) => {
         id="save-file"
         onClick={(e) => handleSchemaDownload(e)}
       >
-        Save Schema
+        Save
       </button>
       <button
         className="main-btn"
         id="save-file"
         onClick={(e) => handleDownload(e)}
       >
-        Test Schema
+        Save/Test
       </button>
-      <p id="invisible" style={invisStyle}>
-        {schema}
-      </p>
+      <button
+        className="main-btn"
+        onClick={(e) => {
+          e.preventDefault();
+          handleWriteMockserver(uri, schema);
+          setTimeout(() => {
+            window.location.href="http://torchql2.herokuapp.com/playground";
+          }, 3000);
+          }}
+      > Test
+      </button>
     </div>
   );
 };
