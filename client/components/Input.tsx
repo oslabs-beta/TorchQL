@@ -1,5 +1,4 @@
 import React, { useState, useContext, useEffect, useRef } from 'react';
-// import HistoryContainer from '../containers/HistoryContainer';
 const { UserContext } = require('../context/UserContext');
 import { Header } from './Header';
 const { demoDataCreator } = require("../templateFunctions/demoDataCreator");
@@ -7,14 +6,12 @@ const { demoDataCreator } = require("../templateFunctions/demoDataCreator");
 export const Input: React.FC = (props) => {
   const uriRef = useRef(null);
   const [URI, setURI] = useState<string>('');
-  // const [historyOpen, setHistoryOpen] = useState<boolean>(false);
   const {
     addURI,
     schema,
     addDisplayCode,
     addDisplayStatus,
     addSchema,
-    // addSearchHistory,
   } = useContext(UserContext);
 
   const demoData = demoDataCreator();
@@ -22,10 +19,6 @@ export const Input: React.FC = (props) => {
   useEffect(() => {
     uriRef.current.focus();
   }, []);
-
-  // const toggleHistory = () => {
-  //   setHistoryOpen(!historyOpen);
-  // };
 
   const handleURI = (e: React.ChangeEvent<HTMLInputElement>) => {
     setURI(e.target.value);
@@ -45,7 +38,6 @@ export const Input: React.FC = (props) => {
             uriRef.current.focus();
           } else {
             addURI(URI);
-            // addSearchHistory(URI);
             setURI('');
             addSchema(data);
             addDisplayCode(true);
@@ -72,7 +64,6 @@ export const Input: React.FC = (props) => {
             uriRef.current.focus();
           } else {
             addURI(URI);
-            // addSearchHistory(URI);
             setURI('');
             addSchema(data);
             addDisplayCode(true);
@@ -89,10 +80,26 @@ export const Input: React.FC = (props) => {
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     event.preventDefault();
-    addSchema(demoData);
-    addDisplayCode(true);
-    console.log('schema: ', schema);
-  }
+    const demoURI = 'postgres://imvgunqg:NZ7GfBlp74-04PTho1XetRNgaOPgTDXi@drona.db.elephantsql.com:5432/imvgunqg';
+    fetch(`/db/pg/sdl?uri=${demoURI}`)
+      .then((data) => data.json())
+      .then((data) => {
+        if (data === 'error') {
+          setURI('');
+          uriRef.current.focus();
+        } else {
+          addURI(demoURI);
+          setURI('');
+          addSchema(data);
+          addDisplayCode(true);
+          console.log('schema: ', schema);
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+    
+  };
 
   return (
     <div className="input-form">
@@ -120,7 +127,7 @@ export const Input: React.FC = (props) => {
         />
         <div></div>
         <button
-          id="submit-uri"
+          id="demo-uri"
           className="main-btn"
           onClick={(e) => handleSampleInput(e)}
         >
@@ -140,10 +147,6 @@ export const Input: React.FC = (props) => {
         >
           Programmatic Schema
         </button>
-        {/* <p className="toggle-history-text" onClick={() => toggleHistory()}>
-          {historyOpen ? <p>Hide Past Searches</p> : <p>View Past Searches</p>}
-        </p>
-        {historyOpen && <HistoryContainer />} */}
       </div>
     </div>
   );
