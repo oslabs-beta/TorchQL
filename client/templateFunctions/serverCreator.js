@@ -5,7 +5,7 @@ function serverCreator() {
   require('dotenv').config();
   const expressPlayground = require('graphql-playground-middleware-express').default;
 
-  const schema = require('./sdlSchema/schema');
+  const schema = require('./schema');
   const app = express();
   const PORT = 3000;
 
