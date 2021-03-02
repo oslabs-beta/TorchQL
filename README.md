@@ -23,7 +23,7 @@ GraphQL schema and resolvers. You can download these schema and resolvers to the
 TorchQL assemble them in a lightweight zip package in the context of a real GraphQL API. After
 running your unzipped application, you can use
 <a href="https://github.com/prisma-labs/graphql-playground">GraphQL Playground</a>, a built-in
-graphical interactive in-browser GraphQL IDE, to begin querying your database!
+graphical interactive in-browser GraphQL IDE, to begin querying your database!  You also have the additional option of opening up <a href="https://github.com/prisma-labs/graphql-playground">GraphQL Playground</a> in your existing browser and testing your schema and resolvers immediately!
 
 <p align="center">
 <img src="./assets/torchql.gif" align="center" height="400">
@@ -31,7 +31,7 @@ graphical interactive in-browser GraphQL IDE, to begin querying your database!
 
 ## How It Works
 
-**TorchQL** uses the metadata extracted from a SQL database to generate GraphQL custom types,
+**TorchQL** elegantly uses the metadata extracted from an SQL database to generate GraphQL custom types,
 queries, mutations, and resolvers. The schema and resolvers can be returned in either SDL or
 programmatic format and are downloadable as a single desktop file. For experienced users,
 **TorchQL** permits the custom editing of schemas and resolvers in the browser prior to download.
@@ -43,6 +43,8 @@ your GraphQL schema and resolvers:
 - As Schema Definition Language or **SDL**
 - As GraphQLSchema object or **Programmatic**
 
+Click the **Demo** button if you would to use an existing PostreSQL database.
+
 After entering your information, a new screen should appear displaying all your schema and resolvers
 properly formatted in a text editor.
 
@@ -52,15 +54,19 @@ properly formatted in a text editor.
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <strong>Programmatic Example</strong>
 
 <p align="center">
-<img src="./assets/torchql-schema.jpg?raw=true" height="400" display=block margin=auto>
+<img src="./assets/torchql-schema.png?raw=true" height="400" display=block margin=auto>
 </p>
 
-Click on the **Save Schema** button to save your formatted schema and resolvers to the desktop.
+Click on the **Back** button to reenter your database information.
 
-Click on the **Test Schema** button to save your formatted schema and resolvers as a GraphQL server
-file in a folder on the desktop.
+Click on the **Save** button to save your formatted schema and resolvers to the desktop.
 
-## How to Test Your Schema and Resolvers:
+Click on the **Save/Test** button to save your formatted schema and resolvers as a GraphQL server file in a folder on the desktop. See below for how you can test these schema and resolvers using <a href="https://github.com/prisma-labs/graphql-playground">GraphQL Playground</a>.
+
+Click on the **Test** button to open up <a href="https://github.com/prisma-labs/graphql-playground">GraphQL Playground</a> in the browser and test your schema and resolvers right away!
+
+
+## How to Test Your Saved Schema and Resolvers:
 
 - **Unzip** package
 - **Open** directory

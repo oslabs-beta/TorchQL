@@ -1,4 +1,5 @@
 const fs = require('fs');
+const path = require('path');
 const { Pool } = require('pg');
 const SchemaGenerator = require('../generators/schemaGenerator');
 const pgQuery = fs.readFileSync('server/queries/tableData.sql', 'utf8');
@@ -37,5 +38,12 @@ pgController.assembleSDLSchema = (req, res, next) => {
     });
   }
 }
+
+pgController.writeFiles = (req, res, next) => {
+  const { db, schema } = req.body;
+  fs.writeFileSync(path.resolve(__dirname, '../../mockserver/dbConnect.js'), db);
+  fs.writeFileSync(path.resolve(__dirname, '../../mockserver/schema.js'), schema);
+  next();
+};
 
 module.exports = pgController;

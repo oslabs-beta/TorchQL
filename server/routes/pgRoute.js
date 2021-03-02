@@ -12,6 +12,10 @@ router.get(
   }
 );
 
+router.post('/writefiles', pgController.writeFiles, (req, res) => {
+  res.json('writefiles succeeded');
+});
+
 router.get('/prog',
   pgController.getPGTables,
   pgProgController.generateCustomTypes,
