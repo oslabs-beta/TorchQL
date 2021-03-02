@@ -1,5 +1,5 @@
 const { Pool } = require('pg');
-const PG_URI = 'postgres://kenhgyvo:tmusXooNdnmQ35ja1k8ILimiD5oIj0yn@drona.db.elephantsql.com:5432/kenhgyvo';
+const PG_URI = 'postgres://imvgunqg:NZ7GfBlp74-04PTho1XetRNgaOPgTDXi@drona.db.elephantsql.com:5432/imvgunqg';
 const pool = new Pool({ connectionString: PG_URI });
 
 module.exports = {
