@@ -54,7 +54,7 @@ properly formatted in a text editor.
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <strong>Programmatic Example</strong>
 
 <p align="center">
-<img src="./assets/torchql-schema.jpg?raw=true" height="400" display=block margin=auto>
+<img src="./assets/torchql-schema.png?raw=true" height="400" display=block margin=auto>
 </p>
 
 Click on the **Back** button to reenter your database information.
