@@ -1,7 +1,6 @@
 import React, { useState, useContext, useEffect, useRef } from 'react';
 const { UserContext } = require('../context/UserContext');
 import { Header } from './Header';
-const { demoDataCreator } = require("../templateFunctions/demoDataCreator");
 
 export const Input: React.FC = (props) => {
   const uriRef = useRef(null);
@@ -13,8 +12,6 @@ export const Input: React.FC = (props) => {
     addDisplayStatus,
     addSchema,
   } = useContext(UserContext);
-
-  const demoData = demoDataCreator();
 
   useEffect(() => {
     uriRef.current.focus();
