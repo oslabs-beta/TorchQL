@@ -102,7 +102,7 @@ export const CodeDisplay: React.FC = (props) => {
           e.preventDefault();
           handleWriteMockserver(uri, schema);
           setTimeout(() => {
-            window.location.href="http://torchql2.herokuapp.com/playground";
+            window.location.href="http://www.torchql.dev/playground";
           }, 3000);
           }}
       > Test
